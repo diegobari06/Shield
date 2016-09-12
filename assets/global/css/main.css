@@ -1,3 +1,20 @@
 .text-center{
   text-align: center;
 }
+
+.no-margin{
+  margin: 0 !important;
+}
+
+.no-padding{
+  padding: 0 !important;
+}
+
+.absolute{
+  position: absolute !important;
+}
+
+.route-title{
+  margin:-24px -20px;
+  padding:0 7px;
+}

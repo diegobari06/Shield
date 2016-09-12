@@ -18,12 +18,16 @@ angular.module('app').config(function($stateProvider,$httpProvider){
             url: "/example",
             views: {
               "header": {templateUrl: '../admin/header.html',  controller: 'homeController'},
-              "body":  {templateUrl: '../admin/example.html', controller: 'CategoryListController'}
+              "body":  {templateUrl: '../admin/example.html', controller: 'CategoryListController'},
+              "menu":  {templateUrl: '../admin/menu.html', controller: 'menuController'}
             }
       })
   });
 
   app.controller('homeController',function(){
+
+  })
+  app.controller('menuController',function(){
 
   })
 
