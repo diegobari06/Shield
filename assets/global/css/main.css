@@ -16,10 +16,14 @@
 
 .route-title{
   margin:-24px -20px;
-  padding:0 7px;
+  padding:0px 15px !important;
 }
 #imgInp {
    opacity: 0;
    position: absolute;
    z-index: -1;
+}
+
+.text-right{
+  text-align: right;
 }

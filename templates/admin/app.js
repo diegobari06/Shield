@@ -15,7 +15,7 @@ angular.module('app').config(function($stateProvider,$httpProvider){
           }
         }
       }).state("example", {
-            url: "/example",
+            url: "/nuevo/residente",
             views: {
               "header": {templateUrl: '../admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: '../admin/new_resident.html', controller: 'residentController'},
