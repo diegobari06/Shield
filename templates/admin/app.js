@@ -18,7 +18,7 @@ angular.module('app').config(function($stateProvider,$httpProvider){
             url: "/example",
             views: {
               "header": {templateUrl: '../admin/header.html',  controller: 'homeController'},
-              "body":  {templateUrl: '../admin/example.html', controller: 'CategoryListController'},
+              "body":  {templateUrl: '../admin/new_resident.html', controller: 'residentController'},
               "menu":  {templateUrl: '../admin/menu.html', controller: 'menuController'}
             }
       })
@@ -31,6 +31,6 @@ angular.module('app').config(function($stateProvider,$httpProvider){
 
   })
 
-    app.controller('CategoryListController',function(){
+    app.controller('residentController',function(){
 
   })

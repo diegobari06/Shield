@@ -18,3 +18,8 @@
   margin:-24px -20px;
   padding:0 7px;
 }
+#imgInp {
+   opacity: 0;
+   position: absolute;
+   z-index: -1;
+}
