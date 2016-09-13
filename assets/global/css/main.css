@@ -27,3 +27,18 @@
 .text-right{
   text-align: right;
 }
+
+
+.font-12{
+font-size: 13px !important;
+color: #616161 !important;
+
+}
+
+.search-bar{
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 10px;
+  outline: none;
+  margin-bottom: 10px;
+}
