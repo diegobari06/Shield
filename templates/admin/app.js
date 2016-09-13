@@ -14,12 +14,19 @@ angular.module('app').config(function($stateProvider,$httpProvider){
             return $auth.validateUser();
           }
         }
-      }).state("example", {
-            url: "/nuevo/residente",
+      }).state("new_resident", {
+            url: "/new_resident",
             views: {
               "header": {templateUrl: '../admin/header.html',  controller: 'homeController'},
-              "body":  {templateUrl: '../admin/new_resident.html', controller: 'residentController'},
-              "menu":  {templateUrl: '../admin/menu.html', controller: 'menuController'}
+              "body":   {templateUrl: '../admin/new_resident.html', controller: 'residentController'},
+              "menu":   {templateUrl: '../admin/menu.html', controller: 'menuController'}
+            }
+      }).state("new_vehicule", {
+            url: "/new_vehicule",
+            views: {
+              "header": {templateUrl: '../admin/header.html',  controller: 'homeController'},
+              "body":   {templateUrl: '../admin/new_car.html', controller: 'vehiculeController'},
+              "menu":   {templateUrl: '../admin/menu.html', controller: 'menuController'}
             }
       })
   });
@@ -34,3 +41,7 @@ angular.module('app').config(function($stateProvider,$httpProvider){
     app.controller('residentController',function(){
 
   })
+
+  app.controller('vehiculeController',function(){
+
+})
