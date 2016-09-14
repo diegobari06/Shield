@@ -40,6 +40,11 @@ app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$sta
      }
 });
 
+
+
+
+
+
 app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions){
       var residentName;
       // $rootScope.headerTitle = "Skills subcategories";
