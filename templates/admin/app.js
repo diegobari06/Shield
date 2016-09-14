@@ -18,7 +18,7 @@ angular.module('app').config(function($stateProvider,$httpProvider){
             url: "/new_resident",
             views: {
               "header": {templateUrl: '../admin/header.html',  controller: 'homeController'},
-              "body":   {templateUrl: '../admin/new_resident.html', controller: 'residentController'},
+              "body":   {templateUrl: '../admin/resident/new_resident.html', controller: 'residentController'},
               "menu":   {templateUrl: '../admin/menu.html', controller: 'menuController'}
             }
       }).state("new_vehicule", {
@@ -32,14 +32,14 @@ angular.module('app').config(function($stateProvider,$httpProvider){
   });
 
   app.controller('homeController',function(){
-
+    
   })
   app.controller('menuController',function(){
 
   })
 
     app.controller('residentController',function($scope){
-  
+
   })
 
   app.controller('vehiculeController',function(){

@@ -53,6 +53,6 @@ class ResidentsController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def resident_params
-      params.permit(:id,:name,:first_name,:last_name,:phone_number,:birthday,:picture,:id_house,:id_companny,:identification_number)
+      params.permit(:id,:name,:first_name,:last_name,:phone_number,:birthday,:picture,:house_id,:company_id,:identification_number)
     end
 end
