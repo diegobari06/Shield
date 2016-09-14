@@ -25,12 +25,14 @@
 <div class="row">
     <div class="col-md-12">
         <!-- SE REQUIERE EN CADA VISTA -->
+
         <!-- CONTENIDO EMPIEZA AQUI-->
+        <form ng-submit="actionButton()">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption font-green-haze">
                     <i class="fa fa-user font-green-haze"></i>
-                    <span class="caption-subject bold uppercase">Registrar residente</span>
+                    <span class="caption-subject bold uppercase">{{title}}</span>
                 </div>
                 <div class="actions">
                     <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
@@ -43,24 +45,24 @@
 
                         <h3 class="text-center"><img id="blah" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" alt="your image" width="200px" height="200px" class="img-circle"/></h3>
                         <h3 class="text-center"><label for="imgInp"  class="btn default btn-file fileinput-new">Subir imagen</label></h3>
-                        <input type='file' id="imgInp" />
+                        <input type='file' id="imgInp"/>
 
                         <div class="col-md-6">
 
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input type="text" class="form-control" id="form_control_1">
+                                <input  ng-model="name" type="text" class="form-control" id="form_control_1" required title="Input required">
                                 <label for="form_control_1">Nombre</label>
                             </div>
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input type="text" class="form-control" id="form_control_1">
+                                <input ng-model="firstSurName" type="text" class="form-control" id="form_control_1" required title="Input required">
                                 <label for="form_control_1">Primer Apellido</label>
                             </div>
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input type="text" class="form-control" id="form_control_1">
+                                <input ng-model="secondSurName" type="text" class="form-control" id="form_control_1">
                                 <label for="form_control_1">Segundo Apellido</label>
                             </div>
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input type="text" class="form-control" id="form_control_1">
+                                <input ng-model="idNumber" type="text" class="form-control" id="form_control_1" required title="Input required">
                                 <label for="form_control_1">Cédula</label>
                             </div>
 
@@ -69,34 +71,34 @@
 
                         <div class="col-md-6">
                           <div class="form-group form-md-line-input form-md-floating-label">
-                              <input type="text" class="form-control date-picker" id="form_control_2">
+                              <input ng-model="birthdate" type="text" class="form-control date-picker" id="form_control_2" required title="Input required">
                               <label for="form_control_2">Fecha de nacimiento</label>
                           </div>
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input type="text" class="form-control" id="form_control_1">
+                                <input ng-model="phoneNumber" type="text" class="form-control" id="form_control_1">
                                 <label for="form_control_1">Número celular</label>
                                 <span class="help-block">(Opcional)</span>
                             </div>
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input type="email" class="form-control" id="form_control_1">
+                                <input ng-model="email" type="email" class="form-control" id="form_control_1">
                                 <label for="form_control_1">Correo electrónico</label>
                                 <span class="help-block">(Opcional)</span>
                             </div>
                             <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                <select class="form-control" id="form_control_1">
+                                <select ng-model="houseId"  class="form-control" id="form_control_1">
                             <option value=""></option>
                             <option value="1">Option 1</option>
                             <option value="2">Option 2</option>
                             <option value="3">Option 3</option>
                             <option value="4">Option 4</option>
                           </select>
-                                <label for="form_control_1">Número de casa</label>
+                                <label for="form_control_1">Número de casa</label >
                             </div>
 
                         </div>
                         <div class="form-actions noborder">
                             <h3 class="text-right">
-                            <button type="button" class="btn blue">Aceptar</button>
+                            <button type="submit" class="btn blue">Aceptar</button>
                             <button type="button" class="btn default">Cancelar</button>
                           </h3>
                         </div>
@@ -107,6 +109,7 @@
 
             <!--CONTENIDO FINALIZA AQUI -->
         </div>
+      </form>
     </div>
     <script type="text/javascript">
         $('.date-picker').datepicker({

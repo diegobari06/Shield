@@ -23,7 +23,6 @@ class ResidentsController < ApplicationController
   # POST /residents.json
   def create
     @resident = Resident.new(resident_params)
-    puts resident_params
     if @resident.save
       render json: @resident, status: 200
     else
@@ -54,7 +53,6 @@ class ResidentsController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def resident_params
-      puts :name
       params.permit(:id,:name,:first_name,:last_name,:phone_number,:birthday,:picture,:id_house,:id_companny,:identification_number)
     end
 end

@@ -38,8 +38,8 @@ angular.module('app').config(function($stateProvider,$httpProvider){
 
   })
 
-    app.controller('residentController',function(){
-
+    app.controller('residentController',function($scope){
+  
   })
 
   app.controller('vehiculeController',function(){
