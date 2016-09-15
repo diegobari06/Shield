@@ -15,43 +15,48 @@ app.controller('ResidentsListController',function($scope,$state,$rootScope,$wind
               });
         }
 });
+
 app.controller('ResidentsViewController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions){
       // $rootScope.headerTitle = "View category";
       residentsFunctions.getAll().success(function(residents){
          $scope.residents = residents;
       })
  });
-app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$state,residentsFunctions){
+app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$state,residentsFunctions,commonMethods){
       // $rootScope.headerTitle = "Skills subcategories";
       $scope.title = "Nuevo residente";
       $scope.button = "Create";
       $scope.actionButton = function(){
            residentsFunctions.getAll().success(function(residents){
-               if(commonMethods.validateName(residents,$scope.residentName)){
-                    residentsFunctions.insert({name: $scope.residentName, firstSurname: $scope.firstSurname, secondSurname: $scope.secondSurname, idNumber: $scope.idNumber, birthdate: $scope.birthdate, houseId: $scope.houseId, phoneNumber: $scope.phoneNumber, email: $scope.email}).success(function(){
+              //  if(commonMethods.validateName(residents,$scope.residentName)){
+                    residentsFunctions.insert({name: $scope.name, last_name: $scope.last_name, second_last_name: $scope.second_last_name, company_id: 2,identification_number: $scope.identification_number, birthday: $scope.birthday, email: $scope.email, house_id: 7, phone_number: $scope.phone_number}).success(function(){
+
                           $state.go('residents');
-                          popUp.success("Resident has been created successfully");
+                          // popUp.success("Resident has been created successfully");
                     })
-               } else {
-                    popUp.show("Resident name already exist.");
-               }
+              //  } else {
+              //       popUp.show("Resident name already exist.");
+              //  }
 
            });
      }
 });
-
-app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions){
+app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions,commonMethods){
       var residentName;
       // $rootScope.headerTitle = "Skills subcategories";
       $scope.title = "Edit resident";
       $scope.button = "Edit";
-      subCategoriesFunctions.get($stateParams.id).success(function(data) {
+      residentsFunctions.get($stateParams.id).success(function(data) {
            residentName = data.name;
            $scope.id = data.id;
            $scope.residentName = data.name;
-           $scope.firstSurname = data.firstSurname;
-           $scope.secondSurname = data.secondSurname;
-           $scope.idNumber = data.idNumber;
+           $scope.last_name = data.last_name;
+           $scope.second_last_name = data.second_last_name;
+           $scope.identification_number = data.identification_number;
+           $scope.birthday = data.birthday;
+           $scope.email = data.email;
+           $scope.house_id = data.house_id;
+            $scope.phone_number = data.phone_number;
 
       });
       $scope.actionButton = function(){
@@ -74,7 +79,7 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
       return {
          insert: function(data){
            return $http({
-             url: "http://localhost:3000/subcategories",
+             url: "http://localhost:3000/companies/2/residents",
              method: 'POST',
              data: data
              });
@@ -93,10 +98,10 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
              });
          },
          getAll: function(){
-           return $http.get('http://localhost:3000/subcategories.json');
+           return $http.get('http://localhost:3000/companies/2/residents');
          },
          get: function(id){
-           return $http.get('http://localhost:3000/subcategories/'+id)
+           return $http.get('http://localhost:3000/companies/2/residents/'+id)
          }
        };
  });

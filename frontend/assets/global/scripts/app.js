@@ -17,7 +17,7 @@ angular.module('app').config(function($stateProvider,$httpProvider){
             url: "/residents",
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
-              "body":  {templateUrl: 'resident/index_resident.html', controller: 'ResidentsCreateController'},
+              "body":  {templateUrl: 'resident/index_resident.html', controller: 'ResidentsListController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
             }
       }).state("newResident", {
@@ -25,6 +25,13 @@ angular.module('app').config(function($stateProvider,$httpProvider){
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: 'resident/new_resident.html', controller: 'ResidentsCreateController'},
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
+            }
+      }).state("editResident", {
+            url: "/resident/:id/edit",
+            views: {
+              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
+              "body":  {templateUrl: 'resident/edit_resident.html', controller: 'ResidentsEditController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
             }
       })
@@ -38,19 +45,17 @@ angular.module('app').config(function($stateProvider,$httpProvider){
 
   })
 
+  app.factory('commonMethods', function () {
 
-
-        app.factory('commonMethods', function () {
-
-              return {
-                  validateName: function(items,name){
-                   var condition = true;
-                    angular.forEach(items, function(item, index) {
-                      if(item.name.toUpperCase()== name.toUpperCase()){
-                         condition = false;
-                      }
-                    });
-                 return condition;
-                 }
-              };
-        })
+        return {
+            validateName: function(items,name){
+             var condition = true;
+              angular.forEach(items, function(item, index) {
+                if(item.name.toUpperCase()== name.toUpperCase()){
+                   condition = false;
+                }
+              });
+           return condition;
+           }
+        };
+  })
