@@ -21,12 +21,28 @@ angular.module('app').config(function($stateProvider,$httpProvider){
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
             }
       }).state("newResident", {
-            url: "/resident/new",
+            url: "/residents/new",
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: 'resident/new_resident.html', controller: 'ResidentsCreateController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
             }
+      }).state("newVehicule", {
+          url: "/vehicules/new",
+          views: {
+              "header": {
+                  templateUrl: '../admin/header.html',
+                  controller: 'homeController'
+              },
+              "body": {
+                  templateUrl: '../admin/new_vehicule.html',
+                  controller: 'vehiculeController'
+              },
+              "menu": {
+                  templateUrl: '../admin/menu.html',
+                  controller: 'menuController'
+              }
+          }
       })
 
   });
@@ -36,6 +52,8 @@ angular.module('app').config(function($stateProvider,$httpProvider){
   })
   app.controller('menuController',function(){
 
+  })
+  app.controller('vehiculeController',function($scope){
   })
 
 
