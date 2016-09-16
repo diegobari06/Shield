@@ -24,43 +24,34 @@
 	<link href="../../assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css" />
 	<link id="style_color" href="../../assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css" />
 	<link href="../../assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.4/css/fileinput.css" />
 	<!-- END THEME STYLES -->
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+<div class="gray">
 
-<div ui-view="header" class="page-header-fixed page-quick-sidebar-over-content">
-</div>
-
-<div class="page-container">
-	<div ui-view="menu">
-	</div>
-	<div class="page-content-wrapper">
-		<div class="page-content">
-						<div ui-view="body">
+	<div ui-view="login"></div>
+	<div id="rightView" ng-hide="$state.current.name == 'login'">
+		<div ui-view="header" class="page-header-fixed page-quick-sidebar-over-content">
+		</div>
+		<div class="page-container">
+			<div ui-view="menu">
+			</div>
+			<div class="page-content-wrapper">
+				<div class="page-content">
+					<div ui-view="body">
+					</div>
+				</div>
 			</div>
 		</div>
+		<div ui-view="footer">
+		</div>
 	</div>
-</div>
-<!-- END FOOTER -->
-<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
-<!-- BEGIN CORE PLUGINS -->
-<!--[if lt IE 9]>
-<script src="../../assets/global/plugins/respond.min.js"></script>
-<script src="../../assets/global/plugins/excanvas.min.js"></script>
-<![endif]-->
-<div class="page-footer">
-	<div class="page-footer-inner text-center">
-		<span>2016 &copy; Homes by LightHouse.</span>
-	</div>
-	<div class="scroll-to-top">
-		<i class="icon-arrow-up"></i>
-	</div>
-</div>
 
+</div>
 <script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 <script src="../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
 <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
