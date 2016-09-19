@@ -31,7 +31,14 @@ angular.module('app').config(function($stateProvider,$httpProvider){
             url: "/resident/:id/edit",
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
-              "body":  {templateUrl: 'resident/edit_resident.html', controller: 'ResidentsEditController'},
+              "body":  {templateUrl: 'resident/new_resident.html', controller: 'ResidentsEditController'},
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
+            }
+      }).state("houses", {
+            url: "/houses",
+            views: {
+              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
+              "body":  {templateUrl: 'house/index.html', controller: 'HousesListController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
             }
       })

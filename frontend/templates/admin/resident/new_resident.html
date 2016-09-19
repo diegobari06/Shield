@@ -68,14 +68,13 @@
 
                         </div>
 
-
                         <div class="col-md-6">
                           <div class="form-group form-md-line-input form-md-floating-label">
                               <input ng-model="birthday" type="text" class="form-control date-picker" id="form_control_2" required title="Input required">
                               <label for="form_control_2">Fecha de nacimiento</label>
                           </div>
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input ng-model="phone_number" type="text" class="form-control" id="form_control_1">
+                                <input ng-focus="expression==1" ng-model="phone_number" type="text" class="form-control" id="form_control_1">
                                 <label for="form_control_1">Número celular</label>
                                 <span class="help-block">(Opcional)</span>
                             </div>
@@ -84,14 +83,14 @@
                                 <label for="form_control_1">Correo electrónico</label>
                                 <span class="help-block">(Opcional)</span>
                             </div>
-                            <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                <select ng-model="house_id"  class="form-control" id="form_control_1">
-                            <option value=""></option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                            <option value="4">Option 4</option>
-                          </select>
+                            <div  class="form-group form-md-line-input form-md-floating-label has-info">
+                                <!-- <select ng-model="house_id" >
+                                      <option ng-repeat="house in houses">{{house.house_number}}</option>
+                                  </select> -->
+                                  <select ng-model="house_id"  class="form-control" id="form_control_1">
+                                      <option ng-repeat="house in houses" value="{{house.house_number}}">{{house.house_number}}</option>
+                                  </select>
+
                                 <label for="form_control_1">Número de casa</label >
                             </div>
 
