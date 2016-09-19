@@ -4,7 +4,7 @@ app.controller('ResidentsListController',function($scope,$state,$rootScope,$wind
       residentsFunctions.getAll().success(function(residents){
           $scope.residents = residents;})
 
-          $scope.deleteSResident=function(id){
+          $scope.deleteResident=function(id){
               bootbox.confirm("Are you sure?", function(result) {
                   if(result){
                       residentsFunctions.delete(id).success(function(){
@@ -22,7 +22,7 @@ app.controller('ResidentsViewController',function($scope,$http,$state,$rootScope
          $scope.residents = residents;
       })
  });
-app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$state,residentsFunctions,commonMethods){
+app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$state,residentsFunctions){
       // $rootScope.headerTitle = "Skills subcategories";
       $scope.title = "Nuevo residente";
       $scope.button = "Create";
@@ -49,7 +49,7 @@ app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$sta
            });
      }
 });
-app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions,commonMethods){
+app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions){
       var residentName;
       // $rootScope.headerTitle = "Skills subcategories";
       $scope.title = "Edit resident";
@@ -117,7 +117,7 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
       return {
          insert: function(data){
            return $http({
-             url: "http://localhost:3000/companies/2/residents",
+             url: "http://localhost:3000/companies/3/residents",
              method: 'POST',
              data: data
              });
@@ -131,15 +131,15 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
          },
          delete: function(id){
            return $http({
-               url: "http://localhost:3000/subcategories/"+id,
+               url: "http://localhost:3000/companies/3/residents/"+id,
                method: 'DELETE'
              });
          },
          getAll: function(){
-           return $http.get('http://localhost:3000/companies/2/residents');
+           return $http.get('http://localhost:3000/companies/3/residents');
          },
          getAllHouses: function(){
-        return $http.get('http://localhost:3000/companies/2/houses');
+        return $http.get('http://localhost:3000/companies/3/houses');
          },
          get: function(id){
            return $http.get('http://localhost:3000/companies/2/residents/'+id)

@@ -25,7 +25,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             },
             "body": {
                 templateUrl: 'resident/index_resident.html',
-                controller: 'ResidentsCreateController'
+                controller: 'ResidentsListController'
             },
             "menu": {
                 templateUrl: '../../templates/admin/menu.html',
@@ -38,58 +38,26 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
     }).state("newResident", {
         url: "/residents/new",
         views: {
-            "header": {
-                templateUrl: '../../templates/admin/header.html',
-                controller: 'homeController'
-            },
-            "body": {
-                templateUrl: 'resident/new_resident.html',
-                controller: 'ResidentsCreateController'
-            },
-            "menu": {
-                templateUrl: '../../templates/admin/menu.html',
-                controller: 'menuController'
-            },
-            "footer": {
-                templateUrl: '../../templates/admin/footer.html'
-            }
-        }
-<<<<<<< HEAD:frontend/assets/global/scripts/app.js
-      }).state("residents", {
-            url: "/residents",
-            views: {
-              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
-              "body":  {templateUrl: 'resident/index_resident.html', controller: 'ResidentsListController'},
-              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
-=======
+            "header": {templateUrl: '../../templates/admin/header.html', controller: 'homeController'},
+            "body": {templateUrl: 'resident/new_resident.html', controller: 'ResidentsCreateController'},
+            "menu": {templateUrl: '../../templates/admin/menu.html',  controller: 'menuController'},
+            "footer": {templateUrl: '../../templates/admin/footer.html'}
+               }
     }).state("newVehicule", {
         url: "/vehicules/new",
         views: {
-            "header": {
-                templateUrl: '../admin/header.html',
-                controller: 'homeController'
-            },
-            "body": {
-                templateUrl: '../admin/new_vehicule.html',
-                controller: 'vehiculeController'
-            },
-            "menu": {
-                templateUrl: '../admin/menu.html',
-                controller: 'menuController'
-            },
-            "footer": {
-                templateUrl: '../../templates/admin/footer.html'
->>>>>>> origin/master:assets/global/scripts/app.js
-            }
+            "header": {templateUrl: '../admin/header.html', controller: 'homeController' },
+            "body": {templateUrl: '../admin/vehicule/new_vehicule.html',   controller: 'vehiculeController' },
+            "menu": { templateUrl: '../admin/menu.html',   controller: 'menuController'   },
+            "footer": { templateUrl: '../../templates/admin/footer.html'  }
         }
     }).state("login", {
         url: "/login",
         views: {
-            "login": {
-                templateUrl: '../admin/login.html',
-                controller: 'loginController'
-            }
-<<<<<<< HEAD:frontend/assets/global/scripts/app.js
+            "login": {   templateUrl: '../admin/login.html', controller: 'loginController' }
+
+              }
+
       }).state("editResident", {
             url: "/resident/:id/edit",
             views: {
@@ -104,11 +72,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
               "body":  {templateUrl: 'house/index.html', controller: 'HousesListController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
             }
-      })
-=======
-        }
-    })
->>>>>>> origin/master:assets/global/scripts/app.js
+      });
 
 });
 
@@ -130,35 +94,34 @@ app.controller('menuController', function() {
 })
 app.controller('vehiculeController', function($scope) {})
 
-  app.factory('commonMethods', function () {
 
-<<<<<<< HEAD:frontend/assets/global/scripts/app.js
-        return {
-            validateName: function(items,name){
-             var condition = true;
-              angular.forEach(items, function(item, index) {
-                if(item.name.toUpperCase()== name.toUpperCase()){
-                   condition = false;
-                }
-              });
-           return condition;
-           }
-        };
-  })
-=======
 
-app.factory('commonMethods', function() {
+// <<<<<<< HEAD:frontend/assets/global/scripts/app.js
+//         return {
+//             validateName: function(items,name){
+//              var condition = true;
+//               angular.forEach(items, function(item, index) {
+//                 if(item.name.toUpperCase()== name.toUpperCase()){
+//                    condition = false;
+//                 }
+//               });
+//            return condition;
+//            }
+//         };
+//   })
+// =======
 
-    return {
-        validateName: function(items, name) {
-            var condition = true;
-            angular.forEach(items, function(item, index) {
-                if (item.name.toUpperCase() == name.toUpperCase()) {
-                    condition = false;
-                }
-            });
-            return condition;
-        }
-    };
-})
->>>>>>> origin/master:assets/global/scripts/app.js
+// app.factory('commonMethods', function() {
+//
+//     return {
+//         validateName: function(items, name) {
+//             var condition = true;
+//             angular.forEach(items, function(item, index) {
+//                 if (item.name.toUpperCase() == name.toUpperCase()) {
+//                     condition = false;
+//                 }
+//             });
+//             return condition;
+//         }
+//     };
+// })
