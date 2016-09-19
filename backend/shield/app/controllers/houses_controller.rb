@@ -3,7 +3,8 @@ class HousesController < ApplicationController
 
   # GET /residents.json
   def index
-    render json: House.all, status: 200
+    @houses = House.where(company_id: params[:company_id])
+    render json: @houses, status: 200
   end
 
   def show

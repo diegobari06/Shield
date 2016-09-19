@@ -13,11 +13,17 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
-  create_table "houses", force: :cascade do |t|
-    t.string "house_number", limit: 45
-    t.string "extension",    limit: 45
-    t.string "id_company",   limit: 45
+  create_table "companies", force: :cascade do |t|
+    t.string "name", limit: 45
   end
+
+  create_table "houses", force: :cascade do |t|
+    t.string  "house_number", limit: 45
+    t.string  "extension",    limit: 45
+    t.integer "company_id",   limit: 4
+  end
+
+  add_index "houses", ["company_id"], name: "me_company_idx", using: :btree
 
   create_table "residents", force: :cascade do |t|
     t.string   "name",                  limit: 45
@@ -26,9 +32,25 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "phone_number",          limit: 45
     t.datetime "birthday"
     t.string   "picture",               limit: 45
-    t.integer  "id_house",              limit: 4
-    t.integer  "id_companny",           limit: 4
+    t.integer  "house_id",              limit: 4
+    t.integer  "company_id",            limit: 4
     t.integer  "identification_number", limit: 4
   end
 
+  add_index "residents", ["company_id"], name: "me_company_idx", using: :btree
+  add_index "residents", ["house_id"], name: "me_company_idx1", using: :btree
+
+  create_table "vehicules", force: :cascade do |t|
+    t.string  "license_plate", limit: 45
+    t.string  "brand",         limit: 45
+    t.string  "color",         limit: 45
+    t.integer "house_id",      limit: 4
+    t.integer "company_id",    limit: 4
+  end
+
+  add_index "vehicules", ["house_id"], name: "me_house_idx", using: :btree
+
+  add_foreign_key "houses", "companies", name: "me_company"
+  add_foreign_key "residents", "houses", name: "me_houses"
+  add_foreign_key "vehicules", "houses", name: "me_house"
 end

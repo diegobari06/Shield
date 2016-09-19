@@ -3,7 +3,8 @@ class ResidentsController < ApplicationController
 
   # GET /residents.json
   def index
-    render json: Resident.all, status: 200
+    @residents = Resident.where(company_id: params[:company_id])
+    render json: @residents, status: 200
   end
 
   def show
