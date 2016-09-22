@@ -1,0 +1,71 @@
+<!-- SE REQUIERE EN CADA VISTA -->
+<div class="page-bar route-title">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="index.html">Condominios</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Administradores</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Registrar</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+
+        </div>
+    </div>
+</div>
+<div class="" style="margin-top:30px">
+</div>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <!-- SE REQUIERE EN CADA VISTA -->
+
+        <!-- CONTENIDO EMPIEZA AQUI-->
+        <form ng-submit="actionButton()" class="">
+            <div class="portlet light bordered col-lg-12">
+                <div class="portlet-title">
+                    <div class="caption font-green-haze">
+                        <i class="fa fa-user font-green-haze"></i>
+                        <span class="caption-subject bold uppercase">{{title}}</span>
+                    </div>
+                    <div class="actions">
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+
+                <div class=" form-md-line-input col-lg-offset-1 col-lg-10 ">
+                    <div class="form-group form-md-line-input small-margin-top">
+                        <input type="text" class="form-control" ng-model="email" id="form_control_1" placeholder="Digite el email">
+                        <label for="form_control_1">Email</label>
+                    </div>
+
+                    <div class="form-group form-md-line-input small-margin-top">
+                        <!-- <select ng-model="house_id" >
+                <option ng-repeat="house in houses">{{house.house_number}}</option>
+            </select> -->
+                        <select class="form-control" id="form_control_1" ng-model="companySelected" ng-options="company.name for company in companies | orderBy: 'name' track by company.id" required>
+              <option value="">Seleccione la compañia</option>
+            </select>
+                        <label for="form_control_1">Compañia</label >
+      </div>
+  </div>
+  <div class="form-actions noborder col-lg-12">
+      <h3 class="text-right">
+      <button type="submit" class="btn blue">{{button}}</button>
+      <button type="button" class="btn default">Cancelar</button>
+    </h3>
+  </div>
+</form>
+</div>
+</div>
+<!--CONTENIDO FINALIZA AQUI -->
+</div>
+</form>
+</div>

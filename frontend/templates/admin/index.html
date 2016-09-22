@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Homes | Page Layouts - Blank Page</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -33,9 +34,8 @@
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+<div ui-view="login"></div>
 <div class="gray">
-
-	<div ui-view="login"></div>
 	<div id="rightView" ng-hide="$state.current.name == 'login'">
 		<div ui-view="header" class="page-header-fixed page-quick-sidebar-over-content">
 		</div>
@@ -69,9 +69,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.0/angular-ui-router.min.js"></script>
 <script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="../../assets/global/scripts/popUp.js" type="text/javascript"></script>
 <script src="../../assets/global/scripts/app.js" type="text/javascript"></script>
+<script src="../../assets/global/scripts/companiesFactory.js" type="text/javascript"></script>
 <script src="../../assets/global/scripts/residentController.js" type="text/javascript"></script>
+<script src="../../assets/global/scripts/usersFactory.js" type="text/javascript"></script>
+<script src="../../assets/global/scripts/usersControllers.js" type="text/javascript"></script>
 <script src="../../assets/global/scripts/houseController.js" type="text/javascript"></script>
+
 <script src="../../assets/global/scripts/bootbox.min.js" type="text/javascript"></script>
 
 <!-- <script src="../../templates/admin/app.js" type="text/javascript"></script>
@@ -83,7 +88,12 @@
 <script type="text/javascript" src="../../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="../../assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
 <script src="../../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
-
+<script src="../../assets/global/scripts/bower_components/angular-resource/angular-resource.js"></script>
+<script src="../../assets/global/scripts/bower_components/angular-cookie/angular-cookie.js"></script>
+<script src="../../assets/global/scripts/bower_components/ng-token-auth/dist/ng-token-auth.js"></script>
+<script src="../../assets/global/scripts/bower_components/angular-route/angular-route.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.0/angular-ui-router.min.js"></script>
+<script src="../../assets/global/scripts/bower_components/ng-token-auth/dist/ng-token-auth.js"></script>
 <!-- END JAVASCRIPTS -->
 
 <!-- END BODY -->

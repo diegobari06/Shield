@@ -9,23 +9,25 @@
             <p>
                 Lorem ipsum dolor sit amet, coectetuer adipiscing elit sed diam nonummy et nibh euismod aliquam erat volutpat. Lorem ipsum dolor sit amet, coectetuer adipiscing.
             </p>
+             <form ng-submit="submitLogin(loginForm)" role="form" ng-init="loginForm = {}" name="login">
             <div class="huge-margin-top">
                 <div class="col-md-6 col-sm-6">
-                    <div class="form-group form-md-line-input form-md-floating-label">
-                        <input ng-model="name" type="text" class="form-control" id="form_control_1" required title="Input required">
-                        <label for="form_control_1">Usuario</label>
+                    <div class="form-group form-md-line-input small-margin-top ">
+                        <input ng-model="loginForm.email" type="text" class="form-control input-sm" id="form_control_1" placeholder="Digite su correo electronico" required title="Input required">
+                        <label for="form_control_1">Correo electrónico</label>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6">
-                    <div class="form-group form-md-line-input form-md-floating-label">
-                        <input ng-model="name" type="text" class="form-control" id="form_control_1" required title="Input required">
+                    <div class="form-group form-md-line-input small-margin-top">
+                        <input ng-model="loginForm.password" type="password" class="form-control input-sm" id="form_control_1" placeholder="Digite su correo contraseña" required title="Input required">
                         <label for="form_control_1">Contraseña</label>
                     </div>
                 </div>
             </div>
             <h5 class="text-center"><a href="#" class="col-md-8 col-sm-8 col-xs-12 small-margin-bottom">¿Olvidaste tu contraseña?</a></h5>
             <br>
-            <button type="button" class="btn blue col-md-4 col-sm-4 col-xs-12" name="button">Iniciar sesión</button>
+            <button  type="submit" class="btn blue col-md-4 col-sm-4 col-xs-12" name="button">Iniciar sesión</button>
+          </form>
         </div>
 
         <div class="login-hide-2 col-md-12 col-sm-12 hidden-sm hidden-xs">
