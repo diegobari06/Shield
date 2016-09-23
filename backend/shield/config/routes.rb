@@ -1,10 +1,20 @@
 Rails.application.routes.draw do
+  mount_devise_token_auth_for "User", at: 'companies/0/auth' #controllers: { sessions: "sessions" }
   resources :companies do
     resources :residents
     resources :vehicules
     resources :houses
+<<<<<<< HEAD
     resources :officers
+=======
+    resources :users do
+     get '/sign_in_count' => :count
+    end
+>>>>>>> origin/master
   end
+    resources :roles
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
