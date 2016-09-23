@@ -38,7 +38,7 @@
         </form>
         <!-- END RESPONSIVE QUICK SEARCH FORM -->
       </li>
-      <li class="start">
+      <li class="active open">
         <a href="javascript:;">
           <i class="icon-home"></i>
           <span class="title">Condominio</span>
@@ -46,51 +46,52 @@
         </a>
         <ul class="sub-menu">
           <li ui-sref="residents()">
-            <a href="ecommerce_index.html">
+            <a href="">
               <i class="fa fa-users" aria-hidden="true" ></i> Residentes
             </a>
           </li>
-          <li>
-            <a href="ecommerce_orders.html">
+          <li class="active"ui-sref="houses()">
+            <a href="">
             <i class="fa fa-home fa-lg" aria-hidden="true"></i> Casas
             </a>
           </li>
-          <li>
-            <!-- <a  ui-sref="newVehicule()">
-              <i class="fa fa-car" aria-hidden="true"></i> Vehiculos</a>
-          </li> -->
+          <li ui-sref="vehicules()">
+            <a href="">
+            <i class="fa fa-home fa-lg" aria-hidden="true"></i> Vehículos
+            </a>
+          </li>
         </ul>
-      </li>
       <li>
         <li class="start">
           <a href="javascript:;">
       <i class="fa fa-lock" aria-hidden="true"></i>
             <span class="title gray-font"> Seguridad</span>
-              <span class="arrow "></span>
+              <span class="arrow open"></span>
+              <span class="selected "></span>
           </a>
           <ul class="sub-menu">
-            <li>
-              <a href="ecommerce_index.html">
-                          <i class="fa fa-shield" aria-hidden="true"></i> Oficiales
+            <li ui-sref="officers()">
+              <a href="">
+                <i class="fa fa-shield" aria-hidden="true"></i> Oficiales
               </a>
             </li>
-            <li>
-              <a href="ecommerce_orders.html">
+            <li  >
+              <a href="">
                 <i class="fa fa-clock-o" aria-hidden="true"></i> Turnos
               </a>
             </li>
           </ul>
         </li>
-        <li>
+      </li>
       <!-- END ANGULARJS LINK -->
-      <li class="heading">
+      <!-- <li class="heading">
         <h3 class="uppercase">Features</h3>
       </li>
 
       <li class="heading">
         <h3 class="uppercase">More</h3>
       </li>
-      <li>
+      <li> -->
 
     </ul>
     <!-- END SIDEBAR MENU -->

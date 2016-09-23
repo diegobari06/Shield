@@ -1,0 +1,105 @@
+<!-- SE REQUIERE EN CADA VISTA -->
+<div class="page-bar route-title">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="index.html">Condominio</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Residentes</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Registrar</a>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right">
+
+        </div>
+    </div>
+</div>
+<div class="" style="margin-top:30px">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- SE REQUIERE EN CADA VISTA -->
+
+        <!-- CONTENIDO EMPIEZA AQUI-->
+        <form ng-submit="actionButton()">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-haze">
+                    <i class="fa fa-user font-green-haze"></i>
+                    <span class="caption-subject bold uppercase">{{title}}</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form role="form">
+                    <div class="form-body">
+
+                        <h3 class="text-center"><img id="blah" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" alt="your image" width="200px" height="200px" class="img-circle"/></h3>
+                        <h3 class="text-center"><label for="imgInp"  class="btn default btn-file fileinput-new">Subir imagen</label></h3>
+                        <input type='file' id="imgInp"/>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input  ng-model="name" type="text" class="form-control" id="form_control_1" required title="Input required">
+                                <label for="form_control_1">Nombre</label>
+                            </div>
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input ng-model="last_name" type="text" class="form-control" id="form_control_1" required title="Input required">
+                                <label for="form_control_1">Primer Apellido</label>
+                            </div>
+                            <div class="form-group form-md-line-input form-md-floating-label">
+                                <input ng-model="second_last_name" type="text" class="form-control" id="form_control_1">
+                                <label for="form_control_1">Segundo Apellido</label>
+                            </div>
+                        
+
+                        </div>
+
+                        </div>
+                        <div class="form-actions noborder">
+                            <h3 class="text-right">
+                            <button type="submit" class="btn blue">{{button}}</button>
+                            <button type="button" class="btn default">Cancelar</button>
+                          </h3>
+                        </div>
+                </form>
+                </div>
+            </div>
+
+
+            <!--CONTENIDO FINALIZA AQUI -->
+        </div>
+      </form>
+    </div>
+    <script type="text/javascript">
+        $('.date-picker').datepicker({
+            format: 'mm/dd/yyyy',
+            language: "es"
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function() {
+            readURL(this);
+        });
+    </script>

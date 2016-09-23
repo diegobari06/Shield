@@ -43,14 +43,6 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             "menu": {templateUrl: '../../templates/admin/menu.html',  controller: 'menuController'},
             "footer": {templateUrl: '../../templates/admin/footer.html'}
                }
-    }).state("newVehicule", {
-        url: "/vehicules/new",
-        views: {
-            "header": {templateUrl: '../admin/header.html', controller: 'homeController' },
-            "body": {templateUrl: '../admin/vehicule/new_vehicule.html',   controller: 'vehiculeController' },
-            "menu": { templateUrl: '../admin/menu.html',   controller: 'menuController'   },
-            "footer": { templateUrl: '../../templates/admin/footer.html'  }
-        }
     }).state("login", {
         url: "/login",
         views: {
@@ -63,19 +55,75 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: 'resident/new_resident.html', controller: 'ResidentsEditController'},
-              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
+                "footer": { templateUrl: '../../templates/admin/footer.html'  }
             }
       }).state("houses", {
             url: "/houses",
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: 'house/index.html', controller: 'HousesListController'},
-              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'}
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
+                "footer": { templateUrl: '../../templates/admin/footer.html'  }
+            }
+      }).state("newHouse", {
+            url: "/houses/new",
+            views: {
+              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
+              "body":  {templateUrl: 'house/form.html', controller: 'HousesCreateController'},
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
+                "footer": { templateUrl: '../../templates/admin/footer.html'  }
+            }
+      }).state("editHouse", {
+            url: "/house/:id/edit",
+            views: {
+              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
+              "body":  {templateUrl: 'house/form.html', controller: 'HousesEditController'},
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
+                "footer": { templateUrl: '../../templates/admin/footer.html'  }
+            }
+      }).state("vehicules", {
+            url: "/vehicules",
+            views: {
+              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
+              "body":  {templateUrl: 'vehicule/index.html', controller: 'VehiculesListController'},
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
+                "footer": { templateUrl: '../../templates/admin/footer.html'  }
+            }
+      }).state("newVehicule", {
+          url: "/vehicules/new",
+          views: {
+              "header": {templateUrl: '../admin/header.html', controller: 'homeController' },
+              "body": {templateUrl: '../admin/vehicule/new_vehicule.html',   controller: 'VehiculesCreateController' },
+              "menu": { templateUrl: '../admin/menu.html',   controller: 'menuController'   },
+              "footer": { templateUrl: '../../templates/admin/footer.html'  }
+          }
+      }).state("editVehicule", {
+            url: "/vehicule/:id/edit",
+            views: {
+              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
+                "body": {templateUrl: '../admin/vehicule/new_vehicule.html',   controller: 'VehiculesEditController' },
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
+                "footer": { templateUrl: '../../templates/admin/footer.html'  }
+            }
+      }).state("officers", {
+            url: "/officers",
+            views: {
+              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
+                "body": {templateUrl: '../admin/officer/index.html',   controller: 'OfficersListController' },
+              "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
+                "footer": { templateUrl: '../../templates/admin/footer.html'  }
+            }
+      }).state("newOfficer", {
+            url: "/officers/new",
+            views: {
+              "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
+                "body": {templateUrl: '../admin/officer/form.html',   controller: 'OfficersCreateController' },
+               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
+                "footer": { templateUrl: '../../templates/admin/footer.html'  }
             }
       });
-
 });
-
 app.run(
         ['$rootScope', '$state', '$stateParams',
             function ($rootScope, $state, $stateParams){
@@ -92,9 +140,6 @@ app.controller('homeController', function() {
 app.controller('menuController', function() {
 
 })
-app.controller('vehiculeController', function($scope) {})
-
-
 
 // <<<<<<< HEAD:frontend/assets/global/scripts/app.js
 //         return {

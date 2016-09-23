@@ -23,6 +23,10 @@ a:hover {
     text-decoration: none;
 }
 
+.marging-top-20{
+  margin-top: 20px;
+}
+
 blue {
     background-color: #3598dc
 }
@@ -84,6 +88,7 @@ blue {
     opacity: 0;
     position: absolute;
     z-index: -1;
+
 }
 
 .text-right {
@@ -95,6 +100,10 @@ blue {
     color: #616161 !important;
 }
 
+.font-15{
+  font-size: 15px !important;
+
+}
 .search-bar {
     border: 1px solid #ddd;
     border-radius: 3px;

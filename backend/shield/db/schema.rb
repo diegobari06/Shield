@@ -25,20 +25,31 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "houses", ["company_id"], name: "me_company_idx", using: :btree
 
+  create_table "officers", force: :cascade do |t|
+    t.string  "last_name",             limit: 45
+    t.string  "license",               limit: 45
+    t.string  "name",                  limit: 45
+    t.string  "second_last_name",      limit: 45
+    t.string  "identification_number", limit: 45
+    t.integer "company_id",            limit: 4
+  end
+
+  add_index "officers", ["company_id"], name: "me_company_idx", using: :btree
+
   create_table "residents", force: :cascade do |t|
-    t.string   "name",                  limit: 45
-    t.string   "first_name",            limit: 45
-    t.string   "last_name",             limit: 45
-    t.string   "phone_number",          limit: 45
-    t.datetime "birthday"
-    t.string   "picture",               limit: 45
-    t.integer  "house_id",              limit: 4
-    t.integer  "company_id",            limit: 4
-    t.integer  "identification_number", limit: 4
+    t.string  "name",                  limit: 45
+    t.string  "last_name",             limit: 45
+    t.string  "second_last_name",      limit: 45
+    t.string  "phone_number",          limit: 45
+    t.date    "birthday"
+    t.string  "picture",               limit: 45
+    t.integer "house_id",              limit: 4
+    t.integer "company_id",            limit: 4
+    t.integer "identification_number", limit: 4
+    t.string  "email",                 limit: 45
   end
 
   add_index "residents", ["company_id"], name: "me_company_idx", using: :btree
-  add_index "residents", ["house_id"], name: "me_company_idx1", using: :btree
 
   create_table "vehicules", force: :cascade do |t|
     t.string  "license_plate", limit: 45
@@ -48,9 +59,12 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "company_id",    limit: 4
   end
 
+  add_index "vehicules", ["company_id"], name: "me_company_idx", using: :btree
   add_index "vehicules", ["house_id"], name: "me_house_idx", using: :btree
 
-  add_foreign_key "houses", "companies", name: "me_company"
-  add_foreign_key "residents", "houses", name: "me_houses"
-  add_foreign_key "vehicules", "houses", name: "me_house"
+  add_foreign_key "houses", "companies", name: "houses_company"
+  add_foreign_key "officers", "companies", name: "officers_company"
+  add_foreign_key "residents", "companies", name: "residents_company"
+  add_foreign_key "vehicules", "companies", name: "vehicules_company"
+  add_foreign_key "vehicules", "houses", name: "vehicules_house"
 end
