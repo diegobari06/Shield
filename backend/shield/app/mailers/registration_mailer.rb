@@ -3,6 +3,6 @@ class RegistrationMailer < ApplicationMailer
 
   def sample_email(user)
     @user = user
-    mail(to: 'sergiojcr16@gmail.com', subject: 'Bienvenido a Shield')
+    mail(to: @user.email, subject: 'Bienvenido a Shield')
   end
 end

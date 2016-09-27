@@ -35,11 +35,12 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <div ui-view="login"></div>
+<div ui-view="access"></div>
 <div class="gray">
-	<div id="rightView" ng-hide="$state.current.name == 'login'">
+	<div id="rightView" ng-hide="$state.current.name == 'login' || $state.current.name == 'access' ">
 		<div ui-view="header" class="page-header-fixed page-quick-sidebar-over-content">
 		</div>
-		<div class="page-container">
+		<div class="page-container">586+9
 			<div ui-view="menu">
 			</div>
 			<div class="page-content-wrapper">
@@ -79,7 +80,7 @@
 
 <script src="../../assets/global/scripts/vehiculeController.js" type="text/javascript"></script>
 <script src="../../assets/global/scripts/officerController.js" type="text/javascript"></script>
-
+<script src="../../assets/global/scripts/accessController.js" type="text/javascript"></script>
 <script src="../../assets/global/scripts/bootbox.min.js" type="text/javascript"></script>
 
 <!-- <script src="../../templates/admin/app.js" type="text/javascript"></script>

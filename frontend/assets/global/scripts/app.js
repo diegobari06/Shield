@@ -192,6 +192,14 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     templateUrl: '../../templates/admin/footer.html'
                 }
               }
+        }).state("access", {
+            url: "/access",
+            views: {
+                "access": {
+                    templateUrl: '../Officers/access_door.html',
+                    controller: 'accessController'
+                }
+            }
         });
 
 });
