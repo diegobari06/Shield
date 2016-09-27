@@ -4,13 +4,11 @@ Rails.application.routes.draw do
     resources :residents
     resources :vehicules
     resources :houses
-<<<<<<< HEAD
     resources :officers
-=======
     resources :users do
      get '/sign_in_count' => :count
     end
->>>>>>> origin/master
+
   end
     resources :roles
 

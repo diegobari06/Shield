@@ -55,13 +55,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
     }).state("newResident", {
         url: "/residents/new",
         views: {
-<<<<<<< HEAD
-            "header": {templateUrl: '../../templates/admin/header.html', controller: 'homeController'},
-            "body": {templateUrl: 'resident/new_resident.html', controller: 'ResidentsCreateController'},
-            "menu": {templateUrl: '../../templates/admin/menu.html',  controller: 'menuController'},
-            "footer": {templateUrl: '../../templates/admin/footer.html'}
-               }
-=======
+
             "header": {
                 templateUrl: '../../templates/admin/header.html',
                 controller: 'homeController'
@@ -78,26 +72,6 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 templateUrl: '../../templates/admin/footer.html'
             }
         }
-    }).state("newVehicule", {
-        url: "/vehicules/new",
-        views: {
-            "header": {
-                templateUrl: '../admin/header.html',
-                controller: 'homeController'
-            },
-            "body": {
-                templateUrl: '../admin/vehicule/new_vehicule.html',
-                controller: 'vehiculeController'
-            },
-            "menu": {
-                templateUrl: '../admin/menu.html',
-                controller: 'menuController'
-            },
-            "footer": {
-                templateUrl: '../../templates/admin/footer.html'
-            }
-        }
->>>>>>> origin/master
     }).state("login", {
         url: "/login",
         views: {
@@ -125,7 +99,6 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
 
         }
 
-<<<<<<< HEAD
       }).state("editResident", {
             url: "/resident/:id/edit",
             views: {
@@ -198,8 +171,8 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
                 "footer": { templateUrl: '../../templates/admin/footer.html'  }
             }
-      });
-=======
+
+
     }).state("newUser", {
               url: "/users/new",
               views: {
@@ -219,44 +192,11 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     templateUrl: '../../templates/admin/footer.html'
                 }
               }
-        }).state("editResident", {
-        url: "/resident/:id/edit",
-        views: {
-            "header": {
-                templateUrl: '../../templates/admin/header.html',
-                controller: 'homeController'
-            },
-            "body": {
-                templateUrl: 'resident/new_resident.html',
-                controller: 'ResidentsEditController'
-            },
-            "menu": {
-                templateUrl: '../../templates/admin/menu.html',
-                controller: 'menuController'
-            }
-        }
-    }).state("houses", {
-        url: "/houses",
-        views: {
-            "header": {
-                templateUrl: '../../templates/admin/header.html',
-                controller: 'homeController'
-            },
-            "body": {
-                templateUrl: 'house/index.html',
-                controller: 'HousesListController'
-            },
-            "menu": {
-                templateUrl: '../../templates/admin/menu.html',
-                controller: 'menuController'
-            }
-        }
-    });
+        });
 
->>>>>>> origin/master
 });
 app.run(
-<<<<<<< HEAD
+
         ['$rootScope', '$state', '$stateParams',
             function ($rootScope, $state, $stateParams){
                 $rootScope.$state = $state;
@@ -302,14 +242,8 @@ app.controller('menuController', function() {
 //         }
 //     };
 // })
-=======
-    ['$rootScope', '$state', '$stateParams',
-        function($rootScope, $state, $stateParams) {
-            $rootScope.$state = $state;
-            $rootScope.$stateParams = $stateParams;
-        }
-    ]
-)
+
+
 
 app.controller('loginController',function($scope,$auth,$location,$rootScope,$timeout,$state){
   $rootScope.headerTitle = "Log in";
@@ -406,4 +340,3 @@ app.controller('loginController',function($scope,$auth,$location,$rootScope,$tim
             //         }
             //     };
             // })
->>>>>>> origin/master
