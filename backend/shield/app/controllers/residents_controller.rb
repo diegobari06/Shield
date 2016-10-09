@@ -20,6 +20,14 @@ class ResidentsController < ApplicationController
   def edit
   end
 
+  def find
+    @resident = Resident.where(identification_number: params[:id]);
+      if @resident == []
+      render :json => 0
+      else
+      render :json => @resident
+      end
+  end
 
   # POST /residents.json
   def create

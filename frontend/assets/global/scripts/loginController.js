@@ -1,13 +1,27 @@
-app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state) {
-    $rootScope.headerTitle = "Log in";
-    $rootScope.container = false;
+app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state, usersFunctions) {
+
+  $scope.isRequestiongPassword = false;
+
+
+
+  $scope.backTologin = function(){
+    $state.go('login');
+  }
+
+  $scope.logOut = function(){
+    $auth.signOut();
+    $state.go('login');
+  }
+
+  $scope.requestPassword =function(){
+    $state.go('requestPassword');
+  }
     $scope.login = function() {
         $auth.submitLogin($scope.loginForm);
     }
 
     $scope.$on('auth:login-success', function(ev, user) {
         usersFunctions.sign_in_count(user.id).success(function(data) {
-          console.log(data)
             if (user.enabled != false) {
                 if (data.count == 1) {
                     $state.go('changePassword');
@@ -16,14 +30,14 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
                 }
             } else {
                 $auth.signOut();
-                popUp.showdown("User disabled");
+                toastr["error"]("User disabled");
                 $state.go('login');
             }
         })
     });
 
     $scope.$on('auth:login-error', function(ev, reason) {
-        popUp.showdown("Please check your credentials");
+          toastr["error"]("Porfavor verifique sus credenciales");
     });
 
     $scope.handleUpdatePasswordBtnClick = function() {
@@ -31,12 +45,12 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
     };
 
     $scope.$on('auth:password-change-success', function(ev) {
-        popUp.success("Welcome to Skillmatrix");
-        $state.go('home');
+          toastr["success"]("Se ha cambiado tu contraseña exitosamente");
+        $state.go('residents');
     });
 
     $scope.$on('auth:password-change-error', function(ev, reason) {
-        popUp.showdown(reason.errors[0]);
+      toastr["error"]("El correo digitado no pertenece a ningun asociado");
     });
 
     $scope.handlePwdResetBtnClick = function() {
@@ -44,12 +58,11 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
     };
 
     $scope.$on('auth:password-reset-request-success', function(ev, resp, more, other) {
-        popUp.success("An email has been sent to " + resp.email + " for resetting your password.");
+        toastr["info"]("Se he enviado a "+ resp.email + " las instrucciones para recuperar tu contraseña", "Verifica tu correo electrónico")
         $state.go('login');
     });
 
     $scope.$on('auth:password-reset-request-error', function(ev, resp) {
-        popUp.showdown("Password reset request failed: " + resp.errors[0]);
+          toastr["error"]("El correo digitado no pertenece a ningun asociado");
     });
-
 });

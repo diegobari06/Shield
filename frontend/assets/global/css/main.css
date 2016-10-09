@@ -2,10 +2,16 @@
     background-color: white !important;
 }
 
+.bg-peace{
+    background-color: white !important;
+}
+
 .carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
     height: 100%;
     width: 100%;
 }
+
+
 
 .gray-background{
   background-color: #364150 !important;
@@ -34,10 +40,21 @@ a:hover {
   margin-top: 20px;
 }
 
-blue {
+.blue {
     background-color: #3598dc
 }
 
+.invert-blue {
+  color:#3598dc;
+  border: 1px solid #3598dc;
+  background-color: #fff;
+  transition: 0.5s;
+}
+.invert-blue:hover{
+  background-color: #3598dc;
+  color:white;
+  transition: 0.5s;
+}
 .float-right {
     float: right;
 }

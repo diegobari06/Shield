@@ -26,7 +26,7 @@ app.factory('usersFunctions', function($http){
         });
     },
     sign_in_count: function(id){
-      return $http.get(server+'companies/users/'+id+'/sign_in_count')
+      return $http.get(server+'companies/0/users/'+id+'/sign_in_count')
     }
   };
 });

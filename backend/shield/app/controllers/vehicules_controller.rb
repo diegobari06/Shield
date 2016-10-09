@@ -16,6 +16,15 @@ class VehiculesController < ApplicationController
     @vehicule = Vehicule.new
   end
 
+  def find
+    @vehicule = Vehicule.where(license_plate: params[:id]);
+      if @vehicule == []
+      render :json => 0
+      else
+      render :json => @vehicule
+      end
+  end
+
   # GET /residents/1/edit
   def edit
   end

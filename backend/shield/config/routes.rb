@@ -2,11 +2,14 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for "User", at: 'companies/0/auth' #controllers: { sessions: "sessions" }
   resources :companies do
     resources :residents
+    get 'residents/find/:id' => 'residents#find'
     resources :vehicules
+    get 'vehicules/find/:id' => 'vehicules#find'
     resources :houses
     resources :officers
+    resources :visitants
     resources :users do
-     get '/sign_in_count' => :count
+    get '/sign_in_count' => :count
     end
 
   end
