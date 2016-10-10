@@ -25,33 +25,19 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "houses", ["company_id"], name: "me_company_idx", using: :btree
 
-  create_table "officers", force: :cascade do |t|
-    t.string  "last_name",             limit: 45
-    t.string  "license",               limit: 45
-    t.string  "name",                  limit: 45
-    t.string  "second_last_name",      limit: 45
-    t.string  "identification_number", limit: 45
-    t.integer "company_id",            limit: 4
-  end
-
-  add_index "officers", ["company_id"], name: "me_company_idx", using: :btree
-
   create_table "residents", force: :cascade do |t|
-    t.string  "name",                  limit: 45
-    t.string  "last_name",             limit: 45
-    t.string  "second_last_name",      limit: 45
-    t.string  "phone_number",          limit: 45
-    t.date    "birthday"
-    t.string  "picture",               limit: 45
-    t.integer "house_id",              limit: 4
-    t.integer "company_id",            limit: 4
-    t.integer "identification_number", limit: 4
-    t.string  "email",                 limit: 45
+    t.string   "name",                  limit: 45
+    t.string   "first_name",            limit: 45
+    t.string   "last_name",             limit: 45
+    t.string   "phone_number",          limit: 45
+    t.datetime "birthday"
+    t.string   "picture",               limit: 45
+    t.integer  "house_id",              limit: 4
+    t.integer  "company_id",            limit: 4
+    t.integer  "identification_number", limit: 4
   end
 
   add_index "residents", ["company_id"], name: "me_company_idx", using: :btree
-<<<<<<< HEAD
-=======
 
   create_table "rol", force: :cascade do |t|
     t.string "name", limit: 45
@@ -91,7 +77,6 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["rol_id"], name: "fk_users_rol_idx", using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
->>>>>>> origin/master
 
   create_table "vehicules", force: :cascade do |t|
     t.string  "license_plate", limit: 45
@@ -104,15 +89,27 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "vehicules", ["company_id"], name: "me_company_idx", using: :btree
   add_index "vehicules", ["house_id"], name: "me_house_idx", using: :btree
 
+  create_table "visitants", force: :cascade do |t|
+    t.string   "name",                  limit: 45
+    t.string   "first_name",            limit: 45
+    t.string   "last_name",             limit: 45
+    t.string   "last_name2",            limit: 45
+    t.string   "identification_number", limit: 45
+    t.string   "license_plate",         limit: 45
+    t.datetime "date_time"
+    t.integer  "id_house",              limit: 4
+    t.integer  "company_id",            limit: 4
+  end
+
+  add_index "visitants", ["company_id"], name: "company_visitants_idx", using: :btree
+  add_index "visitants", ["id_house"], name: "house_visitants_idx", using: :btree
+
   add_foreign_key "houses", "companies", name: "houses_company"
-<<<<<<< HEAD
-  add_foreign_key "officers", "companies", name: "officers_company"
-  add_foreign_key "residents", "companies", name: "residents_company"
-=======
   add_foreign_key "residents", "companies", name: "residents_company"
   add_foreign_key "users", "companies", name: "users_company"
   add_foreign_key "users", "rol", name: "fk_users_rol"
->>>>>>> origin/master
   add_foreign_key "vehicules", "companies", name: "vehicules_company"
   add_foreign_key "vehicules", "houses", name: "vehicules_house"
+  add_foreign_key "visitants", "companies", name: "company_visitants"
+  add_foreign_key "visitants", "houses", column: "id_house", name: "house_visitants"
 end
