@@ -57,7 +57,7 @@ blue {
 }
 
 .medium-padding {
-    padding: 70px;
+    padding: 70px !important;
 }
 
 .login-hide-2 {
@@ -71,7 +71,42 @@ blue {
 .gray {
     background-color: #364150 !important;
 }
+.height-21-percent{
+  height: 26%;
+}
+.height-14-percent{
+  height: 14%;
+}
+.height-2-percent{
+  height: 2%;
+}
+.height-3-percent{
+  height: 3%;
+}
+.height-5-percent{
+  height: 20px;
+}
+.height-6-percent{
+  height: 6%;
+}
+.height-7-percent{
+  height: 7%;
+}
+.height-12-percent{
+  height: 12%;
+}
+.height-10-percent{
+  height: 10%;
+}
+.height-8-percent{
+  height: 8%;
+}
 
+#fail-icon{
+  font-size: 250px !important;
+  color: #C62828;
+
+}
 .text-center {
     text-align: center;
 }
@@ -108,9 +143,23 @@ blue {
     font-size: 13px !important;
     color: #616161 !important;
 }
-
+.font-19{
+    font-size: 19px !important;
+}
 .font-15{
   font-size: 15px !important;
+
+}
+.font-20{
+  font-size: 20px !important;
+
+}
+.font-30{
+  font-size: 30px;
+
+}
+.font-35{
+  font-size: 35px;
 
 }
 .search-bar {
@@ -120,3 +169,90 @@ blue {
     outline: none;
     margin-bottom: 10px;
 }
+.access-container{
+    margin-top: 2%;
+    background-color: white;
+    background-color: #F5F5F5 ;
+}
+
+.access-back{
+    height: 100vh;
+    width: 100%;
+    background-image: url("http://www.carvarisa.com/wp-content/uploads/via_nova_2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.opacity{
+      background: rgba(0, 0, 0, 0.7);
+      height: 100%;
+}
+.access-search-container{
+  background-color: #F5F5F5 ;
+  margin-top: 2% !important;
+}
+
+.access-result-search-container{
+  margin-top: 1%;
+
+}
+.green{
+  background-color: #009688;
+}
+.access-information-result-container{
+  background-color: #E0E0E0;
+  margin-top: 1%;
+  min-height: 68%;
+
+}
+.bold{
+  font-weight: bold;
+}
+.red{
+color: #C62828;
+
+}
+.result-image{
+  background-repeat: no-repeat;
+  background-size: cover;
+   margin: 0 auto;
+}
+.green-font{
+  color: green !important;
+}
+#error-image{
+background-image: url("http://www.clipartbest.com/cliparts/9i4/zry/9i4zryxAT.png");
+height: 190px;
+width: 190px;
+
+}
+#color-circle{
+
+  height: 13%;
+
+}
+
+#success-car-image{
+background-image: url("http://www.iconsdb.com/icons/preview/green/checked-checkbox-xxl.png") !important;
+height: 170px;
+width: 170px;
+}
+#success-resident-image{
+background-image: url("http://www.qtem.org/files/attach/images/contact/5438/BVP%20profile%20sq%202.jpg") !important;
+height: 150px;
+width: 150px;
+}
+.gray-font{
+  color:#616161 !important;
+}
+.access_car_information{
+ margin-bottom: 17px;
+}
+
+.blabla{
+  height: aut
+}
+  .center{
+
+    margin: 0 auto;
+  }
