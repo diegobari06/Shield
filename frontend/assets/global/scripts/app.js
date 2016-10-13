@@ -40,12 +40,24 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             "header": {
                 templateUrl: 'header.html',
                 controller: 'homeController'
+            },
+            "menu": {
+                templateUrl: '../../templates/admin/menu.html',
+                controller: 'menuController'
+            },
+            "footer": {
+                templateUrl: '../../templates/admin/footer.html'
             }
         },
         controller: 'homeController',
         resolve: {
             auth: function($auth) {
-                return $auth.validateUser();
+
+                 if($auth.validateUser()){
+                  return $auth.validateUser();
+                }else{
+                       $state.go('login');
+                }
             }
         }
     }).state("residents", {
@@ -66,7 +78,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             "footer": {
                 templateUrl: '../../templates/admin/footer.html'
             }
-        }
+        },
+          resolve: {
+            auth: function($auth) {
+              return $auth.validateUser();
+            }
+          }
     }).state("newResident", {
         url: "/residents/new",
         views: {
@@ -86,7 +103,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             "footer": {
                 templateUrl: '../../templates/admin/footer.html'
             }
-        }
+        },
+          resolve: {
+            auth: function($auth) {
+              return $auth.validateUser();
+            }
+          }
     }).state("login", {
         url: "/login",
         views: {
@@ -121,7 +143,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
               "body":  {templateUrl: 'resident/new_resident.html', controller: 'ResidentsEditController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
                 "footer": { templateUrl: '../../templates/admin/footer.html'  }
-            }
+            },
+              resolve: {
+                auth: function($auth) {
+                  return $auth.validateUser();
+                }
+              }
       }).state("houses", {
             url: "/houses",
             views: {
@@ -129,7 +156,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
               "body":  {templateUrl: 'house/index.html', controller: 'HousesListController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
                 "footer": { templateUrl: '../../templates/admin/footer.html'  }
-            }
+            },
+              resolve: {
+                auth: function($auth) {
+                  return $auth.validateUser();
+                }
+              }
       }).state("newHouse", {
             url: "/houses/new",
             views: {
@@ -137,7 +169,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
               "body":  {templateUrl: 'house/form.html', controller: 'HousesCreateController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
                 "footer": { templateUrl: '../../templates/admin/footer.html'  }
-            }
+            },
+              resolve: {
+                auth: function($auth) {
+                  return $auth.validateUser();
+                }
+              }
       }).state("editHouse", {
             url: "/house/:id/edit",
             views: {
@@ -145,7 +182,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
               "body":  {templateUrl: 'house/form.html', controller: 'HousesEditController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
                 "footer": { templateUrl: '../../templates/admin/footer.html'  }
-            }
+            },
+              resolve: {
+                auth: function($auth) {
+                  return $auth.validateUser();
+                }
+              }
       }).state("vehicules", {
             url: "/vehicules",
             views: {
@@ -153,7 +195,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
               "body":  {templateUrl: 'vehicule/index.html', controller: 'VehiculesListController'},
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
                 "footer": { templateUrl: '../../templates/admin/footer.html'  }
-            }
+            },
+              resolve: {
+                auth: function($auth) {
+                  return $auth.validateUser();
+                }
+              }
       }).state("newVehicule", {
           url: "/vehicules/new",
           views: {
@@ -161,7 +208,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
               "body": {templateUrl: '../admin/vehicule/new_vehicule.html',   controller: 'VehiculesCreateController' },
               "menu": { templateUrl: '../admin/menu.html',   controller: 'menuController'   },
               "footer": { templateUrl: '../../templates/admin/footer.html'  }
-          }
+          },
+            resolve: {
+              auth: function($auth) {
+                return $auth.validateUser();
+              }
+            }
       }).state("editVehicule", {
             url: "/vehicule/:id/edit",
             views: {
@@ -169,7 +221,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 "body": {templateUrl: '../admin/vehicule/new_vehicule.html',   controller: 'VehiculesEditController' },
               "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
                 "footer": { templateUrl: '../../templates/admin/footer.html'  }
-            }
+            },
+              resolve: {
+                auth: function($auth) {
+                  return $auth.validateUser();
+                }
+              }
       }).state("officers", {
             url: "/officers",
             views: {
@@ -185,7 +242,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 "body": {templateUrl: '../admin/officer/form.html',   controller: 'OfficersCreateController' },
                "menu":  {templateUrl: '../../templates/admin/menu.html', controller: 'menuController'},
                 "footer": { templateUrl: '../../templates/admin/footer.html'  }
-            }
+            },
+              resolve: {
+                auth: function($auth) {
+                  return $auth.validateUser();
+                }
+              }
 
 
     }).state("newUser", {
@@ -206,7 +268,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 "footer": {
                     templateUrl: '../../templates/admin/footer.html'
                 }
-              }
+              },
+                resolve: {
+                  auth: function($auth) {
+                    return $auth.validateUser();
+                  }
+                }
         }).state("access", {
             url: "/access",
             views: {
@@ -214,7 +281,12 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     templateUrl: '../Officers/access_door.html',
                     controller: 'accessController'
                 }
-            }
+            },
+              resolve: {
+                auth: function($auth) {
+                  return $auth.validateUser();
+                }
+              }
         });
 
 });
@@ -228,137 +300,36 @@ app.run(
             ]
     )
 
-app.controller('homeController', function() {
+app.controller('homeController', function($scope,$auth,$location,$rootScope,$timeout,$state,$window) {
 
-})
+
+
+if($rootScope.user.signedIn){
+    console.log("ha iniciado sesion");
+}
+console.log($rootScope.user);
+  $rootScope.isAdmin = function(){
+    if($rootScope.user.signedIn && $rootScope.user.permission_level == 2){
+        return true;
+    }else{
+        return false;
+   }
+};
+
+  $scope.handleSignOutBtnClick  = function(){
+    $auth.signOut();
+  };
+
+  $rootScope.$on('auth:logout-success', function(ev){
+   $state.go('login');
+  });
+
+  $rootScope.$on('auth:logout-error', function(ev, reason) {
+    bootbox.alert("Logout error", function() {
+              });
+  });
+
+});
 app.controller('menuController', function() {
 
 })
-
-// <<<<<<< HEAD:frontend/assets/global/scripts/app.js
-//         return {
-//             validateName: function(items,name){
-//              var condition = true;
-//               angular.forEach(items, function(item, index) {
-//                 if(item.name.toUpperCase()== name.toUpperCase()){
-//                    condition = false;
-//                 }
-//               });
-//            return condition;
-//            }
-//         };
-//   })
-// =======
-
-// app.factory('commonMethods', function() {
-//
-//     return {
-//         validateName: function(items, name) {
-//             var condition = true;
-//             angular.forEach(items, function(item, index) {
-//                 if (item.name.toUpperCase() == name.toUpperCase()) {
-//                     condition = false;
-//                 }
-//             });
-//             return condition;
-//         }
-//     };
-// })
-
-
-//
-// app.controller('loginController',function($scope,$auth,$location,$rootScope,$timeout,$state){
-//   $rootScope.headerTitle = "Log in";
-//   $rootScope.container = false;
-//   $scope.login = function() {
-//     $auth.submitLogin($scope.loginForm);
-//   }
-//
-//   $scope.$on('auth:login-success', function(ev, user) {
-//     usersFunctions.sign_in_count(user.id).success(function (data){
-//       if(user.enabled != false){
-//         if(data.count == 1){
-//           $state.go('changePassword');
-//         }else{
-//           $state.go('home');
-//         }
-//       }else{
-//         $auth.signOut();
-//         popUp.showdown("User disabled");
-//         $state.go('login');
-//       }
-//     })
-//
-//   });
-//
-//   $scope.$on('auth:login-error', function(ev, reason) {
-//         popUp.showdown("Please check your credentials");
-//   });
-//
-//   $scope.handleUpdatePasswordBtnClick = function() {
-//       $auth.updatePassword($scope.updatePasswordForm);
-//   };
-//
-//   $scope.$on('auth:password-change-success', function(ev) {
-//     popUp.success("Welcome to Skillmatrix");
-//     $state.go('home');
-//   });
-//
-//   $scope.$on('auth:password-change-error', function(ev, reason) {
-//     popUp.showdown(reason.errors[0]);
-//   });
-//
-//   $scope.handlePwdResetBtnClick = function() {
-//       $auth.requestPasswordReset($scope.passwordResetForm);
-//     };
-//
-//   $scope.$on('auth:password-reset-request-success', function(ev, resp, more, other) {
-//     popUp.success("An email has been sent to "+resp.email+" for resetting your password.");
-//     $state.go('login');
-//   });
-//
-//   $scope.$on('auth:password-reset-request-error', function(ev, resp) {
-//     popUp.showdown("Password reset request failed: " + resp.errors[0]);
-// });
-//
-// });
-//
-//             app.controller('homeController', function() {
-//
-//             })
-//             app.controller('menuController', function() {
-//
-//             })
-//             app.controller('vehiculeController', function($scope) {})
-
-
-
-            // <<<<<<< HEAD:frontend/assets/global/scripts/app.js
-            //         return {
-            //             validateName: function(items,name){
-            //              var condition = true;
-            //               angular.forEach(items, function(item, index) {
-            //                 if(item.name.toUpperCase()== name.toUpperCase()){
-            //                    condition = false;
-            //                 }
-            //               });
-            //            return condition;
-            //            }
-            //         };
-            //   })
-            // =======
-
-            // app.factory('commonMethods', function() {
-            //
-            //     return {
-            //         validateName: function(items, name) {
-            //             var condition = true;
-            //             angular.forEach(items, function(item, index) {
-            //                 if (item.name.toUpperCase() == name.toUpperCase()) {
-            //                     condition = false;
-            //                 }
-            //             });
-            //             return condition;
-            //         }
-            //     };
-            // })

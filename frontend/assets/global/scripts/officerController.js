@@ -1,5 +1,5 @@
 app.controller('OfficersListController',function($scope,$state,$rootScope,$window,officersFunctions){
-
+      $rootScope.active = "officers";
       officersFunctions.getAll().success(function(officers){
           $scope.officers = officers;})
 
@@ -16,7 +16,7 @@ app.controller('OfficersListController',function($scope,$state,$rootScope,$windo
 });
 
 app.controller('OfficersCreateController',function($scope,$http,$rootScope,$state,officersFunctions){
-
+      $rootScope.active = "officers";
       $scope.title = "Registrar oficial";
         $scope.button = "Registrar";
       $scope.actionButton = function(){
@@ -37,8 +37,8 @@ app.controller('OfficersCreateController',function($scope,$http,$rootScope,$stat
 
 
 app.controller('OfficersEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,officersFunctions){
+      $rootScope.active = "officers";
       var residentName;
-
       $scope.title = "Editar oficial";
       $scope.button = "Editar";
 

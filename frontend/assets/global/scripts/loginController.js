@@ -2,8 +2,6 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
 
   $scope.isRequestiongPassword = false;
 
-
-
   $scope.backTologin = function(){
     $state.go('login');
   }
@@ -26,7 +24,11 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
                 if (data.count == 1) {
                     $state.go('changePassword');
                 } else {
-                    $state.go('residents');
+                  if (user.permission_level == 3) {
+                    $state.go('access');
+                  } else {
+                    $state.go('home');
+                    }
                 }
             } else {
                 $auth.signOut();

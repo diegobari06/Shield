@@ -1,35 +1,15 @@
-
 <!-- SE REQUIERE EN CADA VISTA -->
-<div class="page-bar route-title">
-    <ul class="page-breadcrumb">
-        <li>
-            <i class="fa fa-home"></i>
-            <a href="index.html">Condominio</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-            <a href="#">Residentes</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-            <a href="#">Consultar</a>
-        </li>
-    </ul>
-    <div class="page-toolbar">
-        <div class="btn-group pull-right">
 
-        </div>
-    </div>
-</div>
-<div class="" style="margin-top:30px">
-</div>
+
+
+
 <div class="row">
     <div class="col-md-12">
         <!-- SE REQUIERE EN CADA VISTA -->
 
-      					<!-- BEGIN SAMPLE TABLE PORTLET-->
-      					<!-- <div class="portlet box purple"> -->
-      						<!-- <div class="portlet-title">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <!-- <div class="portlet box purple"> -->
+        <!-- <div class="portlet-title">
       							<div class="caption">
       								<i class="fa fa-comments"></i>Striped Table
       							</div>
@@ -44,414 +24,118 @@
       								</a>
       							</div>
       						</div> -->
-                  <h3 class="page-title col-md-10">	Residentes </h3>
-                      <input type="text" name="name" value="" ng-model="search" placeholder="Buscar residente" class="search-bar col-md-2">
-      						<div class="portlet-body ">
-      							<div class="table-scrollable ">
-      								<table class="table table-striped table-hover font-12">
-      								<thead>
-      								<tr>
-      									<th>Nombre completo</th>
-      									<th>Cédula</th>
-      									<th>Edad</th>
-      									<th>Número de celular</th>
-                        <th>Correo</th>
-                        <th>Num casa</th>
-                        <th>Ver detalle</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
 
-      								</tr>
-      								</thead>
-      								<tbody>
-                        <tr ng-repeat="resident in residents | filter:search | orderBy:'name'" >
-                           <td>{{resident.name}} {{resident.last_name}} {{resident.second_last_name}}</td>
+        <div class="page-bar route-title">
+            <ul class="page-breadcrumb">
+                <li>
+                    <i class="fa fa-home"></i>
+                    <a ui-sref="home()">Condominio</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <a href="#">Residentes</a>
+                    <i class="fa fa-angle-right"></i>
+                </li>
+                <li>
+                    <a href="#">Consultar</a>
+                </li>
+            </ul>
+            <div class="page-toolbar">
+                <div class="btn-group pull-right">
+
+                </div>
+            </div>
+        </div>
+        <h3 class="page-title col-md-12 ">	Residentes </h3>
+
+        <!-- <div class="form-group col-md-3 ">
+            <div class="col-md-3">
+                <span class="control-label ">Category</span>
+            </div>
+            <select class="select2_category form-control col-md-9" data-placeholder="Choose a Category" tabindex="1">
+							<option value="Category 1">Category 1</option>
+							<option value="Category 2">Category 2</option>
+							<option value="Category 3">Category 5</option>
+							<option value="Category 4">Category 4</option>
+						</select>
+        </div> -->
+
+        <div class="form-group col-md-offset-4  col-md-3 no-padding">
+            <label class="col-md-5 control-label no-padding gray-font">Filtrar por casa</label>
+            <div class="col-md-7 no-padding">
+                <select name="repeatSelect" class="form-control  gray-font" ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
+
+            </select>
+
+            </div>
+        </div>
+        <!-- <div class="  col-md-2 ">
+            <select class="form-control select2_category gray-font">
+                                <option value="Category 1">Todas</option>
+                                <option value="Category 2"> 1</option>
+                                <option value="Category 3"> 2</option>
+                                <option value="Category 4"> 3</option>
+                              </select>
+        </div> -->
+
+        <div class="form-group col-md-3 ">
+            <div class="input-icon">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" placeholder="Buscar residente" ng-model="search">
+            </div>
+        </div>
+        <button type="submit" class="btn green col-md-2 small-margin-bottom" ui-sref="newResident()">Registrar residente</button>
+
+
+
+
+        <!-- <input type="text" name="name" value="" ng-model="search" placeholder="Buscar residente" class="search-bar col-md-2"> -->
+        <div class="portlet-body ">
+            <div class="table-scrollable ">
+                <table class="table table-striped table-hover font-12">
+                    <thead>
+                        <tr>
+                            <th>Nombre completo</th>
+                            <th>Cédula</th>
+                            <th>Edad</th>
+                            <th>Número de celular</th>
+                            <th>Correo</th>
+                            <th>Num casa</th>
+                            <th>Ver detalle</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="resident in residents | filter:search | orderBy:'name'">
+                            <td>{{resident.name}} {{resident.last_name}} {{resident.second_last_name}}</td>
                             <td>{{resident.identification_number}}</td>
-                              <td>{{resident.birthday}}</td>
-                                    <td>{{resident.phone_number}}</td>
-                                          <td>{{resident.email}}</td>
-                                                <td>{{resident.house_id}}</td>
-                             <td><a ui-sref="viewSubCategory({id:subcategory.id})">Ver detalle</a></td>
-                           <td> <a ui-sref="editResident({id:resident.id})">Editar</a></td>
-                           <td> <a ng-click="deleteResident(resident.id)">Eliminar</a></td>
-                         </tr>
-
-<!--
-      								<tr>
-      									<td>
-      										 Mark Barillas Valverde
-      									</td>
-      									<td>
-      										 113434315
-      									</td>
-      									<td>
-      										 17
-      									</td>
-                        <td>
-                           87665344
-                        </td>
-                        <td>
-                           markbarillas@gmail.com
-                        </td>
-                        <td>
-                           61
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-      									<td>
-      										<span class="label label-sm label-success">
-      										Habilitado </span>
-      									</td>
-      								</tr>
-      								<tr>
-
-      									<td>
-      										 Jacob Castro Rodriguez
-      									</td>
-      									<td>
-      										 115556744
-      									</td>
-      									<td>
-      										 51
-      									</td>
-                        <td>
-                           86235511
-                        </td>
-                        <td>
-                           jacobcastro@hotmail.com
-                        </td>
-                        <td>
-                           66
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-danger">
-                          Deshabilitado </span>
-                        </td>
-      								</tr>
-      								<tr>
-
-      									<td>
-      										 Yanni Puedo
-      									</td>
-      									<td>
-      										 433561244
-      									</td>
-      									<td>
-      										 26
-      									</td>
-                        <td>
-                           87146633
-                        </td>
-                        <td>
-                           yannipuedo@css.ac.cr
-                        </td>
-                        <td>
-                           74
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-      										<span class="label label-sm label-success">
-      										Habilitado </span>
-      									</td>
-      								</tr>
-      								<tr>
-
-      									<td>
-      										 Allan Brito Rojo
-      									</td>
-      									<td>
-      										 644416811
-      									</td>
-      									<td>
-      										 32
-      									</td>
-                        <td>
-                           47141134
-                        </td>
-                        <td>
-                           allanbrito@ucenfotec.ac.cr
-                        </td>
-                        <td>
-                           12
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-      									<td>
-      										<span class="label label-sm label-danger">
-      										Deshabilitado </span>
-      									</td>
-      								</tr>
-                      <tr>
-                        <td>
-                           Mark Barillas Valverde
-                        </td>
-                        <td>
-                           113434315
-                        </td>
-                        <td>
-                           17
-                        </td>
-                        <td>
-                           87665344
-                        </td>
-                        <td>
-                           markbarillas@gmail.com
-                        </td>
-                        <td>
-                           61
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-success">
-                          Habilitado </span>
-                        </td>
-                      </tr>
-                      <tr>
-
-                        <td>
-                           Jacob Castro Rodriguez
-                        </td>
-                        <td>
-                           115556744
-                        </td>
-                        <td>
-                           51
-                        </td>
-                        <td>
-                           86235511
-                        </td>
-                        <td>
-                           jacobcastro@hotmail.com
-                        </td>
-                        <td>
-                           66
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-danger">
-                          Deshabilitado </span>
-                        </td>
-                      </tr>
-                      <tr>
-
-                        <td>
-                           Yanni Puedo
-                        </td>
-                        <td>
-                           433561244
-                        </td>
-                        <td>
-                           26
-                        </td>
-                        <td>
-                           87146633
-                        </td>
-                        <td>
-                           yannipuedo@css.ac.cr
-                        </td>
-                        <td>
-                           74
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-success">
-                          Habilitado </span>
-                        </td>
-                      </tr>
-                      <tr>
-
-                        <td>
-                           Allan Brito Rojo
-                        </td>
-                        <td>
-                           644416811
-                        </td>
-                        <td>
-                           32
-                        </td>
-                        <td>
-                           47141134
-                        </td>
-                        <td>
-                           allanbrito@ucenfotec.ac.cr
-                        </td>
-                        <td>
-                           12
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-danger">
-                          Deshabilitado </span>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                           Mark Barillas Valverde
-                        </td>
-                        <td>
-                           113434315
-                        </td>
-                        <td>
-                           17
-                        </td>
-                        <td>
-                           87665344
-                        </td>
-                        <td>
-                           markbarillas@gmail.com
-                        </td>
-                        <td>
-                           61
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-success">
-                          Habilitado </span>
-                        </td>
-                      </tr>
-                      <tr>
-
-                        <td>
-                           Jacob Castro Rodriguez
-                        </td>
-                        <td>
-                           115556744
-                        </td>
-                        <td>
-                           51
-                        </td>
-                        <td>
-                           86235511
-                        </td>
-                        <td>
-                           jacobcastro@hotmail.com
-                        </td>
-                        <td>
-                           66
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-danger">
-                          Deshabilitado </span>
-                        </td>
-                      </tr>
-                      <tr>
-
-                        <td>
-                           Yanni Puedo
-                        </td>
-                        <td>
-                           433561244
-                        </td>
-                        <td>
-                           26
-                        </td>
-                        <td>
-                           87146633
-                        </td>
-                        <td>
-                           yannipuedo@css.ac.cr
-                        </td>
-                        <td>
-                           74
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-success">
-                          Habilitado </span>
-                        </td>
-                      </tr>
-                      <tr>
-
-                        <td>
-                           Allan Brito Rojo
-                        </td>
-                        <td>
-                           644416811
-                        </td>
-                        <td>
-                           32
-                        </td>
-                        <td>
-                           47141134
-                        </td>
-                        <td>
-                           allanbrito@ucenfotec.ac.cr
-                        </td>
-                        <td>
-                           12
-                        </td>
-                        <td>
-                           Editar
-                        </td>
-                        <td>
-                           Eliminar
-                        </td>
-                        <td>
-                          <span class="label label-sm label-danger">
-                          Deshabilitado </span>
-                        </td>
-                      </tr> -->
+                            <td>{{resident.birthday}}</td>
+                            <td>{{resident.phone_number}}</td>
+                            <td>{{resident.email}}</td>
+                            <td>{{resident.house_id}}</td>
+                            <td><a ui-sref="viewSubCategory({id:subcategory.id})">Ver detalle</a></td>
+                            <td> <a ui-sref="editResident({id:resident.id})">Editar</a></td>
+                            <td> <a ng-click="deleteResident(resident.id)">Eliminar</a></td>
+                        </tr>
 
 
-      								</tbody>
-      								</table>
-      							</div>
-      						</div>
-      					<!-- </div> -->
-      					<!-- END SAMPLE TABLE PORTLET-->
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="../../assets/global/scripts/select2.min.js" type="text/javascript"></script>
+        <script>
+            jQuery(document).ready(function() {
+                // initiate layout and plugins
+                Metronic.init(); // init metronic core components
+                Layout.init(); // init current layout
+                QuickSidebar.init(); // init quick sidebar
+                Demo.init(); // init demo features
+
+            });
+        </script>
+        <!-- </div> -->
+        <!-- END SAMPLE TABLE PORTLET-->

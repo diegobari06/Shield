@@ -42,29 +42,39 @@
                     <div class="form-body">
                         <div class="col-md-6">
 
-                            <div class="form-group form-md-line-input form-md-floating-label">
+                            <div class="form-group form-md-line-input">
                                 <input ng-model="license_plate" type="text" class="form-control" id="form_control_1">
-                                <label for="form_control_1">Número de placa</label>
+                                <label for="form_control_1" class="font-15">Número de placa</label>
                             </div>
-                            <div class="form-group form-md-line-input form-md-floating-label has-info">
-                              <select name="repeatSelect" class="form-control" ng-model="brand"  ng-options="brand.name for brand in brands.data | orderBy: 'name' track by brand.id" required>
+
+                            <!-- <div class="form-group form-md-line-input form-md-floating-label has-info">
+                                <select name="repeatSelect" class="form-control" ng-model="brand" ng-options="brand.name for brand in brands.data | orderBy: 'name' track by brand.id" required>
                                     <option value=""></option>
                               </select>
-                              <label for="form_control_1">Marca</label>
-                            </div>
+                                <label for="form_control_1">Marca</label>
+                            </div> -->
+
+                            <div class="form-group form-md-line-input has-info">
+                                <select name="repeatSelect" class="form-control" ng-model="brand" ng-options="brand.name for brand in brands.data | orderBy: 'name' track by brand.id" required>
+                              </select>
+                                <label for="form_control_1" class="font-15">Marca</label >
+                          </div>
+
+
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                <button ng-model="vehicule_color"class="jscolor {valueElement:null,value:'ffff'} btn btn-default" style="width:100%">
+                                <button ng-blur="submitColour()" id="culito" class="jscolor {valueElement:null,value:'ffff'} btn btn-default" style="width:100%">
                                 Color del vehículo
                             </button>
                             </div>
-                            <div class="form-group form-md-line-input form-md-floating-label has-info">
-                              <select name="repeatSelect" class="form-control" ng-model="house"  ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
-                                  <option value=""></option>
+
+                            <div class="form-group form-md-line-input has-info">
+                                <select name="repeatSelect" class="form-control" ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
                               </select>
-                              <label for="form_control_1">Número de casa</label>
-                            </div>
+                                <label for="form_control_1" class="font-15">Número de casa</label >
+                          </div>
+
                         </div>
                         <div class="form-actions noborder">
                             <h3 class="text-right">
@@ -75,4 +85,4 @@
                 </form>
                 </div>
             </div>
-  <script src="../../assets/global/scripts/jscolor.js"></script>
+            <script src="../../assets/global/scripts/jscolor.js"></script>

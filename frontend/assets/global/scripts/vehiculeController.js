@@ -1,11 +1,13 @@
 'use strict';
 app.controller('VehiculesListController',function($scope,$state,$rootScope,$window,vehiculesFunctions){
-      // $rootScope.headerTitle = "Skills subcategories";
+      $rootScope.active = "vehicules";
       vehiculesFunctions.getAll().success(function(vehicules){
           $scope.vehicules = vehicules;})
-
+          vehiculesFunctions.getAllHouses().success(function(houses){
+              $scope.houses = houses;
+          })
           $scope.deleteVehicule=function(id){
-              bootbox.confirm("Are you sure?", function(result) {
+              bootbox.confirm("¿Estás seguro que deseas eliminar el vehículo?", function(result) {
                   if(result){
                       vehiculesFunctions.delete(id).success(function(){
                           vehiculesFunctions.getAll().success(function(vehicules){
@@ -17,9 +19,15 @@ app.controller('VehiculesListController',function($scope,$state,$rootScope,$wind
 });
 
 app.controller('VehiculesCreateController',function($scope,$http,$rootScope,$state,vehiculesFunctions){
-      // $rootScope.headerTitle = "Skills subcategories";
+    var val
+      $rootScope.active = "vehicules";
       $scope.title = "Registrar vehículo";
         $scope.button = "Registrar";
+        console.log($('#culito').attr('class'));
+          $scope.submitColour = function(){
+             val = $('#culito').css('background-color');
+
+        }
       vehiculesFunctions.getAllHouses().success(function(houses){
           $scope.houses = houses;
 })
@@ -45,21 +53,17 @@ $scope.brands = {
       $scope.actionButton = function(){
           console.log($scope.house.id);
            vehiculesFunctions.getAll().success(function(houses){
-              //  if(commonMethods.validateName(residents,$scope.residentName)){
-                    vehiculesFunctions.insert({license_plate: $scope.license_plate,house_id: $scope.house.id,color: "#3F51B5",brand: $scope.brand.name,company_id:3}).success(function(){
-
+                    vehiculesFunctions.insert({license_plate: $scope.license_plate,house_id: $scope.house.id,color: val,brand: $scope.brand.name,company_id:3}).success(function(){
                           $state.go('vehicules');
-                          // popUp.success("Resident has been created successfully");
                     })
-              //  } else {
-              //       popUp.show("Resident name already exist.");
-              //  }
+
 
            });
      }
 });
 
 app.controller('VehiculesEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,vehiculesFunctions){
+    $rootScope.active = "vehicules";
       var residentName;
       // $rootScope.headerTitle = "Skills subcategories";
       $scope.title = "Editar vehículo";

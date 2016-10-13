@@ -3,11 +3,11 @@
     <ul class="page-breadcrumb">
         <li>
             <i class="fa fa-home"></i>
-            <a href="index.html">Condominio</a>
+            <a ui-sref="home()">Condominio</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="#">Vehículos</a>
+            <a ui-sref="houses()">Casas</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
@@ -29,7 +29,7 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption font-green-haze">
-                    <i class="fa fa-car font-green-haze"></i>
+                    <i class="fa fa-home  font-green-haze"></i>
                     <span class="caption-subject bold uppercase">{{title}}</span>
                 </div>
                 <div class="actions">
@@ -42,18 +42,18 @@
                     <div class="form-body">
                         <div class="col-md-6">
 
-                            <div class="form-group form-md-line-input form-md-floating-label">
+                            <div class="form-group form-md-line-input">
                                 <input ng-model="house_number" type="text" class="form-control" id="form_control_1">
-                                <label for="form_control_1">Número de casa</label>
+                                <label for="form_control_1" class="font-15">Número de casa</label>
                             </div>
 
                         </div>
                         <div class="col-md-6">
-
-                            <div class="form-group form-md-line-input form-md-floating-label">
+                            <div class="form-group form-md-line-input">
                                 <input ng-model="extension" type="text" class="form-control" id="form_control_1">
-                                <label for="form_control_1">Extensión</label>
+                                <label for="form_control_1" class="font-15">Extensión</label>
                             </div>
+
 
                         </div>
                         <div class="form-actions noborder">
@@ -65,4 +65,4 @@
                 </form>
                 </div>
             </div>
-  <script src="../../assets/global/scripts/jscolor.js"></script>
+            <script src="../../assets/global/scripts/jscolor.js"></script>

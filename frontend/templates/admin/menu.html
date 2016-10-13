@@ -1,5 +1,6 @@
 <!-- END CONTENT -->
 <!-- BEGIN QUICK SIDEBAR -->
+<div class="" style="margin-top:46px"> </div>
 <div class="page-sidebar-wrapper">
     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
     <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
@@ -13,12 +14,7 @@
         <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
         <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
             <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
-            <li class="sidebar-toggler-wrapper">
-                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
-                <div class="sidebar-toggler">
-                </div>
-                <!-- END SIDEBAR TOGGLER BUTTON -->
-            </li>
+
             <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
             <li class="sidebar-search-wrapper">
                 <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
@@ -37,39 +33,39 @@
                 </form>
                 <!-- END RESPONSIVE QUICK SEARCH FORM -->
             </li>
-            <li class="active open">
+            <li class="" ng-class="{ 'active' : active === 'residents' ||  active === 'houses' ||  active === 'vehicules'}">
                 <a href="javascript:;">
                     <i class="icon-home"></i>
                     <span class="title">Condominio</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu">
-                    <li ui-sref="residents()">
+                    <li ui-sref="residents()" ng-class="{ 'active' : active === 'residents' }">
                         <a href="">
                             <i class="fa fa-users" aria-hidden="true"></i> Residentes
                         </a>
                     </li>
-                    <li class="active" ui-sref="houses()">
+                    <li ui-sref="houses()" ng-class="{ 'active' : active === 'houses' }">
                         <a href="">
                             <i class="fa fa-home fa-lg" aria-hidden="true"></i> Casas
                         </a>
                     </li>
-                    <li ui-sref="vehicules()">
+                    <li ui-sref="vehicules()" ng-class="{ 'active' : active === 'vehicules'}">
                         <a href="">
-                            <i class="fa fa-home fa-lg" aria-hidden="true"></i> Vehículos
+                            <i class="fa fa-car " aria-hidden="true"></i> Vehículos
                         </a>
                     </li>
                 </ul>
                 <li>
-                    <li class="start">
+                    <li class="start" ng-class="{ 'active' : active === 'officers'} ">
                         <a href="javascript:;">
                             <i class="fa fa-lock" aria-hidden="true"></i>
                             <span class="title "> Seguridad</span>
-                            <span class="arrow open"></span>
+                            <span class="arrow "></span>
                             <span class="selected "></span>
                         </a>
                         <ul class="sub-menu">
-                            <li ui-sref="officers()">
+                            <li ui-sref="officers()" ng-class="{ 'active' : active === 'officers'}">
                                 <a href="">
                                     <i class="fa fa-shield" aria-hidden="true"></i> Oficiales
                                 </a>

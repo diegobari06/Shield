@@ -1,5 +1,5 @@
 app.controller('HousesListController',function($scope,$state,$rootScope,$window,housesFunctions){
-
+          $rootScope.active = "houses";
       housesFunctions.getAll().success(function(houses){
           $scope.houses = houses;})
 
@@ -17,7 +17,7 @@ app.controller('HousesListController',function($scope,$state,$rootScope,$window,
 
 
 app.controller('HousesCreateController',function($scope,$http,$rootScope,$state,housesFunctions){
-
+  $rootScope.active = "houses";
       $scope.title = "Registrar casa";
         $scope.button = "Registrar";
 
@@ -27,7 +27,7 @@ app.controller('HousesCreateController',function($scope,$http,$rootScope,$state,
               //  if(commonMethods.validateName(residents,$scope.residentName)){
                     housesFunctions.insert({house_number: $scope.house_number,extension: $scope.extension,company_id:3}).success(function(){
                           $state.go('houses');
-                          
+
                           // popUp.success("Resident has been created successfully");
                     })
               //  } else {
@@ -40,8 +40,8 @@ app.controller('HousesCreateController',function($scope,$http,$rootScope,$state,
 
 
 app.controller('HousesEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,housesFunctions){
+  $rootScope.active = "houses";
       var residentName;
-
       $scope.title = "Editar casa";
       $scope.button = "Editar";
 

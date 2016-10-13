@@ -56,6 +56,6 @@ class VisitantsController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def visitant_params
-      params.permit(:id,:name,:first_name,:last_name,:last_name2,:license_plate,:house_id,:company_id,:identification_number)
+      params.permit(:id,:name,:last_name,:second_last_name,:license_plate,:id_house,:company_id,:identification_number)
     end
 end

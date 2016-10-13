@@ -25,16 +25,28 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "houses", ["company_id"], name: "me_company_idx", using: :btree
 
+  create_table "officers", force: :cascade do |t|
+    t.string  "name",                  limit: 45
+    t.string  "last_name",             limit: 45
+    t.string  "second_last_name",      limit: 45
+    t.string  "identification_number", limit: 45
+    t.integer "company_id",            limit: 4
+    t.string  "license",               limit: 45
+  end
+
+  add_index "officers", ["company_id"], name: "officers_company_idx", using: :btree
+
   create_table "residents", force: :cascade do |t|
-    t.string   "name",                  limit: 45
-    t.string   "first_name",            limit: 45
-    t.string   "last_name",             limit: 45
-    t.string   "phone_number",          limit: 45
-    t.datetime "birthday"
-    t.string   "picture",               limit: 45
-    t.integer  "house_id",              limit: 4
-    t.integer  "company_id",            limit: 4
-    t.integer  "identification_number", limit: 4
+    t.string  "name",                  limit: 45
+    t.string  "last_name",             limit: 45
+    t.string  "second_last_name",      limit: 45
+    t.string  "phone_number",          limit: 45
+    t.date    "birthday"
+    t.string  "picture",               limit: 45
+    t.integer "house_id",              limit: 4
+    t.integer "company_id",            limit: 4
+    t.integer "identification_number", limit: 4
+    t.string  "email",                 limit: 45
   end
 
   add_index "residents", ["company_id"], name: "me_company_idx", using: :btree
@@ -42,6 +54,15 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "rol", force: :cascade do |t|
     t.string "name", limit: 45
   end
+
+  create_table "shifts", force: :cascade do |t|
+    t.string  "init_time",  limit: 45
+    t.string  "end_time",   limit: 45
+    t.string  "officers",   limit: 250
+    t.integer "company_id", limit: 4
+  end
+
+  add_index "shifts", ["company_id"], name: "company_shift_idx", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               limit: 255,   default: "email", null: false
@@ -91,9 +112,8 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "visitants", force: :cascade do |t|
     t.string   "name",                  limit: 45
-    t.string   "first_name",            limit: 45
     t.string   "last_name",             limit: 45
-    t.string   "last_name2",            limit: 45
+    t.string   "second_last_name",      limit: 45
     t.string   "identification_number", limit: 45
     t.string   "license_plate",         limit: 45
     t.datetime "date_time"
@@ -105,7 +125,9 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "visitants", ["id_house"], name: "house_visitants_idx", using: :btree
 
   add_foreign_key "houses", "companies", name: "houses_company"
+  add_foreign_key "officers", "companies", name: "officers_company"
   add_foreign_key "residents", "companies", name: "residents_company"
+  add_foreign_key "shifts", "companies", name: "company_shift"
   add_foreign_key "users", "companies", name: "users_company"
   add_foreign_key "users", "rol", name: "fk_users_rol"
   add_foreign_key "vehicules", "companies", name: "vehicules_company"

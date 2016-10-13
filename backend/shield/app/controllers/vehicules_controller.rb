@@ -17,11 +17,12 @@ class VehiculesController < ApplicationController
   end
 
   def find
-    @vehicule = Vehicule.where(license_plate: params[:id]);
-      if @vehicule == []
+    @vehicule = Vehicule.where(license_plate: params[:id]).last;
+
+      if @vehicule == nil
       render :json => 0
       else
-      render :json => @vehicule
+    render :json => @vehicule
       end
   end
 

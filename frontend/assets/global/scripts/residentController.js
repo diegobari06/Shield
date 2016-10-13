@@ -1,8 +1,12 @@
 'use strict';
 app.controller('ResidentsListController',function($scope,$state,$rootScope,$window,residentsFunctions){
+      $rootScope.active = "residents";
       residentsFunctions.getAll().success(function(residents){
           $scope.residents = residents;})
 
+          residentsFunctions.getAllHouses().success(function(houses){
+              $scope.houses = houses;
+          })
           $scope.deleteResident=function(id){
               bootbox.confirm("Are you sure?", function(result) {
                   if(result){
@@ -13,16 +17,20 @@ app.controller('ResidentsListController',function($scope,$state,$rootScope,$wind
                    }
               });
         }
+
+
 });
 
 app.controller('ResidentsViewController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions){
+      $rootScope.active = "residents";
       residentsFunctions.getAll().success(function(residents){
          $scope.residents = residents;
       })
  });
 app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$state,residentsFunctions){
+      $rootScope.active = "residents";
       $scope.title = "Nuevo residente";
-      $scope.button = "Crear";
+      $scope.button = "Registrar";
       residentsFunctions.getAllHouses().success(function(houses){
           $scope.houses = houses;
       })
@@ -41,6 +49,7 @@ app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$sta
      }
 });
 app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions){
+      $rootScope.active = "residents";
       var residentName;
       $scope.title = "Editar residente";
       $scope.button = "Editar";

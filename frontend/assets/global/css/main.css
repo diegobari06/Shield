@@ -72,6 +72,10 @@ a:hover {
 .small-margin-bottom {
     margin-bottom: 15px;
 }
+.small-margin-right{
+
+  margin-right: 15px;
+}
 
 .medium-padding {
     padding: 70px !important;
@@ -250,7 +254,7 @@ width: 190px;
 }
 
 #success-car-image{
-background-image: url("http://www.iconsdb.com/icons/preview/green/checked-checkbox-xxl.png") !important;
+background-image: url("http://www.tot19.com/wp-content/uploads/2015/10/check-300x300.png") !important;
 height: 170px;
 width: 170px;
 }

@@ -4,6 +4,7 @@ class ResidentsController < ApplicationController
   # GET /residents.json
   def index
     @residents = Resident.where(company_id: params[:company_id])
+
     render json: @residents, status: 200
   end
 
@@ -21,11 +22,11 @@ class ResidentsController < ApplicationController
   end
 
   def find
-    @resident = Resident.where(identification_number: params[:id]);
-      if @resident == []
+    @resident = Resident.where(identification_number: params[:id]).last;
+      if @resident == nil
       render :json => 0
       else
-      render :json => @resident
+      render json: @resident
       end
   end
 

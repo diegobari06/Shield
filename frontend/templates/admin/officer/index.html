@@ -1,4 +1,3 @@
-
 <!-- SE REQUIERE EN CADA VISTA -->
 <div class="page-bar route-title">
     <ul class="page-breadcrumb">
@@ -25,29 +24,37 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-                  <h3 class="page-title col-md-10">	Oficiales de seguridad </h3>
-                      <input type="text" name="name" value="" ng-model="search" placeholder="Buscar residente" class="search-bar col-md-2">
-      						<div class="portlet-body ">
-      							<div class="table-scrollable ">
-      								<table class="table table-striped table-hover font-12">
-      								<thead>
-      								<tr>
-                        <th>Nombre completo</th>
-                        <th>Cédula</th>
-                        <th>Licencia</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
-      								</tr>
-      								</thead>
-      								<tbody>
-                        <tr ng-repeat="officer in officers | filter:search | orderBy:'name'" >
-                          <td>{{officer.name}} {{officer.last_name}} {{officer.second_last_name}}</td>
-                           <td>{{officer.identification_number}}</td>
-                           <td>{{officer.license}}</td>
-                          <td> <a ui-sref="editOfficer({id:officer.id})">Editar</a></td>
-                          <td> <a ng-click="deleteOfficer(officer.id)">Eliminar</a></td>
-                         </tr>
-      								</tbody>
-      								</table>
-      							</div>
-      						</div>
+        <h3 class="page-title col-md-10">	Oficiales de seguridad </h3>
+
+        <div class="form-group col-md-offset-7 col-md-3 ">
+            <div class="input-icon">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" placeholder="Buscar oficial" ng-model="search">
+            </div>
+        </div>
+        <button type="submit" class="btn green col-md-2 small-margin-bottom" ui-sref="newOfficer()">Registrar oficial</button>
+
+        <div class="portlet-body ">
+            <div class="table-scrollable ">
+                <table class="table table-striped table-hover font-12">
+                    <thead>
+                        <tr>
+                            <th>Nombre completo</th>
+                            <th>Cédula</th>
+                            <th>Licencia</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="officer in officers | filter:search | orderBy:'name'">
+                            <td>{{officer.name}} {{officer.last_name}} {{officer.second_last_name}}</td>
+                            <td>{{officer.identification_number}}</td>
+                            <td>{{officer.license}}</td>
+                            <td> <a ui-sref="editOfficer({id:officer.id})">Editar</a></td>
+                            <td> <a ng-click="deleteOfficer(officer.id)">Eliminar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
