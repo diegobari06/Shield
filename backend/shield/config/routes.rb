@@ -6,15 +6,23 @@ Rails.application.routes.draw do
     resources :vehicules
     get 'vehicules/find/:id' => 'vehicules#find'
     resources :houses
+    put 'houses/desocupate/:id' => 'houses#setDesocupated'
+    get 'houses/check/desocupated/' => 'houses#checkDesocupated'
+    get 'houses/notes/:id' => 'houses#findNotes'
+    resources :notes
     resources :officers
     resources :visitants
+
     get 'visitants/find/:id' => 'visitants#find'
+
+    get 'visitants/invited/find/:id' => 'visitants#findRegisteredVisitant'
+
     resources :users do
     get '/sign_in_count' => :count
     end
 
   end
-    resources :roles
+  resources :roles
 
 
   # The priority is based upon order of creation: first created -> highest priority.

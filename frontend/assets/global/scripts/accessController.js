@@ -1,4 +1,6 @@
+
 app.controller('accessController',function($scope,$state,$rootScope,$window,accessFunctions,residentsFunctions){
+
   $rootScope.container = false;
   $scope.access = function() {
       $auth.submitLogin($scope.accessForm);
@@ -76,8 +78,10 @@ app.controller('accessController',function($scope,$state,$rootScope,$window,acce
       }
 
       $scope.insertVisitor=function(){
+
         accessFunctions.insertVisitor({name: $scope.visitor_name, last_name: $scope.visitor_last_name, second_last_name: $scope.visitor_second_last_name, company_id: 3,identification_number: $scope.visitor_id_number, license_plate: $scope.visitor_license_plate,id_house: $scope.house.id}).success(function(){
-       })
+
+       });
 
       }
 //

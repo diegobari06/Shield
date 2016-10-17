@@ -18,9 +18,12 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "houses", force: :cascade do |t|
-    t.string  "house_number", limit: 45
-    t.string  "extension",    limit: 45
-    t.integer "company_id",   limit: 4
+    t.string   "house_number",              limit: 45
+    t.string   "extension",                 limit: 45
+    t.integer  "company_id",                limit: 4
+    t.integer  "is_desocupated",            limit: 1,  default: 0
+    t.datetime "desocupation_initial_time"
+    t.datetime "desocupation_limit_time"
   end
 
   add_index "houses", ["company_id"], name: "me_company_idx", using: :btree
@@ -111,14 +114,17 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "vehicules", ["house_id"], name: "me_house_idx", using: :btree
 
   create_table "visitants", force: :cascade do |t|
-    t.string   "name",                  limit: 45
-    t.string   "last_name",             limit: 45
-    t.string   "second_last_name",      limit: 45
-    t.string   "identification_number", limit: 45
-    t.string   "license_plate",         limit: 45
+    t.string   "name",                     limit: 45
+    t.string   "last_name",                limit: 45
+    t.string   "second_last_name",         limit: 45
+    t.string   "identification_number",    limit: 45
+    t.string   "license_plate",            limit: 45
     t.datetime "date_time"
-    t.integer  "id_house",              limit: 4
-    t.integer  "company_id",            limit: 4
+    t.integer  "id_house",                 limit: 4
+    t.integer  "company_id",               limit: 4
+    t.datetime "invitation_starting_time"
+    t.datetime "invitation_limit_time"
+    t.integer  "is_invited",               limit: 4,  default: 0
   end
 
   add_index "visitants", ["company_id"], name: "company_visitants_idx", using: :btree

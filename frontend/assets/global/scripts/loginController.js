@@ -19,6 +19,7 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
     }
 
     $scope.$on('auth:login-success', function(ev, user) {
+      window.user = user.id;
         usersFunctions.sign_in_count(user.id).success(function(data) {
             if (user.enabled != false) {
                 if (data.count == 1) {

@@ -4,4 +4,5 @@ class Company < ActiveRecord::Base
   has_many :vehicules
   has_many :houses
   has_many :users
+  has_many :notes
 end

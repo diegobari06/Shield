@@ -50,6 +50,22 @@ class VisitantsController < ApplicationController
     end
   end
 
+  def findRegisteredVisitant
+    @currentDate = Time.now.strftime('%d %m %y %H:%M:%S')
+    @visitant = Visitant.where("identification_number = ? and is_invited = ? and company_id = ?", params[:id], 1, params[:company_id]).last
+    if (@visitant != nil)
+    @starting_time = @visitant.invitation_starting_time.strftime('%d %m %y %H:%M:%S')
+    @limit_time = @visitant.invitation_limit_time.strftime('%d %m %y %H:%M:%S')
+      if(@currentDate.between?(@starting_time,  @limit_time))
+        render :json => @visitant
+       else
+         render :json => 0
+       end
+   else
+     render :json => 0
+   end
+  end
+
   # DELETE /visitants/1.json
   def destroy
     @visitant.destroy
@@ -64,6 +80,6 @@ class VisitantsController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def visitant_params
-      params.permit(:id,:name,:last_name,:second_last_name,:license_plate,:id_house,:company_id,:identification_number)
+      params.permit(:id,:name,:last_name,:second_last_name,:license_plate,:id_house,:company_id,:identification_number,:invitation_starting_time,:invitation_limit_time)
     end
 end

@@ -15,7 +15,10 @@ class HousesController < ApplicationController
   def new
     @house = House.new
   end
-
+  def findNotes
+    @notes = Note.where("company_id = ? and house_id =?",params[:company_id],params[:id])
+    render json: @notes, status: 200
+  end
   # GET /residents/1/edit
   def edit
   end
@@ -40,6 +43,32 @@ class HousesController < ApplicationController
     end
   end
 
+   def checkDesocupated
+    @desocupatedHouses = House.where("is_desocupated = ? and company_id = ?",1,params[:company_id])
+     @desocupatedHouses.each do |house|
+        @limitTime = house.desocupation_limit_time.strftime('%d %m %y')
+        @currentDate = Time.now.strftime('%d %m %y')
+        puts @currentDate
+        puts  @limitTime
+        if @limitTime <= @currentDate
+          house.is_desocupated = 0
+          house.desocupation_limit_time = nil
+          house.desocupation_initial_time = nil
+          house.save
+        end
+     end
+     render :json =>  @desocupatedHouses
+   end
+  def setDesocupated
+   @house = House.find(params[:id])
+   @house.is_desocupated = 1
+   if @house.update house_params
+     DesocupationMailer.desocupation_email(@house).deliver_now
+     render :json => @house
+   else
+     render json: { errors: @house.errors }, status: 422
+   end
+  end
   # DELETE /residents/1.json
   def destroy
     @house.destroy
@@ -54,6 +83,6 @@ class HousesController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def house_params
-      params.permit(:id,:house_number,:extension,:company_id)
+      params.permit(:id,:house_number,:extension,:company_id,:is_desocupated,:desocupation_initial_time,:desocupation_limit_time)
     end
 end
