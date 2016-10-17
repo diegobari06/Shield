@@ -1,4 +1,6 @@
+
 app.controller('accessController',function($scope,$state,$rootScope,$window,accessFunctions,residentsFunctions){
+
   $rootScope.container = false;
   $scope.access = function() {
       $auth.submitLogin($scope.accessForm);
@@ -56,7 +58,9 @@ app.controller('accessController',function($scope,$state,$rootScope,$window,acce
               selectBox.options.add( new Option(option.house_number, option.id) );
               }
         })
-
+      function myFunction() {
+              alert( "Handler for .change() called." );
+        }
 bootbox.confirm({
     message: '<div class="">\
     						<div class="portlet-title gray-font">\
@@ -96,7 +100,7 @@ bootbox.confirm({
                           <span class="input-group-addon">\
                           <i class="fa fa-indent"></i>\
                           </span>\
-                          <input type="text" class="form-control" id="identification_number" placeholder="Cédula">\
+                          <input type="text" class="form-control"  onchange="myFunction()" id="identification_number" placeholder="Cédula">\
                         </div>\
                       </div>\
                       <div class="form-group col-md-offset-1 col-md-10">\

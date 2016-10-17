@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    <style>
+      .content{
+      margin:0;
+      padding:25px;
+      background-color: #188ae2;
+      font-family: Raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: white;
+      line-height: 1.428571429;
+      font-size: 13px;
+    }
+
+    .text-center{
+      text-align: center;
+    }
+
+    h1{
+      position:absolute;
+      left:40px;
+    }
+    .body{
+      background-color: white;
+      width: 600px;
+      height: 220px;
+      padding: 15px;
+      color:#6a6c6f !important;
+      border-radius: 10px;
+      position:absolute;
+      top:100px;
+    }
+
+    .footer{
+      position:absolute;
+      top:340px;
+      left: 520px;
+      font-size:15px;
+      font-weight: 800px !important;
+    }
+    .logo{
+      position: absolute;
+      left:280px;
+    }
+    </style>
+  </head>
+  <body class="content" style="margin: 0;padding: 25px;background-color: #188ae2;font-family: Raleway, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;color: white;line-height: 1.428571429;font-size: 13px;">
+
+    <h1 class="" style="position: absolute;left: 40px; text-align:center;">Lighthouse Software</h1>
+    <div class="body" style="background-color: white; width:95%;padding: 2.5%;border-radius: 10px;position: absolute;top: 100px;color: #6a6c6f !important;">
+      <h2>Una casa estará deshabitada</h2>
+      <hr>
+        <h5>Por motivos de seguridad Shield le informa:</h5>
+        <p>
+        En el condominio <%= @condominium%> la casa <%= @house.house_number %> se encontrará deshabitada desde la fecha <%=@initialTime%> hasta la fecha
+        <%= @limitTime%>
+       </p>
+       <p>Esta indicacion se vera reflejada en la puerta de accesso de los oficiales para mantener todo en orden.</p>
+      <p>
+        ¡Gracias por ser parte de nuestro equipo!
+      </p>
+   </div>
+   <div class="footer" style="position: absolute;top: 340px;left: 520px;font-size: 15px;font-weight: 800px !important;">
+     <h5>© Shield - Lighthouse Software</h5>
+   </div>
+  </body>
+</html>

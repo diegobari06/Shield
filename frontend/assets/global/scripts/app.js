@@ -51,14 +51,9 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
         },
         controller: 'homeController',
         resolve: {
-            auth: function($auth) {
-
-                 if($auth.validateUser()){
-                  return $auth.validateUser();
-                }else{
-                       $state.go('login');
-                }
-            }
+          auth: function($auth) {
+            return $auth.validateUser();
+          }
         }
     }).state("residents", {
         url: "/residents",
@@ -79,11 +74,11 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 templateUrl: '../../templates/admin/footer.html'
             }
         },
-          resolve: {
-            auth: function($auth) {
-              return $auth.validateUser();
-            }
+        resolve: {
+          auth: function($auth) {
+            return $auth.validateUser();
           }
+        }
     }).state("newResident", {
         url: "/residents/new",
         views: {
@@ -304,12 +299,12 @@ app.controller('homeController', function($scope,$auth,$location,$rootScope,$tim
 
 
 
-if($rootScope.user.signedIn){
+if(window.user.signedIn){
     console.log("ha iniciado sesion");
 }
-console.log($rootScope.user);
+console.log(window.user);
   $rootScope.isAdmin = function(){
-    if($rootScope.user.signedIn && $rootScope.user.permission_level == 2){
+    if(window.user.signedIn && window.user.permission_level == 2){
         return true;
     }else{
         return false;

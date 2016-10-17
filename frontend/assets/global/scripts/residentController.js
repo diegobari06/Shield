@@ -53,13 +53,14 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
       var residentName;
       $scope.title = "Editar residente";
       $scope.button = "Editar";
+      $scope.selectedOption = {};
       residentsFunctions.getAllHouses().success(function(houses){
           $scope.houses = houses;
+            console.log(window.user);
         });
       residentsFunctions.get($stateParams.id).success(function(data) {
            $scope.name = data.name;
            $scope.residentId = data.id;
-           $scope.house = data.house_id;
            $scope.residentName = data.name;
            $scope.last_name = data.last_name;
            $scope.second_last_name = data.second_last_name;
@@ -68,7 +69,13 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
            $scope.email = data.email;
            $scope.house_id = data.house_id;
            $scope.phone_number = data.phone_number;
-
+           setTimeout(function(){
+             var house = $scope.houses.filter(function (el) {
+              return el.id == data.house_id;
+             });
+             $scope.selectedOption = house[0];
+             $scope.$apply();
+           },100);
 
       });
 
