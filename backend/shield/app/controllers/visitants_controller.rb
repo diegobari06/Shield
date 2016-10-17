@@ -20,6 +20,14 @@ class VisitantsController < ApplicationController
   def edit
   end
 
+    def find
+      @visitant = Visitant.where(identification_number: params[:id]).last;
+        if @visitant == nil
+        render :json => 0
+        else
+        render json: @visitant
+        end
+    end
 
   # POST /visitants.json
   def create

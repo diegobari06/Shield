@@ -245,7 +245,7 @@ color: #C62828;
 background-image: url("http://www.clipartbest.com/cliparts/9i4/zry/9i4zryxAT.png");
 height: 190px;
 width: 190px;
-
+margin-top: 30px;
 }
 #color-circle{
 
@@ -259,9 +259,9 @@ height: 170px;
 width: 170px;
 }
 #success-resident-image{
-background-image: url("http://www.qtem.org/files/attach/images/contact/5438/BVP%20profile%20sq%202.jpg") !important;
-height: 150px;
-width: 150px;
+height: 250px;
+width: 250px;
+margin: 0 auto;
 }
 .gray-font{
   color:#616161 !important;
@@ -275,5 +275,5 @@ width: 150px;
 }
   .center{
 
-    margin: 0 auto;
+    margin: 0 auto !important;
   }

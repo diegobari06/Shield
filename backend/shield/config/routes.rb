@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :houses
     resources :officers
     resources :visitants
+    get 'visitants/find/:id' => 'visitants#find'
     resources :users do
     get '/sign_in_count' => :count
     end

@@ -1,6 +1,8 @@
 <head>
     <link href="../../assets/global/css/components-md.css" id="style_components" rel="stylesheet" type="text/css" />
 </head>
+
+
 <div class="access-back ">
     <div class="opacity col-lg-12 col-md-12 col-sm-12">
 
@@ -35,7 +37,7 @@
                         </div>
                     </div>
                     <div class="height-6-percent col-md-12 col-sm-12 hidden-xs "></div>
-                    <button type="submit" class="btn blue font-15 col-md-offset-2 col-md-8  col-sm-12 col-xs-12 btn-access-door" ng-click="insertVisitor()" name="button">Registrar visitante</button>
+                    <button type="submit" class="btn blue font-15 col-md-offset-2 col-md-8  col-sm-12 col-xs-12 btn-access-door" ng-click="show=5" name="button">Registrar visitante</button>
 
                 </div>
 
@@ -75,14 +77,82 @@
 
                     <div class="col-md-12 col-sm-12 col-xs-12 " ng-show="show==1 ">
                         <h1 class="page-title green-font bold text-center font-30 " id="access_tittle ">Residente registrado</h1>
-                        <div class="center no-padding success-resident-image ">
-                            <img src="http://www.qtem.org/files/attach/images/contact/5438/BVP%20profile%20sq%202.jpg " alt=" " class="img-responsive img-rounded " />
+                        <div class="" id="success-resident-image">
+                            <img src="http://www.qtem.org/files/attach/images/contact/5438/BVP%20profile%20sq%202.jpg " id="success-resident-image" class="img-rounded" />
                         </div>
                         <div class="height-5-percent col-md-12 col-sm-12 hidden-xs "></div>
-                        <span class=" gray-font font-20 access_car_information col-md-12 col-sm-12 no-padding ">Nombre: Diego Barillas Valverde</span>
-                        <span class=" gray-font font-20 access_car_information col-md-8 col-sm-12 no-padding ">Cédula:<span class="font-35 bold "> 116140419</span></span>
-                        <span class="font-20 gray-font col-md-4 no-padding ">Casa: <span class="font-35 bold ">103</span></span>
+                        <span class=" gray-font font-20 access_car_information col-md-12 col-sm-12 no-padding ">Nombre: {{name}}</span>
+                        <span class=" gray-font font-20 access_car_information col-md-8 col-sm-12 no-padding ">Cédula:<span class="font-35 bold "> {{indentification}}</span></span>
+                        <span class="font-20 gray-font col-md-4 no-padding ">Casa: <span class="font-35 bold ">{{house_number}}</span></span>
 
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12 " ng-show="show==5 ">
+                        <div class="portlet-title gray-font">
+                            <div class="caption text-center font-19">
+                                Registrar visitante
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <form role="form" ng-submit="insertVisitor()">
+                                <div class="form-body">
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                        <i class="fa fa-indent"></i>
+                                        </span>
+                                            <input type="text" ng-change="getVisitor()" ng-model="visitor_id_number" class="form-control font-15" id="identification_number" placeholder="Cédula">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                    											<i class="fa fa-user"></i>
+                    											</span>
+                                            <input type="text" id="name" ng-model="visitor_name" class="form-control font-15" placeholder="Nombre">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                          <i class="fa fa-user"></i>
+                                          </span>
+                                            <input type="text" ng-model="visitor_last_name" class="form-control font-15" id="last_name" placeholder="Primer apellido">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                          <i class="fa fa-user"></i>
+                                          </span>
+                                            <input type="text" ng-model="visitor_second_last_name" class="form-control font-15" id="second_last_name" placeholder="Segundo apellido">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                          <i class="fa fa-car"></i>
+                                          </span>
+                                            <input type="text" ng-model="visitor_license_plate" class="form-control font-15" id="license_plate" placeholder="Número de placa (opcional)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group  col-md-12 no-padding">
+                                        <label class="col-md-4 col-sm-3 col-xs-5 gray-font">Número de casa</label>
+                                        <div class="form-group col-md-8 col-sm-9 col-xs-7">
+                                            <select class="form-control" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
+                                              <option value="">Seleccione una casa</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group  col-md-12 ">
+                                        <h3 class="text-right">
+                                        <button type="submit" class="btn blue">Registrar</button>
+                                        <button type="button" class="btn default">Cancelar</button>
+                                      </h3>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                 </div>
