@@ -18,20 +18,7 @@ var app = angular.module('app', ['ng-token-auth','ui.router','ngResource']).conf
 
 
 angular.module('app').config(function($stateProvider, $httpProvider) {
-  toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "positionClass": "toast-top-right",
-    "onclick": null,
-    "showDuration": "2000",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-    }
+
 
     $stateProvider.state("home", {
         url: "/home",
@@ -98,12 +85,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             "footer": {
                 templateUrl: '../../templates/admin/footer.html'
             }
-        },
-          resolve: {
-            auth: function($auth) {
-              return $auth.validateUser();
-            }
-          }
+        }
     }).state("login", {
         url: "/login",
         views: {
@@ -282,7 +264,55 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                   return $auth.validateUser();
                 }
               }
-        });
+        }).state("residents_vehicules", {
+            url: "/residente/vehiculos",
+              views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                  templateUrl: '../Residents/index_houses.html',
+                  controller: 'HousesPerHouseListController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+              },
+                resolve: {
+                  auth: function($auth) {
+                    return $auth.validateUser();
+                  }
+                }
+        }).state("residents_residents", {
+            url: "/residente/residentes",
+              views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                  templateUrl: '../Residents/index_residents.html',
+                  controller: 'HousesPerHouseListController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+              },
+                resolve: {
+                  auth: function($auth) {
+                    return $auth.validateUser();
+                  }
+                }
+        })
 
 });
 app.run(
@@ -299,16 +329,23 @@ app.controller('homeController', function($scope,$auth,$location,$rootScope,$tim
 
 
 
-if(window.user.signedIn){
+if($rootScope.user.signedIn){
     console.log("ha iniciado sesion");
+
 }
-console.log(window.user);
   $rootScope.isAdmin = function(){
-    if(window.user.signedIn && window.user.permission_level == 2){
+    if($rootScope.user.signedIn && $rootScope.user.permission_level == 2){
         return true;
     }else{
         return false;
    }
+};
+$rootScope.isAdmin = function(){
+  if($rootScope.user.signedIn && $rootScope.user.permission_level == 2){
+      return true;
+  }else{
+      return false;
+ }
 };
 
   $scope.handleSignOutBtnClick  = function(){
@@ -327,4 +364,25 @@ console.log(window.user);
 });
 app.controller('menuController', function() {
 
+})
+
+app.factory('commonMethods', function () {
+
+return {
+
+validateName: function(items,name){
+   var condition = true;
+    angular.forEach(items, function(item, index) {
+      if(item.name.toUpperCase()== name.toUpperCase()){
+         condition = false;
+      }
+    });
+     return condition;
+  },
+  waitingMessage: function(message){
+        bootbox.dialog({ message: '<div class="text-center font-15"><i class="fa fa-spin fa-spinner font-green font-20"></i>Por favor espere...</div>' })
+
+  }
+
+};
 })

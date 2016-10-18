@@ -9,12 +9,11 @@ app.controller('newUsersController', function($scope,$auth,$rootScope,$http,$sta
   });
 
   $scope.actionButton = function (){
-     usersFunctions.sign_up({email: $scope.email, confirm_success_url: "/",permission_level: 2 ,id_company :$scope.companySelected.id})
-        .success(function (data, status) {
+     usersFunctions.sign_up({email: $scope.email, confirm_success_url: "/",permission_level: 3 ,id_company :$scope.companySelected.id}).success(function (data, status) {
           $state.go('users');
        })
        .error(function (data,status) {
-         popUp.show("Email already in use");
+  alert('adfad')
        });
   }
 

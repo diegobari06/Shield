@@ -43,10 +43,10 @@
                 <div class="portlet-body form">
                     <form role="form" <div class="form-body">
                         <div class="col-md-offset-9 col-md-3">
-                            <span class=" font-15 gray-font col-md-8">Dueño de casa: </span>
-                            <div class="lg-checkbox-list col-md-4">
+                            <span class=" font-15 gray-font col-md-10">Administrador de filial: </span>
+                            <div class="lg-checkbox-list col-md-2">
                                 <div class="md-checkbox">
-                                    <input type="checkbox" id="checkbox1" class="md-check">
+                                    <input type="checkbox" id="checkbox1" ng-model="isOwner" class="md-check">
                                     <label for="checkbox1">
                                       <span></span>
                                       <span class="check"></span>
@@ -102,19 +102,19 @@
                             <div class="form-group form-md-line-input has-info">
 
 
-                                <select class="form-control" data-ng-model="selectedOption" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.house_number" required>
-                                  <option value="">Seleccione una casa</option>
+                                <select class="form-control" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
+                                  <option value=" ">Seleccione una casa</option>
                                   </select>
 
-                                <label for="form_control_1" class="font-15">Número de casa</label >
+                                <label for="form_control_1 " class="font-15 ">Número de casa</label >
 
                             </div>
 
                         </div>
-                        <div class="form-actions noborder">
-                            <h3 class="text-right">
-                            <button type="submit" class="btn blue" ><i class="fa fa-pencil "></i> {{button}}</button>
-                            <button type="button" class="btn default">Cancelar</button>
+                        <div class="form-actions noborder ">
+                            <h3 class="text-right ">
+                            <button type="submit " class="btn blue " ><i class="fa fa-pencil "></i> {{button}}</button>
+                            <button type="button " class="btn default ">Cancelar</button>
                           </h3>
                         </div>
                 </form>
@@ -126,10 +126,10 @@
         </div>
       </form>
     </div>
-    <script type="text/javascript">
+    <script type="text/javascript ">
         $('.date-picker').datepicker({
             format: 'dd-mm-yyyy',
-            language: "es",
+            language: "es ",
             autoclose: true
         });
 
@@ -144,7 +144,7 @@
             }
         }
 
-        $("#imgInp").change(function() {
+        $("#imgInp ").change(function() {
             readURL(this);
         });
     </script>

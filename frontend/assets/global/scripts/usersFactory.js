@@ -11,6 +11,12 @@ app.factory('usersFunctions', function($http){
     getAll: function(){
       return $http.get(server+'/users.json');
     },
+    delete: function(id,data){
+       return $http({
+          url: server+"companies/"+data.id_company+"/users/"+id,
+           method: 'DELETE'
+         });
+     },
     get: function(id){
       return $http.get(server+'users/'+id+'.json')
     },
@@ -24,6 +30,13 @@ app.factory('usersFunctions', function($http){
           method: 'POST',
           data: data
         });
+    },
+    update_sign_up: function(id,data){
+      return $http({
+        url: server+"companies/"+data.id_company+"/users/"+id,
+          method: 'PUT',
+          data: data
+        })
     },
     sign_in_count: function(id){
       return $http.get(server+'companies/0/users/'+id+'/sign_in_count')

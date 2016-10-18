@@ -77,9 +77,12 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "identification_number", limit: 4
     t.string  "email",                 limit: 45
     t.integer "is_owner",              limit: 1,  default: 0
+    t.integer "user_id",               limit: 4
+
   end
 
   add_index "residents", ["company_id"], name: "me_company_idx", using: :btree
+  add_index "residents", ["user_id"], name: "residents_user_idx", using: :btree
 
   create_table "rol", force: :cascade do |t|
     t.string "name", limit: 45
@@ -121,11 +124,13 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "rol_id",                 limit: 4
     t.boolean  "enabled",                              default: true
     t.integer  "company_id",             limit: 4
+    t.integer  "resident_id",            limit: 4
   end
 
   add_index "users", ["company_id"], name: "users_company_idx", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["resident_id"], name: "users_resident_idx", using: :btree
   add_index "users", ["rol_id"], name: "fk_users_rol_idx", using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
@@ -180,8 +185,10 @@ ActiveRecord::Schema.define(version: 0) do
   add_foreign_key "notes", "houses", name: "house_note"
   add_foreign_key "officers", "companies", name: "officers_company"
   add_foreign_key "residents", "companies", name: "residents_company"
+  add_foreign_key "residents", "users", name: "residents_user"
   add_foreign_key "shifts", "companies", name: "company_shift"
   add_foreign_key "users", "companies", name: "users_company"
+  add_foreign_key "users", "residents", name: "users_resident"
   add_foreign_key "users", "rol", name: "fk_users_rol"
   add_foreign_key "vehicules", "companies", name: "vehicules_company"
   add_foreign_key "vehicules", "houses", name: "vehicules_house"
