@@ -4,11 +4,12 @@ app.controller('HousesListController',function($scope,$state,$rootScope,$window,
           $scope.houses = houses;})
 
           $scope.deleteHouse=function(id){
-              bootbox.confirm("Are you sure?", function(result) {
+              bootbox.confirm("¿Desea eliminar esta casa?", function(result) {
                   if(result){
                       housesFunctions.delete(id).success(function(){
                           housesFunctions.getAll().success(function(houses){
                               $scope.houses = houses;})
+                              toastr["success"]("Se ha eliminado la casa correctamente");
                           });
                   }
               });
@@ -16,7 +17,7 @@ app.controller('HousesListController',function($scope,$state,$rootScope,$window,
 });
 
 
-app.controller('HousesCreateController',function($scope,$http,$rootScope,$state,housesFunctions){
+app.controller('HousesCreateController',function($scope,$http,$rootScope,$state,housesFunctions,commonMethods){
   $rootScope.active = "houses";
       $scope.title = "Registrar casa";
         $scope.button = "Registrar";
@@ -25,10 +26,13 @@ app.controller('HousesCreateController',function($scope,$http,$rootScope,$state,
 
            housesFunctions.getAll().success(function(houses){
               //  if(commonMethods.validateName(residents,$scope.residentName)){
+                commonMethods.waitingMessage();
                     housesFunctions.insert({house_number: $scope.house_number,extension: $scope.extension,company_id:3}).success(function(){
+                            bootbox.hideAll();
                           $state.go('houses');
+                          toastr["success"]("Se registró la casa correctamente");
 
-                          // popUp.success("Resident has been created successfully");
+
                     })
               //  } else {
               //       popUp.show("Resident name already exist.");

@@ -51,7 +51,12 @@ class ResidentsController < ApplicationController
 
   # DELETE /residents/1.json
   def destroy
+    @user = User.where(resident_id: params[:id]).last
+    if @user != nil
+      @user.destroy
+    end
     @resident.destroy
+
     head 204 # The server has processed the request and doesn't return any content
   end
 
@@ -63,6 +68,6 @@ class ResidentsController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def resident_params
-      params.permit(:id,:name,:last_name,:second_last_name,:phone_number,:birthday,:email,:picture,:house_id,:company_id,:identification_number,:is_owner)
+      params.permit(:id,:name,:last_name,:second_last_name,:phone_number,:birthday,:email,:picture,:house_id,:company_id,:identification_number,:is_owner,:user_id)
     end
 end

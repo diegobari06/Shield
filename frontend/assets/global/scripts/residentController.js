@@ -1,5 +1,5 @@
 'use strict';
-app.controller('ResidentsListController',function($scope,$state,$rootScope,$window,residentsFunctions){
+app.controller('ResidentsListController',function($scope,$state,$rootScope,$window,residentsFunctions,usersFunctions){
       $rootScope.active = "residents";
       residentsFunctions.getAll().success(function(residents){
           $scope.residents = residents;})
@@ -10,14 +10,16 @@ app.controller('ResidentsListController',function($scope,$state,$rootScope,$wind
           $scope.deleteResident=function(id){
               bootbox.confirm("Are you sure?", function(result) {
                   if(result){
-                      residentsFunctions.delete(id).success(function(){
-                          residentsFunctions.getAll().success(function(residents){
-                              $scope.residents = residents;})
+                          residentsFunctions.delete(id).success(function(){
+                                residentsFunctions.getAll().success(function(residents){
+                                    $scope.residents = residents;})
+
+
                           });
+
                    }
               });
         }
-
 
 });
 
@@ -27,7 +29,7 @@ app.controller('ResidentsViewController',function($scope,$http,$state,$rootScope
          $scope.residents = residents;
       })
  });
-app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$state,residentsFunctions){
+app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$state,residentsFunctions,usersFunctions,commonMethods){
       $rootScope.active = "residents";
       $scope.title = "Nuevo residente";
       $scope.button = "Registrar";
@@ -36,27 +38,34 @@ app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$sta
       })
       $scope.actionButton = function(){
            residentsFunctions.getAll().success(function(residents){
-              //  if(commonMethods.validateName(residents,$scope.residentName)){
-                    residentsFunctions.insert({name: $scope.name, last_name: $scope.last_name, second_last_name: $scope.second_last_name, company_id: 2,identification_number: $scope.identification_number, birthday: $scope.birthday, email: $scope.email, house_id: 7, phone_number: $scope.phone_number}).success(function(){
-                          $state.go('residents');
-                          // popUp.success("Resident has been created successfully");
+             var number = 0;
+                    residentsFunctions.insert({name: $scope.name, last_name: $scope.last_name, second_last_name: $scope.second_last_name,company_id: $rootScope.user.company_id ,identification_number: $scope.identification_number, birthday: $scope.birthday, email: $scope.email, house_id: $scope.house.id, phone_number: $scope.phone_number, isOwner: number}).success(function(dataResident){
+                    commonMethods.waitingMessage();
+                          if($scope.isOwner){
+                            usersFunctions.sign_up({email: $scope.email, confirm_success_url: "/",permission_level: 1 ,id_company : 3, resident_id:dataResident.id}).success(function (data) {
+                              residentsFunctions.update(dataResident.id,{user_id: data.id, is_owner: 1, number: 1}).success(function(data){
+                                    bootbox.hideAll();
+                                      $state.go('residents');
+                                        toastr["success"]("Se ha registrado el usuario correctamente");
+                              });
+                              });
+                          } else{
+                            bootbox.hideAll();
+                              $state.go('residents');
+                                  toastr["success"]("Se ha registrado el usuario correctamente");
+                          }
                     })
-              //  } else {
-              //       popUp.show("Resident name already exist.");
-              //  }
-
            });
      }
 });
-app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions){
+app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions,usersFunctions){
       $rootScope.active = "residents";
-      var residentName;
+      var residentName,isOwner,user_id;
       $scope.title = "Editar residente";
       $scope.button = "Editar";
       $scope.selectedOption = {};
       residentsFunctions.getAllHouses().success(function(houses){
           $scope.houses = houses;
-            console.log(window.user);
         });
       residentsFunctions.get($stateParams.id).success(function(data) {
            $scope.name = data.name;
@@ -69,6 +78,12 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
            $scope.email = data.email;
            $scope.house_id = data.house_id;
            $scope.phone_number = data.phone_number;
+           isOwner = data.is_owner;
+           user_id = data.user_id;
+           if(data.is_owner ==1){
+
+             $("#checkbox1").prop("checked", true);
+           }
            setTimeout(function(){
              var house = $scope.houses.filter(function (el) {
               return el.id == data.house_id;
@@ -80,18 +95,33 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
       });
 
       $scope.actionButton = function(){
-          //  residentsFunctions.getAll().success(function(residentsFunctions){
-              //  if(commonMethods.validateName(subcategories,$scope.residentName) == true | $scope.residentName == residentName){
-              residentsFunctions.update($scope.residentId,{name: $scope.name, last_name: $scope.last_name, second_last_name: $scope.second_last_name, company_id: 2,identification_number: $scope.identification_number, birthday: $scope.birthday, email: $scope.email, house_id: 7, phone_number: $scope.phone_number}).success(function(){
+        var number = 0;
+        var makeAcccion;
 
-                    $state.go('residents');
-                    // popUp.success("Resident has been created successfully");
+               if($scope.isOwner && isOwner == 0){
+                   number = 1
+                   makeAcccion = 1;
+               } else if($('#checkbox1').prop('checked') == false && isOwner == 1){
+                    makeAcccion = 2;
+
+               }
+              residentsFunctions.update($scope.residentId,{name: $scope.name, last_name: $scope.last_name, second_last_name: $scope.second_last_name, company_id: 3,identification_number: $scope.identification_number, birthday: $scope.birthday, email: $scope.email, house_id: 7, phone_number: $scope.phone_number, isOwner: number}).success(function(dataResident){
+                    if(makeAcccion == 1){
+                      usersFunctions.sign_up({email: $scope.email, confirm_success_url: "/",permission_level: 1 ,id_company : 3, resident_id:data.id}).success(function (data, status) {
+                              residentsFunctions.update(dataResident.id,{user_id: data.id, is_owner: 1}).success(function(data){
+                                $state.go('residents');
+                              });
+                        });
+                    } else if(makeAcccion == 2){
+                        usersFunctions.update_sign_up(user_id,{id_company: 3,enabled: 0});
+                              $state.go('residents');
+                    } else{
+                        $state.go('residents');
+                    }
+
+
               });
-              //  } else {
-              //       popUp.show("Resident name already exist.");
-              // }
 
-          // });
      };
 
 
@@ -126,7 +156,14 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
         return $http.get('http://localhost:3000/companies/3/houses');
          },
          get: function(id){
-           return $http.get('http://localhost:3000/companies/2/residents/'+id)
+           return $http.get('http://localhost:3000/companies/3/residents/'+id)
+         },
+         deleteUser: function(id){
+           return $http({
+               url: 'http://localhost:3000/companies/3/users/deleteByResident/'+id,
+               method: 'DELETE'
+             });
+
          }
        };
  });
