@@ -5,4 +5,5 @@ class Company < ActiveRecord::Base
   has_many :houses
   has_many :users
   has_many :notes
+  has_one :company_configuration
 end

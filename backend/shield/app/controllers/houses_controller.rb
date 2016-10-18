@@ -19,6 +19,11 @@ class HousesController < ApplicationController
     @notes = Note.where("company_id = ? and house_id =?",params[:company_id],params[:id])
     render json: @notes, status: 200
   end
+
+  def findvisitors
+    @visitors = Visitant.where("company_id = ? and house_id =? and date_time = ?",params[:company_id],params[:id],params[:date_time])
+    render json: @visitors, status: 200
+  end
   # GET /residents/1/edit
   def edit
   end
@@ -26,12 +31,19 @@ class HousesController < ApplicationController
 
   # POST /residents.json
   def create
+    @quantity_allowed = CompanyConfiguration.where(company_id:  params[:company_id]).last.quantity_houses
+    @quantity_registered = House.where(company_id:  params[:company_id]).count
+
+    if(@quantity_registered == @quantity_allowed)
+      render json: 'Limite de viviendas registradas alcanzado.'
+    else
     @house = House.new(house_params)
     if @house.save
       render json: @house, status: 200
     else
       render json: { errors: @house.errors }, status: 422
     end
+  end
   end
 
   # PATCH/PUT /residents/1.json

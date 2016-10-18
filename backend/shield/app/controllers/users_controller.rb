@@ -24,6 +24,12 @@ class UsersController < ApplicationController
 
    # POST /categories.json
   def create
+    @quantity_allowed = CompanyConfiguration.where(company_id:  params[:company_id]).last.quantity_admins
+    @quantity_registered = User.where("company_id = ? and permission_level = ?",params[:company_id], 3).count
+
+    if(@quantity_registered == @quantity_allowed)
+      render json: 'Limite de administradores registradas alcanzado.'
+    else
     @user = User.new(user_params)
     @user.set_password
     if @user.save
@@ -41,6 +47,7 @@ class UsersController < ApplicationController
     else
       render json: { errors: @users.errors }, status: 422
     end
+  end
   end
 
   def user_params

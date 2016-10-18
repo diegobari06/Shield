@@ -13,9 +13,25 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "access_doors", force: :cascade do |t|
+    t.string  "name",       limit: 45
+    t.integer "company_id", limit: 4
+  end
+
+  add_index "access_doors", ["company_id"], name: "company_door_idx", using: :btree
+
   create_table "companies", force: :cascade do |t|
     t.string "name", limit: 45
   end
+
+  create_table "company_configurations", force: :cascade do |t|
+    t.integer "quantity_houses",      limit: 4, default: 0
+    t.integer "quantity_admins",      limit: 4, default: 0
+    t.integer "quantity_access_door", limit: 4, default: 0
+    t.integer "company_id",           limit: 4
+  end
+
+  add_index "company_configurations", ["company_id"], name: "company_configuration_idx", using: :btree
 
   create_table "houses", force: :cascade do |t|
     t.string   "house_number",              limit: 45
@@ -27,6 +43,16 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   add_index "houses", ["company_id"], name: "me_company_idx", using: :btree
+
+  create_table "notes", force: :cascade do |t|
+    t.string  "description", limit: 1000
+    t.integer "company_id",  limit: 4
+    t.integer "house_id",    limit: 4
+    t.string  "note_type",   limit: 45
+  end
+
+  add_index "notes", ["company_id"], name: "company_note_idx", using: :btree
+  add_index "notes", ["house_id"], name: "house_note_idx", using: :btree
 
   create_table "officers", force: :cascade do |t|
     t.string  "name",                  limit: 45
@@ -50,6 +76,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "company_id",            limit: 4
     t.integer "identification_number", limit: 4
     t.string  "email",                 limit: 45
+    t.integer "is_owner",              limit: 1,  default: 0
   end
 
   add_index "residents", ["company_id"], name: "me_company_idx", using: :btree
@@ -130,7 +157,27 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "visitants", ["company_id"], name: "company_visitants_idx", using: :btree
   add_index "visitants", ["id_house"], name: "house_visitants_idx", using: :btree
 
+  create_table "watches", force: :cascade do |t|
+    t.datetime "initital_time"
+    t.datetime "final_time"
+    t.integer  "company_id",    limit: 4
+  end
+
+  add_index "watches", ["company_id"], name: "watch_company_idx", using: :btree
+
+  create_table "watches_officers", force: :cascade do |t|
+    t.integer "watch_id",   limit: 4
+    t.integer "officer_id", limit: 4
+  end
+
+  add_index "watches_officers", ["officer_id"], name: "ok_officer_idx", using: :btree
+  add_index "watches_officers", ["watch_id"], name: "pk_watch_idx", using: :btree
+
+  add_foreign_key "access_doors", "companies", name: "company_door"
+  add_foreign_key "company_configurations", "companies", name: "company_configuration"
   add_foreign_key "houses", "companies", name: "houses_company"
+  add_foreign_key "notes", "companies", name: "company_note"
+  add_foreign_key "notes", "houses", name: "house_note"
   add_foreign_key "officers", "companies", name: "officers_company"
   add_foreign_key "residents", "companies", name: "residents_company"
   add_foreign_key "shifts", "companies", name: "company_shift"
@@ -140,4 +187,7 @@ ActiveRecord::Schema.define(version: 0) do
   add_foreign_key "vehicules", "houses", name: "vehicules_house"
   add_foreign_key "visitants", "companies", name: "company_visitants"
   add_foreign_key "visitants", "houses", column: "id_house", name: "house_visitants"
+  add_foreign_key "watches", "companies", name: "watch_company"
+  add_foreign_key "watches_officers", "officers", name: "ok_officer"
+  add_foreign_key "watches_officers", "watches", name: "pk_watch"
 end

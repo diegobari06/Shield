@@ -12,15 +12,14 @@ Rails.application.routes.draw do
     resources :notes
     resources :officers
     resources :visitants
-
+    resources :watches
+    resources :company_configuration
     get 'visitants/find/:id' => 'visitants#find'
-
     get 'visitants/invited/find/:id' => 'visitants#findRegisteredVisitant'
-
+    resources :access_door
     resources :users do
     get '/sign_in_count' => :count
     end
-
   end
   resources :roles
 
