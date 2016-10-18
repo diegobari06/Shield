@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     put 'houses/desocupate/:id' => 'houses#setDesocupated'
     get 'houses/check/desocupated/' => 'houses#checkDesocupated'
     get 'houses/notes/:id' => 'houses#findNotes'
+    get 'houses/find/vehicules/:id' => 'houses#findVehicules'
+    get 'houses/find/residents/:id' => 'houses#findResidents'
+    get 'houses/find/visitants/:id' => 'houses#findVisitants'
     resources :notes
     resources :officers
     resources :visitants

@@ -46,6 +46,18 @@ class HousesController < ApplicationController
   end
   end
 
+def findVehicules
+  @vehicules = Vehicule.where("company_id = ? and house_id = ?", params[:company_id],params[:id])
+  render json: @vehicules, status: 200
+end
+def findResidents
+  @vehicules = Resident.where("company_id = ? and house_id = ?", params[:company_id],params[:id])
+  render json: @vehicules, status: 200
+end
+def findVisitants
+  @visitants = Visitant.where("company_id = ? and id_house = ?", params[:company_id],params[:id])
+  render json: @visitants, status: 200
+end
   # PATCH/PUT /residents/1.json
   def update
     if @house.update house_params
