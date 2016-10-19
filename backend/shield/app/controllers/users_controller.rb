@@ -51,13 +51,18 @@ class UsersController < ApplicationController
   end
 
   def user_params
-       params.permit(:name, :session, :password, :password_confirmation, :email,:nickname,:permission_level,:rol_id,:id,:enabled,:company_id)
+       params.permit(:name, :session, :password, :password_confirmation, :email,:nickname,:permission_level,:rol_id,:id,:enabled,:company_id, :resident_id)
   end
 
   def destroy
-    @user = User.find(params[:id]);
+    @user = User.find(params[:id])
     @user.destroy
     head 204 # The server has processed the request and doesn't return any content
   end
+
+  # def destroyWithResident
+  #   @user = User.where(resident_id: params[:id])
+  #   @user.destroy
+  # end
 
 end

@@ -1,3 +1,4 @@
+
 app.controller('HousesListController', function($scope, $state, $rootScope, $window, housesFunctions) {
     $rootScope.active = "houses";
     housesFunctions.getAll().success(function(houses) {
@@ -9,17 +10,17 @@ app.controller('HousesListController', function($scope, $state, $rootScope, $win
         $scope.houses = houses;
     })
 
-    $scope.deleteHouse = function(id) {
-        bootbox.confirm("Are you sure?", function(result) {
-            if (result) {
-                housesFunctions.delete(id).success(function() {
-                    housesFunctions.getAll().success(function(houses) {
-                        $scope.houses = houses;
-                    })
-                });
-            }
-        });
-    }
+    $scope.deleteHouse=function(id){
+            bootbox.confirm("¿Desea eliminar esta casa?", function(result) {
+                if(result){
+                    housesFunctions.delete(id).success(function(){
+                        housesFunctions.getAll().success(function(houses){
+                            $scope.houses = houses;})
+                            toastr["success"]("Se ha eliminado la casa correctamente");
+                        });
+                }
+            });
+      }
 });
 
 
@@ -29,24 +30,22 @@ app.controller('HousesCreateController', function($scope, $http, $rootScope, $st
     $scope.button = "Registrar";
     $scope.isLoading = true;
     $scope.actionButton = function() {
-        housesFunctions.getAll().success(function(houses) {
-            $scope.isLoading = false;
-            //  if(commonMethods.validateName(residents,$scope.residentName)){
-            housesFunctions.insert({
-                    house_number: $scope.house_number,
-                    extension: $scope.extension,
-                    company_id: 3
-                }).success(function() {
-                    $state.go('houses');
 
-                    // popUp.success("Resident has been created successfully");
-                })
-                //  } else {
-                //       popUp.show("Resident name already exist.");
-                //  }
+            housesFunctions.getAll().success(function(houses){
 
-        });
+                 commonMethods.waitingMessage();
+                     housesFunctions.insert({house_number: $scope.house_number,extension: $scope.extension,company_id:3}).success(function(){
+                             bootbox.hideAll();
+                           $state.go('houses');
+                           toastr["success"]("Se registró la casa correctamente");
+
+
+                     })
+
+
+            });
     }
+
 });
 
 

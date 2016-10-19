@@ -1,4 +1,4 @@
-app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state, usersFunctions) {
+app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state, usersFunctions,residentsFunctions) {
 
   $scope.isRequestiongPassword = false;
 
@@ -25,6 +25,10 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
                 if (data.count == 1) {
                     $state.go('changePassword');
                 } else {
+              residentsFunctions.get(user.resident_id).success(function(data) {
+                    $rootScope.user.profile_name = data.name + " " +data.last_name ;
+              });
+
                   if (user.permission_level == 3) {
                     $state.go('access');
                   } else {
@@ -49,6 +53,7 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
 
     $scope.$on('auth:password-change-success', function(ev) {
           toastr["success"]("Se ha cambiado tu contraseña exitosamente");
+          debugger;
         $state.go('residents');
     });
 

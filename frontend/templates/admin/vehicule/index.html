@@ -43,12 +43,12 @@
         <button type="submit" class="btn green col-md-2 small-margin-bottom" ui-sref="newVehicule()">Registrar vehículo</button>
 
         <div class="portlet-body ">
-          <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
-              <h1 class="text-center">
+            <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
+                <h1 class="text-center">
           <img src="../../assets/global/img/loader4.gif" alt="" />
           <h6 class="text-center">Cargando...</h6>
         </h1>
-          </div>
+            </div>
             <div class="table-scrollable loading" id="tableData">
                 <table class="table table-striped table-hover font-12">
                     <thead>
@@ -72,8 +72,12 @@
                 </table>
             </div>
         </div>
-        <script>
-            jQuery(document).ready(function() {
-                $("#loadingIcon").fadeIn("slow");
-            });
-        </script>
+
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+        $("#loadingIcon").fadeIn("slow");
+    });
+</script>

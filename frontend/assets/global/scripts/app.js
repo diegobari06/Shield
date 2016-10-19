@@ -18,20 +18,7 @@ var app = angular.module('app', ['ng-token-auth','ui.router','ngResource']).conf
 
 
 angular.module('app').config(function($stateProvider, $httpProvider) {
-  toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "positionClass": "toast-top-right",
-    "onclick": null,
-    "showDuration": "2000",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-    }
+
 
     $stateProvider.state("home", {
         url: "/home",
@@ -56,14 +43,14 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
           }
         }
     }).state("residents", {
-        url: "/residents",
+        url: "/residentes",
         views: {
             "header": {
                 templateUrl: '../../templates/admin/header.html',
                 controller: 'homeController'
             },
             "body": {
-                templateUrl: 'resident/index_resident.html',
+                templateUrl: 'resident/index.html',
                 controller: 'ResidentsListController'
             },
             "menu": {
@@ -80,7 +67,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
           }
         }
     }).state("newResident", {
-        url: "/residents/new",
+        url: "/residentes/nuevo",
         views: {
 
             "header": {
@@ -88,7 +75,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 controller: 'homeController'
             },
             "body": {
-                templateUrl: 'resident/new_resident.html',
+                templateUrl: 'resident/form.html',
                 controller: 'ResidentsCreateController'
             },
             "menu": {
@@ -98,12 +85,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             "footer": {
                 templateUrl: '../../templates/admin/footer.html'
             }
-        },
-          resolve: {
-            auth: function($auth) {
-              return $auth.validateUser();
-            }
-          }
+        }
     }).state("login", {
         url: "/login",
         views: {
@@ -122,7 +104,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
         }
 
     }).state("changePassword", {
-        url: "/changePassword",
+        url: "/cambiarContraseña",
         views: {
             "login": {
                 templateUrl: '../Login/change_password.html',
@@ -132,7 +114,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
         }
 
       }).state("editResident", {
-            url: "/resident/:id/edit",
+            url: "/residentes/:id/editar",
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: 'resident/new_resident.html', controller: 'ResidentsEditController'},
@@ -145,7 +127,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
               }
       }).state("houses", {
-            url: "/houses",
+            url: "/casas",
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: 'house/index.html', controller: 'HousesListController'},
@@ -158,7 +140,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
               }
       }).state("newHouse", {
-            url: "/houses/new",
+            url: "/casas/nuevo",
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: 'house/form.html', controller: 'HousesCreateController'},
@@ -171,7 +153,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
               }
       }).state("editHouse", {
-            url: "/house/:id/edit",
+            url: "/casas/:id/editar",
             views: {
               "header": {templateUrl: '../../templates/admin/header.html',  controller: 'homeController'},
               "body":  {templateUrl: 'house/form.html', controller: 'HousesEditController'},
@@ -282,7 +264,55 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                   return $auth.validateUser();
                 }
               }
-        });
+        }).state("residents_vehicules", {
+            url: "/residente/vehiculos",
+              views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                  templateUrl: '../Residents/index_houses.html',
+                  controller: 'HousesPerHouseListController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+              },
+                resolve: {
+                  auth: function($auth) {
+                    return $auth.validateUser();
+                  }
+                }
+        }).state("residents_residents", {
+            url: "/residente/residentes",
+              views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                  templateUrl: '../Residents/index_residents.html',
+                  controller: 'HousesPerHouseListController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+              },
+                resolve: {
+                  auth: function($auth) {
+                    return $auth.validateUser();
+                  }
+                }
+        })
 
 });
 app.run(
@@ -297,18 +327,23 @@ app.run(
 
 app.controller('homeController', function($scope,$auth,$location,$rootScope,$timeout,$state,$window) {
 
-
-
-if(window.user.signedIn){
+if($rootScope.user.signedIn){
     console.log("ha iniciado sesion");
+
 }
-console.log(window.user);
   $rootScope.isAdmin = function(){
-    if(window.user.signedIn && window.user.permission_level == 2){
+    if($rootScope.user.signedIn && $rootScope.user.permission_level == 2){
         return true;
     }else{
         return false;
    }
+};
+$rootScope.isResident = function(){
+  if($rootScope.user.signedIn && $rootScope.user.permission_level == 1){
+      return true;
+  }else{
+      return false;
+ }
 };
 
   $scope.handleSignOutBtnClick  = function(){
@@ -327,4 +362,53 @@ console.log(window.user);
 });
 app.controller('menuController', function() {
 
+})
+
+app.factory('commonMethods', function () {
+
+    return {
+
+    validateName: function(items,name){
+        var condition = true;
+        angular.forEach(items, function(item, index) {
+          if(item.name.toUpperCase()== name.toUpperCase()){
+             condition = false;
+          }
+        });
+        return condition;
+      },
+      waitingMessage: function(message){
+            bootbox.dialog({ message: '<div class="text-center font-15"><i class="fa fa-spin fa-spinner font-green font-20"></i>Por favor espere...</div>' })
+
+      },
+      validateLetters: function(){
+        $(".letters").keypress(function (key) {
+              if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+                  && (key.charCode < 65 || key.charCode > 90) //letras minusculas
+                  && (key.charCode != 45) //retroceso
+                  && (key.charCode != 241) //ñ
+                   && (key.charCode != 209) //Ñ
+                   && (key.charCode != 32) //espacio
+                   && (key.charCode != 225) //á
+                   && (key.charCode != 233) //é
+                   && (key.charCode != 237) //í
+                   && (key.charCode != 243) //ó
+                   && (key.charCode != 250) //ú
+                   && (key.charCode != 193) //Á
+                   && (key.charCode != 201) //É
+                   && (key.charCode != 205) //Í
+                   && (key.charCode != 211) //Ó
+                   && (key.charCode != 218) //Ú
+
+                  )
+                  return false;
+          });
+      },
+      validateNumbers: function(){
+        jQuery('.numbers').keypress(function(tecla) {
+          if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+      }
+
+    };
 })
