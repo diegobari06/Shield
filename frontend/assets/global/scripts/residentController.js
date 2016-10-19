@@ -1,14 +1,27 @@
 'use strict';
-app.controller('ResidentsListController',function($scope,$state,$rootScope,$window,residentsFunctions,usersFunctions){
+app.controller('ResidentsListController',function($scope,$state,$rootScope,$window,residentsFunctions,usersFunctions,commonMethods){
       $rootScope.active = "residents";
       residentsFunctions.getAll().success(function(residents){
-          $scope.residents = residents;})
+          $scope.residents = residents;
+    })
 
           residentsFunctions.getAllHouses().success(function(houses){
               $scope.houses = houses;
           })
-          $scope.deleteResident=function(id){
-              bootbox.confirm("Are you sure?", function(result) {
+          $scope.deleteResident=function(id,name,last_name){
+            bootbox.confirm({
+                message: "¿Está seguro que desea eliminar al residente " + name + " "+last_name + "?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
                   if(result){
                           residentsFunctions.delete(id).success(function(){
                                 residentsFunctions.getAll().success(function(residents){
@@ -18,7 +31,12 @@ app.controller('ResidentsListController',function($scope,$state,$rootScope,$wind
                           });
 
                    }
-              });
+                }
+            });
+
+
+
+
         }
 
 });
@@ -33,6 +51,8 @@ app.controller('ResidentsCreateController',function($scope,$http,$rootScope,$sta
       $rootScope.active = "residents";
       $scope.title = "Nuevo residente";
       $scope.button = "Registrar";
+      commonMethods.validateLetters();
+      commonMethods.validateNumbers();
       residentsFunctions.getAllHouses().success(function(houses){
           $scope.houses = houses;
       })

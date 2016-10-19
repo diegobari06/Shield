@@ -1,9 +1,11 @@
-app.controller('HousesListController',function($scope,$state,$rootScope,$window,housesFunctions){
-          $rootScope.active = "houses";
+app.controller('HousesListController',function($scope,$state,$rootScope,$window,housesFunctions,commonMethods){
+      $rootScope.active = "houses";
+  
       housesFunctions.getAll().success(function(houses){
-          $scope.houses = houses;})
+          $scope.houses = houses;
+})
 
-          $scope.deleteHouse=function(id){
+      $scope.deleteHouse=function(id){
               bootbox.confirm("¿Desea eliminar esta casa?", function(result) {
                   if(result){
                       housesFunctions.delete(id).success(function(){

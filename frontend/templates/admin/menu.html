@@ -80,28 +80,28 @@
 
             </li>
 
-            <li>
-                <li class="start" ng-class="{ 'active' : active === 'officers'} ">
-                    <a href="javascript:;">
-                        <i class="fa fa-lock" aria-hidden="true"></i>
-                        <span class="title "> Administrar</span>
-                        <span class="arrow "></span>
-                        <span class="selected "></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li ui-sref="residents_vehicules()" ng-class="{ 'active' : active === 'officers'}">
-                            <a href="">
-                                <i class="fa fa-shield" aria-hidden="true"></i> Residentes
-                            </a>
-                        </li>
-                        <li ui-sref="residents_residents()">
-                            <a href="">
-                                <i class="fa fa-clock-o" aria-hidden="true"></i> Vehiculos
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+
+            <li ng-show="isResident()" class="start" ng-class="{ 'active' : active === 'officers'} ">
+                <a href="javascript:;">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <span class="title "> Administrar</span>
+                    <span class="arrow "></span>
+                    <span class="selected "></span>
+                </a>
+                <ul class="sub-menu">
+                    <li ui-sref="residents_vehicules()" ng-class="{ 'active' : active === 'officers'}">
+                        <a href="">
+                            <i class="fa fa-shield" aria-hidden="true"></i> Residentes
+                        </a>
+                    </li>
+                    <li ui-sref="residents_residents()">
+                        <a href="">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i> Vehiculos
+                        </a>
+                    </li>
+                </ul>
             </li>
+
             <!-- END ANGULARJS LINK -->
             <!-- <li class="heading">
         <h3 class="uppercase">Features</h3>
