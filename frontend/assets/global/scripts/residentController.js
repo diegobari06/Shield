@@ -1,9 +1,15 @@
 'use strict';
+
 app.controller('ResidentsListController',function($scope,$state,$rootScope,$window,residentsFunctions,usersFunctions,commonMethods){
       $rootScope.active = "residents";
-      residentsFunctions.getAll().success(function(residents){
+      residentsFunctions.getAll().success(function(residents) {
+          $("#loadingIcon").fadeOut(200);
+          setTimeout(function() {
+              $("#tableData").fadeIn(500);
+          }, 600)
+
           $scope.residents = residents;
-    })
+      })
 
           residentsFunctions.getAllHouses().success(function(houses){
               $scope.houses = houses;
@@ -35,12 +41,9 @@ app.controller('ResidentsListController',function($scope,$state,$rootScope,$wind
             });
 
 
-
-
-        }
+};
 
 });
-
 app.controller('ResidentsViewController',function($scope,$http,$state,$rootScope,$stateParams,$timeout,residentsFunctions){
       $rootScope.active = "residents";
       residentsFunctions.getAll().success(function(residents){
@@ -112,40 +115,9 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
              $scope.$apply();
            },100);
 
-      });
 
-      $scope.actionButton = function(){
-        var number = 0;
-        var makeAcccion;
-
-               if($scope.isOwner && isOwner == 0){
-                   number = 1
-                   makeAcccion = 1;
-               } else if($('#checkbox1').prop('checked') == false && isOwner == 1){
-                    makeAcccion = 2;
-
-               }
-              residentsFunctions.update($scope.residentId,{name: $scope.name, last_name: $scope.last_name, second_last_name: $scope.second_last_name, company_id: 3,identification_number: $scope.identification_number, birthday: $scope.birthday, email: $scope.email, house_id: 7, phone_number: $scope.phone_number, isOwner: number}).success(function(dataResident){
-                    if(makeAcccion == 1){
-                      usersFunctions.sign_up({email: $scope.email, confirm_success_url: "/",permission_level: 1 ,id_company : 3, resident_id:data.id}).success(function (data, status) {
-                              residentsFunctions.update(dataResident.id,{user_id: data.id, is_owner: 1}).success(function(data){
-                                $state.go('residents');
-                              });
-                        });
-                    } else if(makeAcccion == 2){
-                        usersFunctions.update_sign_up(user_id,{id_company: 3,enabled: 0});
-                              $state.go('residents');
-                    } else{
-                        $state.go('residents');
-                    }
-
-
-              });
-
-     };
-
-
- });
+});
+});
 
  app.factory('residentsFunctions', function($http){
       return {
@@ -187,3 +159,40 @@ app.controller('ResidentsEditController',function($scope,$http,$state,$rootScope
          }
        };
  });
+=======
+});
+
+app.factory('residentsFunctions', function($http) {
+    return {
+        insert: function(data) {
+            return $http({
+                url: "http://localhost:3000/companies/3/residents",
+                method: 'POST',
+                data: data
+            });
+        },
+        update: function(id, data) {
+            return $http({
+                url: "http://localhost:3000/companies/3/residents/" + id,
+                method: 'PUT',
+                data: data
+            });
+        },
+        delete: function(id) {
+            return $http({
+                url: "http://localhost:3000/companies/3/residents/" + id,
+                method: 'DELETE'
+            });
+        },
+        getAll: function() {
+            return $http.get('http://localhost:3000/companies/3/residents');
+        },
+        getAllHouses: function() {
+            return $http.get('http://localhost:3000/companies/3/houses');
+        },
+        get: function(id) {
+            return $http.get('http://localhost:3000/companies/2/residents/' + id)
+        }
+    };
+});
+>>>>>>> origin/master
