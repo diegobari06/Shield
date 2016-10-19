@@ -24,8 +24,6 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
             }
         });
     }
-
-
 });
 
 app.controller('ResidentsViewController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions) {
