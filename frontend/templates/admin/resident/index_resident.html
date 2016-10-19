@@ -91,7 +91,13 @@
 
         <!-- <input type="text" name="name" value="" ng-model="search" placeholder="Buscar residente" class="search-bar col-md-2"> -->
         <div class="portlet-body ">
-            <div class="table-scrollable ">
+            <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
+                <h1 class="text-center">
+            <img src="../../assets/global/img/loader4.gif" alt="" />
+            <h6 class="text-center">Cargando...</h6>
+          </h1>
+            </div>
+            <div class="table-scrollable loading" id="tableData">
                 <table class="table table-striped table-hover font-12">
                     <thead>
                         <tr>
@@ -134,7 +140,7 @@
                 Layout.init(); // init current layout
                 QuickSidebar.init(); // init quick sidebar
                 Demo.init(); // init demo features
-
+                $("#loadingIcon").fadeIn("slow");
             });
         </script>
         <!-- </div> -->
