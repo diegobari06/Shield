@@ -61,9 +61,18 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "identification_number", limit: 45
     t.integer "company_id",            limit: 4
     t.string  "license",               limit: 45
+    t.integer "in_service",            limit: 1,  default: 0
   end
 
   add_index "officers", ["company_id"], name: "officers_company_idx", using: :btree
+
+  create_table "officers_watches", force: :cascade do |t|
+    t.integer "watch_id",   limit: 4
+    t.integer "officer_id", limit: 4
+  end
+
+  add_index "officers_watches", ["officer_id"], name: "ok_officer_idx", using: :btree
+  add_index "officers_watches", ["watch_id"], name: "pk_watch_idx", using: :btree
 
   create_table "residents", force: :cascade do |t|
     t.string  "name",                  limit: 45
@@ -78,24 +87,13 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "email",                 limit: 45
     t.integer "is_owner",              limit: 1,  default: 0
     t.integer "user_id",               limit: 4
-
   end
 
   add_index "residents", ["company_id"], name: "me_company_idx", using: :btree
-  add_index "residents", ["user_id"], name: "residents_user_idx", using: :btree
 
   create_table "rol", force: :cascade do |t|
     t.string "name", limit: 45
   end
-
-  create_table "shifts", force: :cascade do |t|
-    t.string  "init_time",  limit: 45
-    t.string  "end_time",   limit: 45
-    t.string  "officers",   limit: 250
-    t.integer "company_id", limit: 4
-  end
-
-  add_index "shifts", ["company_id"], name: "company_shift_idx", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               limit: 255,   default: "email", null: false
@@ -130,7 +128,6 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "users", ["company_id"], name: "users_company_idx", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["resident_id"], name: "users_resident_idx", using: :btree
   add_index "users", ["rol_id"], name: "fk_users_rol_idx", using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 
@@ -163,20 +160,14 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "visitants", ["id_house"], name: "house_visitants_idx", using: :btree
 
   create_table "watches", force: :cascade do |t|
-    t.datetime "initital_time"
+    t.datetime "initial_time"
     t.datetime "final_time"
-    t.integer  "company_id",    limit: 4
+    t.integer  "company_id",     limit: 4
+    t.integer  "access_door_id", limit: 4
   end
 
+  add_index "watches", ["access_door_id"], name: "watch_access_idx", using: :btree
   add_index "watches", ["company_id"], name: "watch_company_idx", using: :btree
-
-  create_table "watches_officers", force: :cascade do |t|
-    t.integer "watch_id",   limit: 4
-    t.integer "officer_id", limit: 4
-  end
-
-  add_index "watches_officers", ["officer_id"], name: "ok_officer_idx", using: :btree
-  add_index "watches_officers", ["watch_id"], name: "pk_watch_idx", using: :btree
 
   add_foreign_key "access_doors", "companies", name: "company_door"
   add_foreign_key "company_configurations", "companies", name: "company_configuration"
@@ -184,17 +175,15 @@ ActiveRecord::Schema.define(version: 0) do
   add_foreign_key "notes", "companies", name: "company_note"
   add_foreign_key "notes", "houses", name: "house_note"
   add_foreign_key "officers", "companies", name: "officers_company"
+  add_foreign_key "officers_watches", "officers", name: "pk_officer"
+  add_foreign_key "officers_watches", "watches", name: "pk_watch"
   add_foreign_key "residents", "companies", name: "residents_company"
-  add_foreign_key "residents", "users", name: "residents_user"
-  add_foreign_key "shifts", "companies", name: "company_shift"
   add_foreign_key "users", "companies", name: "users_company"
-  add_foreign_key "users", "residents", name: "users_resident"
   add_foreign_key "users", "rol", name: "fk_users_rol"
   add_foreign_key "vehicules", "companies", name: "vehicules_company"
   add_foreign_key "vehicules", "houses", name: "vehicules_house"
   add_foreign_key "visitants", "companies", name: "company_visitants"
   add_foreign_key "visitants", "houses", column: "id_house", name: "house_visitants"
+  add_foreign_key "watches", "access_doors", name: "watch_access"
   add_foreign_key "watches", "companies", name: "watch_company"
-  add_foreign_key "watches_officers", "officers", name: "ok_officer"
-  add_foreign_key "watches_officers", "watches", name: "pk_watch"
 end
