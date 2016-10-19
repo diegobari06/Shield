@@ -378,7 +378,7 @@ app.factory('commonMethods', function () {
         return condition;
       },
       waitingMessage: function(message){
-            bootbox.dialog({ message: '<div class="text-center font-15"><i class="fa fa-spin fa-spinner font-green font-20"></i>Por favor espere...</div>' })
+            bootbox.dialog({ message: '<div class="text-center font-15"><i class="fa fa-spin fa-spinner font-green font-20"></i> Por favor espere...</div>' })
 
       },
       validateLetters: function(){
