@@ -35,7 +35,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="portlet-body form">
+                <div class="portlet-body form display-none" id="register_edit_form">
                     <form role="form">
                         <div class="form-body">
 
@@ -58,7 +58,7 @@
                                     <label for="form_control_1" class="font-15">Segundo Apellido</label>
                                 </div>
                                 <div class="form-group form-md-line-input l">
-                                    <input ng-model="identification_number" type="text" class="form-control  letters gray-font" id="form_control_1" required>
+                                    <input ng-model="identification_number" type="text" class="form-control  numbers gray-font" id="form_control_1" required>
                                     <label for="form_control_1" class="font-15">Cédula</label>
                                 </div>
 
@@ -76,6 +76,11 @@
         </form>
     </div>
 </div>
+<script>
+    jQuery(document).ready(function() {
+        $("#register_edit_form").fadeIn("slow");
+    });
+</script>
 <script type="text/javascript">
     $('.date-picker').datepicker({
         format: 'mm/dd/yyyy',

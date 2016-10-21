@@ -4,10 +4,11 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
     commonMethods.validatePermisson(2);
     $rootScope.active = "residents";
     residentsFunctions.getAll().success(function(residents) {
-        $("#loadingIcon").fadeOut(200);
+        $("#loadingIcon").fadeOut(0);
         setTimeout(function() {
-            $("#tableData").fadeIn(500);
-        }, 600)
+            $("#tableData").fadeIn(300);
+        }, 200)
+
         $scope.residents = residents;
 
     });
@@ -30,9 +31,12 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
             },
             callback: function(result) {
                 if (result) {
+                    commonMethods.waitingMessage();
                     residentsFunctions.delete(id).success(function() {
                         residentsFunctions.getAll().success(function(residents) {
                             $scope.residents = residents;
+                            bootbox.hideAll();
+                            toastr["success"]("Se ha eliminado el residente correctamente");
                         })
                     });
                 }
@@ -50,6 +54,7 @@ app.controller('ResidentsViewController', function($scope, $http, $state, $rootS
     })
 });
 app.controller('ResidentsCreateController', function($scope, $http, $rootScope, $state, residentsFunctions, usersFunctions, commonMethods) {
+    commonMethods.validatePermisson(2);
     $rootScope.active = "residents";
     $scope.permisson = 2;
     $scope.title = "Nuevo residente";
@@ -149,7 +154,7 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
             });
             $scope.house = house[0];
             $scope.$apply();
-        }, 100);
+        }, 700);
 
 
     });

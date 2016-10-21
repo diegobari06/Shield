@@ -1,11 +1,12 @@
 'use strict';
-app.controller('VehiculesListController', function($scope, $state, $rootScope, $window, vehiculesFunctions) {
+app.controller('VehiculesListController', function($scope, $state, $rootScope, $window, vehiculesFunctions, commonMethods) {
+    commonMethods.validatePermisson(2);
     $rootScope.active = "vehicules";
     vehiculesFunctions.getAll().success(function(vehicules) {
-        $("#loadingIcon").fadeOut(200);
+        $("#loadingIcon").fadeOut(0);
         setTimeout(function() {
-            $("#tableData").fadeIn(500);
-        }, 600)
+            $("#tableData").fadeIn(300);
+        }, 200)
 
         $scope.vehicules = vehicules;
     })
@@ -28,9 +29,12 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
             },
             callback: function(result) {
                 if (result) {
+                    commonMethods.waitingMessage();
                     vehiculesFunctions.delete(id).success(function() {
                         vehiculesFunctions.getAll().success(function(vehicules) {
                             $scope.vehicules = vehicules;
+                            bootbox.hideAll();
+                            toastr["success"]("Se ha eliminado la casa correctamente");
                         })
                     });
                 }
@@ -42,7 +46,7 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
 
 });
 
-app.controller('VehiculesCreateController', function($scope, $http, $rootScope, $state, vehiculesFunctions) {
+app.controller('VehiculesCreateController', function($scope, $http, $rootScope, $state, vehiculesFunctions, commonMethods) {
     var val
     $rootScope.active = "vehicules";
     $scope.title = "Registrar vehículo";
@@ -137,24 +141,31 @@ app.controller('VehiculesCreateController', function($scope, $http, $rootScope, 
 
 
     $scope.actionButton = function() {
-        console.log($scope.house.id);
-        vehiculesFunctions.getAll().success(function(houses) {
-            vehiculesFunctions.insert({
-                license_plate: $scope.license_plate,
-                house_id: $scope.house.id,
-                color: val,
-                brand: $scope.brand.name,
-                company_id: 3
-            }).success(function() {
-                $state.go('vehicules');
-            })
+        vehiculesFunctions.getAll().success(function(vehicules) {
+            $scope.vehicules = vehicules
+            if (commonMethods.validateRepeat($scope.vehicules, $scope.license_plate, 4)) {
+                toastr["error"]("El número de placa ingresado ya existe");
+            } else {
+                commonMethods.waitingMessage();
+                vehiculesFunctions.insert({
+                    license_plate: $scope.license_plate,
+                    house_id: $scope.house.id,
+                    color: val,
+                    brand: $scope.brand.name,
+                    company_id: 3
+                }).success(function() {
+                    bootbox.hideAll();
+                    $state.go('vehicules');
+                    commonMethods.updateResidents();
+                    toastr["success"]("Se creó el vehículo correctamente");
+                })
 
-
+            }
         });
     }
 });
 
-app.controller('VehiculesEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, vehiculesFunctions) {
+app.controller('VehiculesEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, vehiculesFunctions, commonMethods) {
     $rootScope.active = "vehicules";
     var residentName, val;
     $scope.title = "Editar vehículo";
@@ -238,28 +249,20 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
         $scope.vehiculeId = data.id;
         $scope.color = data.color;
 
-
         setTimeout(function() {
             var house = $scope.houses.filter(function(el) {
                 return el.id == data.house_id;
             });
             $scope.house = house[0];
             $scope.$apply();
-        }, 100);
+        }, 900);
 
-        // setTimeout(function() {
-        //     var house = $scope.brands.data.filter(function(el) {
-        //         return el.id == data.brand;
-        //     });
-        //     $scope.brand = name[0];
-        //     $scope.$apply();
-        // }, 100);
     });
 
 
     $scope.actionButton = function() {
         vehiculesFunctions.getAll().success(function(houses) {
-
+            commonMethods.waitingMessage();
             vehiculesFunctions.update($scope.vehiculeId, {
                 license_plate: $scope.license_plate,
                 house_id: $scope.house.id,
@@ -267,9 +270,9 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
                 brand: $scope.brand.name,
                 company_id: 3
             }).success(function() {
-
+                bootbox.hideAll();
                 $state.go('vehicules');
-
+                toastr["success"]("Se editó el vehículo correctamente");
             })
 
         });

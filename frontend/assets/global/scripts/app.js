@@ -23,7 +23,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
         "debug": false,
         "positionClass": "toast-top-right",
         "onclick": null,
-        "showDuration": "2000",
+        "showDuration": "4000",
         "hideDuration": "1000",
         "timeOut": "5000",
         "extendedTimeOut": "1000",
@@ -161,7 +161,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("houses", {
-            url: "/houses",
+            url: "/casas",
             views: {
                 "header": {
                     templateUrl: '../../templates/admin/header.html',
@@ -185,7 +185,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("newHouse", {
-            url: "/houses/new",
+            url: "/casas/nuevo",
             views: {
                 "header": {
                     templateUrl: '../../templates/admin/header.html',
@@ -209,7 +209,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("editHouse", {
-            url: "/house/:id/edit",
+            url: "/casas/:id/editar",
             views: {
                 "header": {
                     templateUrl: '../../templates/admin/header.html',
@@ -233,7 +233,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("vehicules", {
-            url: "/vehicules",
+            url: "/vehiculos",
             views: {
                 "header": {
                     templateUrl: '../../templates/admin/header.html',
@@ -257,7 +257,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("newVehicule", {
-            url: "/vehicules/new",
+            url: "/vehiculos/nuevo",
             views: {
                 "header": {
                     templateUrl: '../admin/header.html',
@@ -275,9 +275,14 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     templateUrl: '../../templates/admin/footer.html'
                 }
             },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
 
         }).state("editVehicule", {
-            url: "/vehicule/:id/edit",
+            url: "/vehiculos/:id/editar",
             views: {
                 "header": {
                     templateUrl: '../../templates/admin/header.html',
@@ -301,7 +306,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("officers", {
-            url: "/officers",
+            url: "/oficiales",
             views: {
                 "header": {
                     templateUrl: '../../templates/admin/header.html',
@@ -325,7 +330,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("newOfficer", {
-            url: "/officers/new",
+            url: "/oficiales/nuevo",
             views: {
                 "header": {
                     templateUrl: '../../templates/admin/header.html',
@@ -351,7 +356,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
 
 
         }).state("newUser", {
-            url: "/users/new",
+            url: "/usuarios/nuevo",
             views: {
                 "header": {
                     templateUrl: '../admin/header.html',
@@ -375,7 +380,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("access", {
-            url: "/access",
+            url: "/puertaAcceso",
             views: {
                 "access": {
                     templateUrl: '../Officers/access_door.html',
@@ -611,7 +616,7 @@ app.controller('menuController', function() {
 
 })
 
-app.factory('commonMethods', function($rootScope, $state) {
+app.factory('commonMethods', function($rootScope, $state, residentsFunctions, vehiculesFunctions) {
 
     return {
 
@@ -625,10 +630,18 @@ app.factory('commonMethods', function($rootScope, $state) {
             return condition;
         },
         waitingMessage: function(message) {
-            bootbox.dialog({
-                message: '<div class="text-center gray-font font-17"><img src="../../assets/global/img/loader4.gif" /> Por favor espere...</div>'
-            })
+            // bootbox.dialog({
+            //     message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/4.gif" style="width: 20px; height: 20px;"/>  Por favor espere...</div>'
+            // })
+            var box = bootbox.dialog({
+                message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/loading-circle.gif" style="width:40%; height 40%;" /></div>'
 
+            })
+            box.find('.modal-content').css({
+                'background': 'rgba(0, 0, 0, 0.0)',
+                'border': '0px solid',
+                'box-shadow': '0px 0px 0px #999'
+            });
         },
         validateLetters: function() {
             $(".letters").keypress(function(key) {
@@ -676,11 +689,35 @@ app.factory('commonMethods', function($rootScope, $state) {
         validateRepeat: function(items, itemToValidate, criteria) {
             var condition = false;
             angular.forEach(items, function(item, index) {
-                if (item.identification_number == itemToValidate && criteria == 1) {
-                    condition = true;
-                } else if (criteria == 2 && item.email.toUpperCase() == itemToValidate.toUpperCase()) {
-                    condition = true;
+                switch (criteria) {
+                    case 1:
+                        if (item.identification_number == itemToValidate) {
+                            condition = true;
+                        }
+                        break;
+                    case 2:
+                        if (item.email.toUpperCase() == itemToValidate.toUpperCase()) {
+                            condition = true;
+                        }
+                        break;
+                    case 3:
+                        if (item.house_number == itemToValidate) {
+                            condition = true;
+                        }
+                        break;
+                    case 4:
+                        if (item.license_plate == itemToValidate) {
+                            condition = true;
+                        }
+                        break;
+                    case 5:
+                        if (item.email.toUpperCase() == itemToValidate.toUpperCase()) {
+                            condition = true;
+                        }
+                        break;
                 }
+
+
             });
             return condition;
         },

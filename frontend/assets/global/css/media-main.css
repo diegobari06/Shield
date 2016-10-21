@@ -77,7 +77,9 @@
   .height-12-percent{
     height: 8% !important;
   }
-
+  .access-back{
+  	margin-top: -20px;
+  }
   .font-30{
     font-size: 20px !important;
   }
@@ -130,6 +132,11 @@
 .btn-access-door{
   font-size: 13px !important;
 }
+
+#credencial_field{
+  padding: 0 !important;
+  margin:  0 !important
+}
 #color-circle{
   margin-bottom:  3%!important;
   margin-top: -20px;
@@ -141,4 +148,5 @@
 #house_number_span{
   font-size: 20px;
 }
+
 }

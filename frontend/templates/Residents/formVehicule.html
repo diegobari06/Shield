@@ -36,7 +36,7 @@
                     </a>
                 </div>
             </div>
-            <div class="portlet-body form">
+            <div class="portlet-body form display-none" id="register_edit_form">
                 <form role="form" ng-submit="actionButton()">
                     <div class="form-body">
                         <div class="col-md-6">
@@ -76,4 +76,9 @@
         </div>
     </div>
 </div>
+<script>
+    jQuery(document).ready(function() {
+        $("#register_edit_form").fadeIn("slow");
+    });
+</script>
 <script src="../../assets/global/scripts/jscolor.js"></script>
