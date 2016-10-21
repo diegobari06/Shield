@@ -533,6 +533,30 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     return $auth.validateUser();
                 }
             }
+        }).state("condominoRegisterVisitor", {
+            url: "/condomino/visitantes/reportar",
+            views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                    templateUrl: '../Residents/formVisitor.html',
+                    controller: 'CondominosVisitorsListController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+            },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
         })
 
 

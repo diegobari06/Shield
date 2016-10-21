@@ -48,9 +48,7 @@
                     <thead>
                         <tr>
                             <th>Nombre completo</th>
-
                             <th>Cédula</th>
-                            <th>Edad</th>
                             <th>Número de celular</th>
                             <th>Correo</th>
                             <th>Num casa</th>
@@ -62,9 +60,8 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="resident in residents | filter:search | orderBy:'name'">
-                            <td>{{resident.name}} {{resident.last_name}} {{resident.second_last_name}}</td>
+                            <td>{{resident.name}} {{resident.last_name}}</td>
                             <td>{{resident.identification_number}}</td>
-                            <td>{{resident.birthday}}</td>
                             <td>{{resident.phone_number}}</td>
                             <td>{{resident.email}}</td>
                             <td>{{resident.house_id}}</td>

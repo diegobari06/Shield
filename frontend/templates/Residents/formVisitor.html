@@ -1,0 +1,116 @@
+<div class="page-bar route-title">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="home()">Reportar</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="">Visitante</a>
+
+        </li>
+
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right"> </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form ng-submit="actionButton()">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green-haze">
+                        <i class="fa fa-user font-green-haze"></i>
+                        <span class="caption-subject bold uppercase">Reportar visitante</span>
+                    </div>
+                    <div class="actions">
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="col-md-6 col-sm-6 marging-top-20">
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="name" type="text" class="form-control letters gray-font" id="form_control_1" required>
+                            <label for="form_control_1" class="font-15">Nombre</label>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="last_name" type="text" class="form-control letters gray-font" id="form_control_1" required>
+                            <label for="form_control_1" class="font-15">Primer Apellido</label>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="last_name" type="text" class="form-control letters gray-font" id="form_control_1" required>
+                            <label for="form_control_1" class="font-15">Número de placa (opcional)</label>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 col-sm-6  marging-top-20">
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="second_last_name" type="text" class="form-control letters gray-font" id="form_control_1" required>
+                            <label for="form_control_1" class="font-15">Segundo Apellido</label>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="identification_number" type="text" class="form-control numbers gray-font" id="form_control_1" required>
+                            <label for="form_control_1" class="font-15">Número de cédula</label>
+                        </div>
+                        <p id="datepairExample">
+                            <input type="text" class="date start" />
+                            <input type="text" class="time start" /> to
+                            <input type="text" class="time end" />
+                            <input type="text" class="date end" />
+                        </p>
+
+
+                    </div>
+                    <div class="form-actions noborder">
+                        <h3 class="text-right">
+                        <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> Reportar</button>
+                        <button type="button" class="btn default gray-font">Cancelar</button>
+                      </h3>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<script type="text/javascript" src="datepair.js"></script>
+<script type="text/javascript" src="jquery.datepair.js"></script>
+<script>
+    // initialize input widgets first
+    $('#datepairExample .time').timepicker({
+        'showDuration': true,
+        'timeFormat': 'g:ia'
+    });
+
+    $('#datepairExample .date').datepicker({
+        'format': 'yyyy-m-d',
+        'autoclose': true
+    });
+
+    // initialize datepair
+    $('#datepairExample').datepair();
+</script>
+<script type="text/javascript ">
+    $('.date-picker').datepicker({
+        format: 'dd-mm-yyyy',
+        language: "es ",
+        autoclose: true
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#blah').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#imgInp ").change(function() {
+        readURL(this);
+    });
+</script>
