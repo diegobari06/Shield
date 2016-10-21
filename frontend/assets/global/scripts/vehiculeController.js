@@ -12,17 +12,34 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
     vehiculesFunctions.getAllHouses().success(function(houses) {
         $scope.houses = houses;
     })
-    $scope.deleteVehicule = function(id) {
-        bootbox.confirm("¿Estás seguro que deseas eliminar el vehículo?", function(result) {
-            if (result) {
-                vehiculesFunctions.delete(id).success(function() {
-                    vehiculesFunctions.getAll().success(function(vehicules) {
-                        $scope.vehicules = vehicules;
-                    })
-                });
+
+    $scope.deleteVehicule = function(id, license_plate) {
+        bootbox.confirm({
+            message: "¿Está seguro que desea eliminar al vehículo " + license_plate + "?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    vehiculesFunctions.delete(id).success(function() {
+                        vehiculesFunctions.getAll().success(function(vehicules) {
+                            $scope.vehicules = vehicules;
+                        })
+                    });
+                }
             }
         });
-    }
+
+
+    };
+
 });
 
 app.controller('VehiculesCreateController', function($scope, $http, $rootScope, $state, vehiculesFunctions) {
@@ -30,9 +47,8 @@ app.controller('VehiculesCreateController', function($scope, $http, $rootScope, 
     $rootScope.active = "vehicules";
     $scope.title = "Registrar vehículo";
     $scope.button = "Registrar";
-    console.log($('#culito').attr('class'));
     $scope.submitColour = function() {
-        val = $('#culito').css('background-color');
+        val = $('#color-rgb').css('background-color');
 
     }
     vehiculesFunctions.getAllHouses().success(function(houses) {
@@ -41,41 +57,81 @@ app.controller('VehiculesCreateController', function($scope, $http, $rootScope, 
 
     $scope.brands = {
         data: [{
-            id: "1",
-            name: "English"
+
+            name: "Audi"
         }, {
-            id: "2",
-            name: "Spanish"
+            name: "Alfa Romeo"
         }, {
-            id: "3",
-            name: "Mandarin"
+            name: "BMW"
         }, {
-            id: "4",
-            name: "Portuguese"
+            name: "BYD"
         }, {
-            id: "5",
-            name: "German"
+            name: "Chevrolet"
         }, {
-            id: "6",
-            name: "Korean"
+            name: "Citroen"
         }, {
-            id: "7",
-            name: "French"
+            name: "Daewoo"
         }, {
-            id: "8",
-            name: "Italian"
+            name: "Daihatsu"
         }, {
-            id: "9",
-            name: "Japanese"
+            name: "Dodge"
         }, {
-            id: "10",
-            name: "Arabic"
+            name: "Fiat"
         }, {
-            id: "11",
-            name: "Russian"
+            name: "Ford"
         }, {
-            id: "12",
-            name: "Swedish"
+            name: "Honda"
+        }, {
+            name: "Hummer"
+        }, {
+            name: "Hyundai"
+        }, {
+            name: "Izuzu"
+        }, {
+            name: "Jaguar"
+        }, {
+            name: "JAC"
+        }, {
+            name: "Jeep"
+        }, {
+            name: "Kia"
+        }, {
+            name: "Land Rover"
+        }, {
+            name: "Lexus"
+        }, {
+            name: "Maserati"
+        }, {
+            name: "Mazda"
+        }, {
+            name: "Mercedes Benz"
+        }, {
+            name: "Mini"
+        }, {
+            name: "Mitsubishi"
+        }, {
+            name: "Nissan"
+        }, {
+            name: "Peugeot"
+        }, {
+            name: "Porshe"
+        }, {
+            name: "Renault"
+        }, {
+            name: "Rolls Royce"
+        }, {
+            name: "Ssanyong"
+        }, {
+            name: "Subaru"
+        }, {
+            name: "Suzuki"
+        }, {
+            name: "Toyota"
+        }, {
+            name: "Volkswagen"
+        }, {
+            name: "Volvo"
+
         }, ]
     }
 
@@ -100,49 +156,79 @@ app.controller('VehiculesCreateController', function($scope, $http, $rootScope, 
 
 app.controller('VehiculesEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, vehiculesFunctions) {
     $rootScope.active = "vehicules";
-    var residentName;
-    // $rootScope.headerTitle = "Skills subcategories";
+    var residentName, val;
     $scope.title = "Editar vehículo";
     $scope.button = "Editar";
+    $scope.submitColour = function() {
+        val = $('#color-rgb').css('background-color');
+
+    }
     $scope.brands = {
         data: [{
-            id: "1",
-            name: "English"
+
+            name: "Audi"
         }, {
-            id: "2",
-            name: "Spanish"
+            name: "Alfa Romeo"
         }, {
-            id: "3",
-            name: "Mandarin"
+            name: "BMW"
         }, {
-            id: "4",
-            name: "Portuguese"
+            name: "BYD"
         }, {
-            id: "5",
-            name: "German"
+            name: "Chevrolet"
         }, {
-            id: "6",
-            name: "Korean"
+            name: "Citroen"
         }, {
-            id: "7",
-            name: "French"
+            name: "Fiat"
         }, {
-            id: "8",
-            name: "Italian"
+            name: "Ford"
         }, {
-            id: "9",
-            name: "Japanese"
+            name: "Honda"
         }, {
-            id: "10",
-            name: "Arabic"
+            name: "Hyundai"
         }, {
-            id: "11",
-            name: "Russian"
+            name: "Izuzu"
         }, {
-            id: "12",
-            name: "Swedish"
+            name: "Jaguar"
+        }, {
+            name: "Jeep"
+        }, {
+            name: "Kia"
+        }, {
+            name: "Land Rover"
+        }, {
+            name: "Lexus"
+        }, {
+            name: "Maserati"
+        }, {
+            name: "Mazda"
+        }, {
+            name: "Mercedes Benz"
+        }, {
+            name: "Mitsubishi"
+        }, {
+            name: "Nissan"
+        }, {
+            name: "Peugeot"
+        }, {
+            name: "Porshe"
+        }, {
+            name: "Renault"
+        }, {
+            name: "Ssanyong"
+        }, {
+            name: "Subaru"
+        }, {
+            name: "Suzuki"
+        }, {
+            name: "Toyota"
+        }, {
+            name: "Volkswagen"
+        }, {
+            name: "Volvo"
+
         }, ]
     }
+
 
     vehiculesFunctions.get($stateParams.id).success(function(data) {
         vehiculesFunctions.getAllHouses().success(function(houses) {
@@ -150,30 +236,41 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
         })
         $scope.license_plate = data.license_plate;
         $scope.vehiculeId = data.id;
-        $scope.SelectedBrand = data.brand;
-        $scope.SelectedHouse = data.house_id;
+        $scope.color = data.color;
 
 
+        setTimeout(function() {
+            var house = $scope.houses.filter(function(el) {
+                return el.id == data.house_id;
+            });
+            $scope.house = house[0];
+            $scope.$apply();
+        }, 100);
 
+        // setTimeout(function() {
+        //     var house = $scope.brands.data.filter(function(el) {
+        //         return el.id == data.brand;
+        //     });
+        //     $scope.brand = name[0];
+        //     $scope.$apply();
+        // }, 100);
     });
+
 
     $scope.actionButton = function() {
         vehiculesFunctions.getAll().success(function(houses) {
-            //  if(commonMethods.validateName(residents,$scope.residentName)){
-            vehiculesFunctions.update($scope.vehiculeId, {
-                    license_plate: $scope.license_plate,
-                    house_id: $scope.house.id,
-                    color: "#3F51B5",
-                    brand: $scope.brand.name,
-                    company_id: 3
-                }).success(function() {
 
-                    $state.go('vehicules');
-                    // popUp.success("Resident has been created successfully");
-                })
-                //  } else {
-                //       popUp.show("Resident name already exist.");
-                //  }
+            vehiculesFunctions.update($scope.vehiculeId, {
+                license_plate: $scope.license_plate,
+                house_id: $scope.house.id,
+                color: val,
+                brand: $scope.brand.name,
+                company_id: 3
+            }).success(function() {
+
+                $state.go('vehicules');
+
+            })
 
         });
     }

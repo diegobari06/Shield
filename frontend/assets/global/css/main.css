@@ -89,11 +89,15 @@ display: none;
 .huge-margin-top {
     margin-top: 50px;
 }
-
+#residents_container{
+	min-height: 363px;
+}
+.display-none{
+	display: none;
+}
 .loading{
   margin-top: 100px;
 }
-
 .medium-magin-top {
     margin-top: 20px;
 }

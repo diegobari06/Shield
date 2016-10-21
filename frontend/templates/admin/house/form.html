@@ -43,14 +43,14 @@
                         <div class="col-md-6">
 
                             <div class="form-group form-md-line-input">
-                                <input ng-model="house_number" type="text" class="form-control" id="form_control_1">
+                                <input ng-model="house_number" type="text" class="form-control gray-font" id="form_control_1" required>
                                 <label for="form_control_1" class="font-15">Número de casa</label>
                             </div>
 
                         </div>
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input">
-                                <input ng-model="extension" type="text" class="form-control" id="form_control_1">
+                                <input ng-model="extension" type="text" class="form-control gray-font" id="form_control_1">
                                 <label for="form_control_1" class="font-15">Extensión</label>
                             </div>
 
@@ -58,11 +58,14 @@
                         </div>
                         <div class="form-actions noborder">
                             <h3 class="text-right">
-                                      <button type="submit" class="btn blue">{{button}}</button>
-                            <button type="button" class="btn default">Cancelar</button>
+                            <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> {{button}}</button>
+                            <button type="button"  ui-sref="houses()" class="btn default gray-font">Cancelar</button>
                           </h3>
                         </div>
+                    </div>
                 </form>
-                </div>
             </div>
-            <script src="../../assets/global/scripts/jscolor.js"></script>
+        </div>
+    </div>
+</div>
+<script src="../../assets/global/scripts/jscolor.js"></script>

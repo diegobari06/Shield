@@ -1,4 +1,5 @@
-app.controller('OfficersListController', function($scope, $state, $rootScope, $window, officersFunctions) {
+app.controller('OfficersListController', function($scope, $state, $rootScope, $window, officersFunctions, commonMethods) {
+
     $rootScope.active = "officers";
     officersFunctions.getAll().success(function(officers) {
         $("#loadingIcon").fadeOut(200);
@@ -8,18 +9,33 @@ app.controller('OfficersListController', function($scope, $state, $rootScope, $w
 
         $scope.officers = officers;
     })
-
-    $scope.deleteOfficer = function(id) {
-        bootbox.confirm("Are you sure?", function(result) {
-            if (result) {
-                officersFunctions.delete(id).success(function() {
-                    officersFunctions.getAll().success(function(officers) {
-                        $scope.officers = officers;
-                    })
-                });
+    $scope.deleteOfficer = function(id, name, last_name) {
+        bootbox.confirm({
+            message: "¿Está seguro que desea eliminar al oficial " + name + " " + last_name + "?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    officersFunctions.delete(id).success(function() {
+                        officersFunctions.getAll().success(function(officers) {
+                            $scope.officers = officers;
+                        })
+                    });
+                }
             }
         });
-    }
+
+
+    };
+
 });
 
 app.controller('OfficersCreateController', function($scope, $http, $rootScope, $state, officersFunctions) {
@@ -29,21 +45,18 @@ app.controller('OfficersCreateController', function($scope, $http, $rootScope, $
     $scope.actionButton = function() {
 
         officersFunctions.getAll().success(function(officer) {
-            //  if(commonMethods.validateName(residents,$scope.residentName)){
+
             officersFunctions.insert({
-                    name: $scope.name,
-                    last_name: $scope.last_name,
-                    second_last_name: $scope.second_last_name,
-                    company_id: 3,
-                    identification_number: $scope.identification_number,
-                    license: $scope.license
-                }).success(function() {
-                    $state.go('officers');
-                    // popUp.success("Resident has been created successfully");
-                })
-                //  } else {
-                //       popUp.show("Resident name already exist.");
-                //  }
+                name: $scope.name,
+                last_name: $scope.last_name,
+                second_last_name: $scope.second_last_name,
+                company_id: 3,
+                identification_number: $scope.identification_number
+            }).success(function() {
+                $state.go('officers');
+
+            })
+
 
         });
     }
@@ -52,35 +65,32 @@ app.controller('OfficersCreateController', function($scope, $http, $rootScope, $
 
 app.controller('OfficersEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, officersFunctions) {
     $rootScope.active = "officers";
-    var residentName;
+    var officerId;
     $scope.title = "Editar oficial";
     $scope.button = "Editar";
-
     officersFunctions.get($stateParams.id).success(function(data) {
         $scope.name = data.name;
-        $scope.officerId = data.id;
-        $scope.residentName = data.name;
+        officerId = data.id;
         $scope.last_name = data.last_name;
         $scope.second_last_name = data.second_last_name;
         $scope.identification_number = data.identification_number;
 
-
     });
 
     $scope.actionButton = function() {
-        housesFunctions.getAll().success(function(houses) {
-            //  if(commonMethods.validateName(residents,$scope.residentName)){
-            housesFunctions.update($scope.house_id, {
-                    house_number: $scope.house_number,
-                    extension: $scope.extension
-                }).success(function() {
+        officersFunctions.getAll().success(function(officers) {
 
-                    $state.go('houses');
-                    // popUp.success("Resident has been created successfully");
-                })
-                //  } else {
-                //       popUp.show("Resident name already exist.");
-                //  }
+            officersFunctions.update(officerId, {
+                name: $scope.name,
+                last_name: $scope.last_name,
+                second_last_name: $scope.second_last_name,
+                company_id: 3,
+                identification_number: $scope.identification_number
+            }).success(function() {
+
+                $state.go('officers');
+            })
+
 
         });
     }

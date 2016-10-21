@@ -51,8 +51,8 @@ def findVehicules
   render json: @vehicules, status: 200
 end
 def findResidents
-  @vehicules = Resident.where("company_id = ? and house_id = ?", params[:company_id],params[:id])
-  render json: @vehicules, status: 200
+  @residents = Resident.where("company_id = ? and house_id = ?", params[:company_id],params[:id])
+  render json: @residents, status: 200
 end
 def findVisitants
   @visitants = Visitant.where("company_id = ? and id_house = ?", params[:company_id],params[:id])

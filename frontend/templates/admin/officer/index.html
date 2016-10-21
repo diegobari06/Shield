@@ -20,19 +20,17 @@
         </div>
     </div>
 </div>
-<div class="" style="margin-top:30px">
-</div>
+
 <div class="row">
     <div class="col-md-12">
         <h3 class="page-title col-md-10">	Oficiales de seguridad </h3>
-
-        <div class="form-group col-md-offset-7 col-md-3 ">
+        <div class="form-group col-md-offset-7 col-md-3 col-sm-offset-7 col-sm-3 col-xs-6">
             <div class="input-icon">
                 <i class="fa fa-search"></i>
                 <input type="text" class="form-control" placeholder="Buscar oficial" ng-model="search">
             </div>
         </div>
-        <button type="submit" class="btn green col-md-2 small-margin-bottom" ui-sref="newOfficer()">Registrar oficial</button>
+        <button type="submit" class="btn green col-md-2 col-sm-2 col-xs-6 small-margin-bottom" ui-sref="newOfficer()">Registrar oficial</button>
 
         <div class="portlet-body ">
             <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
@@ -47,7 +45,6 @@
                         <tr>
                             <th>Nombre completo</th>
                             <th>Cédula</th>
-                            <th>Licencia</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>
@@ -56,9 +53,8 @@
                         <tr ng-repeat="officer in officers | filter:search | orderBy:'name'">
                             <td>{{officer.name}} {{officer.last_name}} {{officer.second_last_name}}</td>
                             <td>{{officer.identification_number}}</td>
-                            <td>{{officer.license}}</td>
                             <td> <a ui-sref="editOfficer({id:officer.id})">Editar</a></td>
-                            <td> <a ng-click="deleteOfficer(officer.id)">Eliminar</a></td>
+                            <td> <a ng-click="deleteOfficer(officer.id,officer.name,officer.last_name)">Eliminar</a></td>
                         </tr>
                     </tbody>
                 </table>

@@ -20,27 +20,26 @@
         </div>
     </div>
 </div>
-<div class="" style="margin-top:30px">
-</div>
+
 <div class="row">
     <div class="col-md-12">
         <h3 class="page-title col-md-10">	Vehículos </h3>
-        <div class="form-group col-md-offset-4  col-md-3 no-padding">
-            <label class="col-md-5 control-label no-padding gray-font">Filtrar por casa</label>
-            <div class="col-md-7 no-padding">
+        <div class="form-group col-md-offset-4 col-md-3 col-sm-offset-2  col-sm-4 col-xs-7 no-padding">
+            <label class="col-md-5 col-sm-5  col-xs-4 control-label no-padding gray-font">Filtrar por casa</label>
+            <div class="col-md-7 col-sm-7 col-xs-8 ">
                 <select name="repeatSelect" class="form-control  gray-font" ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
 
             </select>
 
             </div>
         </div>
-        <div class="form-group  col-md-3 ">
+        <div class="form-group col-md-3 col-sm-3 col-xs-5" id="index-search-bar">
             <div class="input-icon">
                 <i class="fa fa-search"></i>
                 <input type="text" class="form-control" placeholder="Buscar vehículo" ng-model="search">
             </div>
         </div>
-        <button type="submit" class="btn green col-md-2 small-margin-bottom" ui-sref="newVehicule()">Registrar vehículo</button>
+        <button type="submit" class="btn green col-md-2 col-sm-3 col-xs-12  small-margin-bottom" ui-sref="newVehicule()">Registrar vehículo</button>
 
         <div class="portlet-body ">
             <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
@@ -66,7 +65,7 @@
                             <td>{{vehicule.brand}}</td>
                             <td>{{vehicule.house_id}}</td>
                             <td> <a ui-sref="editVehicule({id:vehicule.id})">Editar</a></td>
-                            <td> <a ng-click="deleteVehicule(vehicule.id)">Eliminar</a></td>
+                            <td> <a ng-click="deleteVehicule(vehicule.id,vehicule.license_plate)">Eliminar</a></td>
                         </tr>
                     </tbody>
                 </table>

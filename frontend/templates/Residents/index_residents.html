@@ -7,16 +7,13 @@
     <ul class="page-breadcrumb">
         <li>
             <i class="fa fa-home"></i>
-            <a href="index.html">Condominio</a>
+            <a href="">Administrar</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="#">Oficiales</a>
-            <i class="fa fa-angle-right"></i>
+            <a href="">Habitantes</a>
         </li>
-        <li>
-            <a href="#">Consultar</a>
-        </li>
+
     </ul>
     <div class="page-toolbar">
         <div class="btn-group pull-right">
@@ -26,38 +23,36 @@
 </div>
 
 <div class="row ">
-    <div class="col-md-12 ">
-        <h3 class="page-title col-md-10">Habitantes de la filial </h3>
-        <div class="col-md-12 gray-font">
-            <div class="col-md-3">
-                <div class="portlet light bordered  text-center  col-sm-12 col-xs-12 ">
-                    <h3 class="text-center"><img id="blah" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" alt="your image" width="160px" height="160px" class="img-circle"/></h3>
-                    <h3 class="no-padding text-center font-22">Diego Barillas</h3>
-                    <h5 class="no-padding text-center font-19">1160491994</h5>
-
-                    <div class="col-lg-12 col-md-12 small-margin-top">
-                        <button type="submit" class="btn blue"><i class="fa fa-pencil "></i></button>
-                        <button type="submit" class="btn red"><i class="fa fa-trash "></i></button>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="portlet light bordered  text-center  col-sm-12 col-xs-12 ">
-                    <h3 class="text-center"><img id="blah" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" alt="your image" width="160px" height="160px" class="img-circle"/></h3>
-                    <h3 class="no-padding text-center font-22">Diego Barillas</h3>
-                    <h5 class="no-padding text-center font-19">1160491994</h5>
-
-                    <div class="col-lg-12 col-md-12 small-margin-top">
-                        <button type="submit" class="btn blue"><i class="fa fa-pencil "></i></button>
-                        <button type="submit" class="btn red"><i class="fa fa-trash "></i></button>
-                    </div>
-
-                </div>
-            </div>
-
-
-        </div>
-
+    <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
+        <h1 class="text-center">
+<img src="../../assets/global/img/loader4.gif" alt="" />
+<h6 class="text-center">Cargando...</h6>
+</h1>
     </div>
+    <div class="col-md-12 gray-font display-none " id="residents_container">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3 class="page-title col-md-10 col-sm-9 col-xs-12">Habitantes de la filial </h3>
+            <button type="submit" class="btn green col-md-2 col-sm-3 col-xs-12 small-margin-bottom" ui-sref="newCondomino()">Registrar residente</button>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12" ng-repeat="resident in residents">
+            <div class="portlet light bordered  text-center  col-sm-12 col-xs-12" id="residents_container">
+                <h3 class="text-center"><img id="blah" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" alt="your image" width="160px" height="160px" class="img-circle"/></h3>
+                <h3 class="no-padding text-center font-20">{{resident.name}} {{resident.last_name}}</h3>
+                <h5 class="no-padding text-center font-17">{{resident.identification_number}}</h5>
+
+                <div class="col-lg-12 col-md-12 small-margin-top">
+                    <button type="submit" ui-sref="editCondomino({id:resident.id})" class="btn blue"><i class="fa fa-pencil "></i></button>
+                    <button type="submit" class="btn red"><i class="fa fa-trash "></i></button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
+</div>
+<script>
+    jQuery(document).ready(function() {
+        $("#loadingIcon").fadeIn("slow");
+    });
+</script>
