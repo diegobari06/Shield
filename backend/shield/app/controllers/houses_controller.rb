@@ -21,7 +21,7 @@ class HousesController < ApplicationController
   end
 
   def findvisitors
-    @visitors = Visitant.where("company_id = ? and house_id =? and date_time = ?",params[:company_id],params[:id],params[:date_time])
+    @visitors = Visitant.where("company_id = ? and house_id =? and date_time = ? and is_invited = ?",params[:company_id],params[:id],params[:date_time], 0)
     render json: @visitors, status: 200
   end
   # GET /residents/1/edit
@@ -47,16 +47,47 @@ class HousesController < ApplicationController
   end
 
 def findVehicules
-  @vehicules = Vehicule.where("company_id = ? and house_id = ?", params[:company_id],params[:id])
+  @vehicules = Vehicule.where("company_id = ? and house_id = ?", params[:company_id],params[:house_id])
   render json: @vehicules, status: 200
 end
 def findResidents
-  @residents = Resident.where("company_id = ? and house_id = ?", params[:company_id],params[:id])
+  @residents = Resident.where("company_id = ? and house_id = ?", params[:company_id],params[:house_id])
   render json: @residents, status: 200
 end
 def findVisitants
-  @visitants = Visitant.where("company_id = ? and id_house = ?", params[:company_id],params[:id])
-  render json: @visitants, status: 200
+  @visitants = Visitant.where("company_id = ? and id_house = ? and is_invited = ?", params[:company_id],params[:house_id], 0)
+  @currentMonth = Time.now.strftime('%m');
+  @filteredVisitants = [];
+  puts params[:consulting_final_time]
+  if(params[:consulting_final_time] == nil && params[:consulting_initial_time] == nil)
+   @visitants.each do |visitant|
+     if(visitant.date_time.strftime('%m') == @currentMonth)
+       puts visitant.date_time.strftime('%m')
+       puts @currentMonth
+      @filteredVisitants.push(visitant)
+   end
+ end
+ else
+   @limitTime = params[:consulting_final_time].to_datetime.strftime('%d %m %y');
+   @initialTime = params[:consulting_initial_time].to_datetime.strftime('%d %m %y')
+   @visitants.each do |visitant|
+     if(visitant.date_time.strftime('%d %m %y') >= @initialTime && visitant.date_time.strftime('%d %m %y') <= @limitTime)
+      @filteredVisitants.push(visitant)
+   end
+ end
+ end
+  render json: @filteredVisitants, status: 200
+end
+
+def findVisitant
+  puts params[:id_house]
+  @visitant = Visitant.where("company_id = ? and identification_number = ? and id_house = ?", params[:company_id],params[:id], params[:house_id]).last
+  puts @visitant
+  if @visitant != nil
+    render json: @visitant, status: 200
+  else
+      render json: 0
+  end
 end
   # PATCH/PUT /residents/1.json
   def update
@@ -72,8 +103,6 @@ end
      @desocupatedHouses.each do |house|
         @limitTime = house.desocupation_limit_time.strftime('%d %m %y')
         @currentDate = Time.now.strftime('%d %m %y')
-        puts @currentDate
-        puts  @limitTime
         if @limitTime <= @currentDate
           house.is_desocupated = 0
           house.desocupation_limit_time = nil
@@ -107,6 +136,6 @@ end
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def house_params
-      params.permit(:id,:house_number,:extension,:company_id,:is_desocupated,:desocupation_initial_time,:desocupation_limit_time)
+      params.permit(:id,:consulting_initial_time,:consulting_final_time,:house_number,:extension,:identification_number,:id_house,:company_id,:is_desocupated,:desocupation_initial_time,:desocupation_limit_time)
     end
 end

@@ -542,7 +542,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 },
                 "body": {
                     templateUrl: '../Residents/formVisitor.html',
-                    controller: 'CondominosVisitorsListController'
+                    controller: 'CreateCondominosVisitorsController'
                 },
                 "menu": {
                     templateUrl: '../admin/menu.html',

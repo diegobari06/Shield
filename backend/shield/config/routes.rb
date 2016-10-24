@@ -5,13 +5,15 @@ Rails.application.routes.draw do
     get 'residents/find/:id' => 'residents#find'
     resources :vehicules
     get 'vehicules/find/:id' => 'vehicules#find'
-    resources :houses
-    put 'houses/desocupate/:id' => 'houses#setDesocupated'
-    get 'houses/check/desocupated/' => 'houses#checkDesocupated'
-    get 'houses/notes/:id' => 'houses#findNotes'
-    get 'houses/find/vehicules/:id' => 'houses#findVehicules'
-    get 'houses/find/residents/:id' => 'houses#findResidents'
-    get 'houses/find/visitants/:id' => 'houses#findVisitants'
+    resources :houses do
+    put 'desocupate/:id' => 'houses#setDesocupated'
+    get 'check/desocupated/' => 'houses#checkDesocupated'
+    get 'notes/:id' => 'houses#findNotes'
+    get 'find/vehicules' => 'houses#findVehicules'
+    get 'find/residents' => 'houses#findResidents'
+    get 'find/visitants' => 'houses#findVisitants'
+    get 'find/visitant/:id' => 'houses#findVisitant'
+    end
     resources :notes
     resources :officers
     resources :visitants
