@@ -56,6 +56,7 @@ class VisitantsController < ApplicationController
     if (@visitant != nil)
     @starting_time = @visitant.invitation_starting_time.strftime('%d %m %y %H:%M:%S')
     @limit_time = @visitant.invitation_limit_time.strftime('%d %m %y %H:%M:%S')
+    puts @starting_time
       if(@currentDate.between?(@starting_time,  @limit_time))
         render :json => @visitant
        else
@@ -80,6 +81,6 @@ class VisitantsController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def visitant_params
-      params.permit(:id,:name,:last_name,:second_last_name,:license_plate,:id_house,:company_id,:identification_number,:invitation_starting_time,:invitation_limit_time)
+      params.permit(:id,:name,:last_name,:second_last_name,:license_plate,:id_house,:company_id,:identification_number,:invitation_starting_time,:invitation_limit_time,:is_invited)
     end
 end
