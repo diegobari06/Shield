@@ -1,5 +1,18 @@
 app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state, usersFunctions) {
 
+
+    $scope.beginSesion = function(loginForm) {
+        var box = bootbox.dialog({
+            message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/loading-circle.gif" style="width:40%; height 40%;" /></div>'
+
+        })
+        box.find('.modal-content').css({
+            'background': 'rgba(0, 0, 0, 0.0)',
+            'border': '0px solid',
+            'box-shadow': '0px 0px 0px #999'
+        });
+        $auth.submitLogin(loginForm);
+    }
     $scope.isRequestiongPassword = false;
 
     $scope.backTologin = function() {
@@ -15,10 +28,12 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
         $state.go('requestPassword');
     }
     $scope.login = function() {
+
         $auth.submitLogin($scope.loginForm);
     }
 
     $scope.$on('auth:login-success', function(ev, user) {
+
         window.user = user.id;
         usersFunctions.sign_in_count(user.id).success(function(data) {
             if (user.enabled != false) {
@@ -32,15 +47,18 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
                         $state.go('home');
                     }
                 }
+                bootbox.hideAll();
             } else {
                 $auth.signOut();
                 toastr["error"]("User disabled");
                 $state.go('login');
+                bootbox.hideAll();
             }
         })
     });
 
     $scope.$on('auth:login-error', function(ev, reason) {
+        bootbox.hideAll();
         toastr["error"]("Porfavor verifique sus credenciales");
     });
 
@@ -54,6 +72,7 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
     });
 
     $scope.$on('auth:password-change-error', function(ev, reason) {
+        bootbox.hideAll();
         toastr["error"]("El correo digitado no pertenece a ningun asociado");
     });
 
@@ -67,6 +86,7 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
     });
 
     $scope.$on('auth:password-reset-request-error', function(ev, resp) {
+        bootbox.hideAll();
         toastr["error"]("El correo digitado no pertenece a ningun asociado");
     });
 });

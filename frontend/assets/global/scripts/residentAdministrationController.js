@@ -4,10 +4,10 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
 
         residentsAccionsController.getResidents(data.house_id).success(function(residents) {
-            $("#loadingIcon").fadeOut(100);
+            $("#loadingIcon").fadeOut(0);
             setTimeout(function() {
-                $("#residents_container").fadeIn(1400);
-            }, 400)
+                $("#residents_container").fadeIn(700);
+            }, 100)
 
             $scope.residents = residents;
         })
@@ -100,11 +100,11 @@ app.controller('CondominosVehiculesListController', function($scope, $state, $ro
     $rootScope.active = "vehiculesHouses";
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         residentsAccionsController.getVehicules(data.house_id).success(function(vehicules) {
-            $("#loadingIcon").fadeOut(100);
-            setTimeout(function() {
-                $("#vehicules_container").fadeIn(1100);
-            }, 300)
 
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#vehicules_container").fadeIn(700);
+            }, 100)
             $scope.vehicules = vehicules;
         })
     });
@@ -285,10 +285,6 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
     $scope.getResidents = function(){
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         residentsAccionsController.getVisitors(data.house_id).success(function(visitors) {
-            $("#loadingIcon").fadeOut(100);
-            setTimeout(function() {
-                $("#prueba").fadeIn(1000);
-            }, 400)
 
             for (var i = 0; i < visitors.length; i++) {
                 visitors[i].date_time = moment(visitors[i].date_time).format("DD-MM-YYYY HH:MM")
@@ -298,6 +294,11 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
                     visitors[i].license_plate = "No ingreso en vehículo"
                 }
             }
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#prueba").fadeIn(700);
+            }, 100)
+
             $scope.visitors = visitors;
         })
     });

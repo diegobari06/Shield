@@ -243,6 +243,9 @@ display: none;
 .font-60{
   font-size: 60px !important;
 }
+.font-80{
+  font-size: 70px !important;
+}
 .search-bar {
     border: 1px solid #ddd;
     border-radius: 3px;
@@ -286,7 +289,7 @@ color: #009688;
 .access-information-result-container{
   background-color: #E0E0E0;
   margin-top: 1%;
-  min-height: 68%;
+  min-height: 69%;
 
 }
 .bold{
@@ -300,6 +303,9 @@ color: #C62828;
   background-repeat: no-repeat;
   background-size: cover;
    margin: 0 auto;
+}
+.float-left{
+	float: right !important;
 }
 .green-font{
   color: green !important;
@@ -315,11 +321,14 @@ margin-top: 30px;
   height: 13%;
 
 }
-
+#headerAccess{
+	height: 49px;
+	background-color: rgb(43, 54, 67);
+}
 #success-car-image{
 background-image: url("http://www.tot19.com/wp-content/uploads/2015/10/check-300x300.png") !important;
-height: 170px;
-width: 170px;
+height: 150px;
+width: 150px;
 }
 #success-resident-image{
 height: 250px;

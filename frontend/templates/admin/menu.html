@@ -82,7 +82,7 @@
 
             <li ng-show="isResident()" class="start" ng-class="{ 'active' : active === 'residentsHouses' ||  active === 'vehiculesHouses' }">
                 <a href="javascript:;">
-                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <i class="icon-home" aria-hidden="true"></i>
                     <span class="title "> Administrar</span>
                     <span class="arrow "></span>
                     <span class="selected "></span>
@@ -90,19 +90,19 @@
                 <ul class="sub-menu">
                     <li ui-sref="condominos()" ng-class="{ 'active' : active === 'residentsHouses'}">
                         <a href="">
-                            <i class="fa fa-shield" aria-hidden="true"></i> Residentes
+                            <i class="fa fa-users" aria-hidden="true"></i> Residentes
                         </a>
                     </li>
                     <li ui-sref="residents_vehicules()" ng-class="{ 'active' : active === 'vehiculesHouses'}">
                         <a href="">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i> Vehiculos
+                            <i class="fa fa-car" aria-hidden="true"></i> Vehiculos
                         </a>
                     </li>
                 </ul>
             </li>
             <li ng-show="isResident()" class="start" ng-class="{ 'active' : active === 'residentsVisitors'  }">
                 <a href="javascript:;">
-                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <i class="fa fa-flag-o" aria-hidden="true"></i>
                     <span class="title "> Reportes</span>
                     <span class="arrow "></span>
                     <span class="selected "></span>
@@ -110,7 +110,7 @@
                 <ul class="sub-menu">
                     <li ui-sref="condominoVisitors()" ng-class="{'active' : active === 'residentsVisitors'}">
                         <a href="">
-                            <i class="fa fa-shield" aria-hidden="true"></i> Visitante
+                            <i class="fa fa-user" aria-hidden="true"></i> Visitante
                         </a>
                     </li>
                     <li>

@@ -36,12 +36,12 @@
                     </a>
                 </div>
             </div>
-            <div class="portlet-body form">
+            <div class="portlet-body form display-none" id="register_edit_form">
                 <form role="form" ng-submit="actionButton()">
                     <div class="form-body">
                         <div class="col-md-6">
                             <div class="form-group form-md-line-input">
-                                <input ng-model="license_plate" type="text" class="form-control" id="form_control_1">
+                                <input ng-model="license_plate" type="text" class="form-control" id="form_control_1" required>
                                 <label for="form_control_1" class="font-15">Número de placa</label>
                             </div>
                             <div class="form-group form-md-line-input has-info">
@@ -60,14 +60,14 @@
                             <div class="form-group form-md-line-input has-info">
                                 <select class="form-control gray-font" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
                                     <option value="">Seleccione una casa</option>
-                                </select>
+                              </select>
                                 <label for="form_control_1" class="font-15">Número de casa</label>
                             </div>
                         </div>
                         <div class="form-actions noborder">
                             <h3 class="text-right">
                             <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> {{button}}</button>
-                            <button type="button" class="btn default gray-font">Cancelar</button>
+                            <button type="button" ui-sref="vehicules()"  class="btn default gray-font">Cancelar</button>
                           </h3>
                         </div>
                     </div>
@@ -77,3 +77,8 @@
     </div>
 </div>
 <script src="../../assets/global/scripts/jscolor.js"></script>
+<script>
+    jQuery(document).ready(function() {
+        $("#register_edit_form").fadeIn("slow");
+    });
+</script>

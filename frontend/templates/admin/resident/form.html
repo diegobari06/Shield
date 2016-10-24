@@ -30,7 +30,7 @@
                         <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
                     </div>
                 </div>
-                <div class="portlet-body form">
+                <div class="portlet-body form display-none" id="register_edit_form">
                     <div ng-show="permisson===2" class="col-md-offset-9 col-md-3 col-sm-offset-8 col-sm-4 col-xs-12">
                         <span class=" font-15 gray-font col-md-10 col-sm-10 col-xs-10">Administrador de filial: </span>
                         <div class="lg-checkbox-list col-md-2 col-sm-2 col-xs-2">
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                     </div>
-                    <h3 class="text-center"><img id="blah" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" alt="your image" width="200px" height="200px" class="img-circle"/></h3>
+                    <h3 class="text-center"><img id="blah" src="../../assets/global/img/nobody_m.original.jpg" alt="your image" width="200px" height="200px" class="img-circle"/></h3>
                     <h3 class="text-center"><label for="imgInp"  class="btn default btn-file fileinput-new gray-font">Subir imagen</label></h3>
                     <input type='file' id="imgInp" />
                     <div class="col-md-6 col-sm-6 marging-top-20">
@@ -102,7 +102,11 @@
     </div>
 
 </div>
-
+<script>
+    jQuery(document).ready(function() {
+          $("#register_edit_form").fadeIn(800);
+    });
+</script>
 <script type="text/javascript ">
     $('.date-picker').datepicker({
         format: 'dd-mm-yyyy',

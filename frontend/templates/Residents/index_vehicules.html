@@ -24,37 +24,37 @@
 </div>
 
 <div class="row ">
-    <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
-        <h1 class="text-center">
-<img src="../../assets/global/img/loader4.gif" alt="" />
-<h6 class="text-center">Cargando...</h6>
-</h1>
-    </div>
-    <div class="col-md-12 gray-font display-none" id="vehicules_container">
+
+    <div class="col-md-12 gray-font">
         <div class="col-md-12 col-sm-12 col-xs-12 ">
             <h3 class=" page-title col-md-10 col-sm-9 ">	Mis vehículos </h3>
             <button type="submit " class="btn green col-md-2 col-sm-3 col-xs-12 small-margin-bottom " ui-sref="newCondominoVehicule() ">Registrar vehículo</button>
         </div>
-        <div class="col-md-4 " ng-repeat="vehicule in vehicules ">
-            <div class="portlet light bordered text-center col-sm-12 col-xs-12 ">
-                <h1 class="col-lg-6 text-center "><i class=" text-center fa fa-car font-60 " style="color: {{vehicule.color}}; " aria-hidden="true "></i> </h1>
-                <div class="col-lg-6 no-padding ">
-                    <h3 class="no-padding ">{{vehicule.brand}}</h3>
-                    <h5>Marca</h5>
-                </div>
-                <div class="col-lg-6 ">
-                    <h3 class="no-padding no-margin ">{{vehicule.license_plate}}</h3>
-                    <h5>Placa</h5>
-                </div>
-                <div class="col-lg-6 small-margin-top ">
-                    <button type="submit " class="btn blue "><i class="fa fa-pencil "></i></button>
-                    <button type="submit " class="btn red "><i class="fa fa-trash "></i></button>
-                </div>
-
-            </div>
+        <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
+            <h1 class="text-center"><img src="../../assets/global/img/loader4.gif" alt=""/></h1>
         </div>
+        <div class=" display-none" id="vehicules_container">
 
+            <div class="col-md-4 " ng-repeat="vehicule in vehicules ">
+                <div class="portlet light bordered text-center col-sm-12 col-xs-12 ">
+                    <h1 class="col-lg-6 text-center "><i class=" text-center fa fa-car font-60 " style="color: {{vehicule.color}}; " aria-hidden="true "></i> </h1>
+                    <div class="col-lg-6 no-padding ">
+                        <h3 class="no-padding ">{{vehicule.brand}}</h3>
+                        <h5>Marca</h5>
+                    </div>
+                    <div class="col-lg-6 ">
+                        <h3 class="no-padding no-margin ">{{vehicule.license_plate}}</h3>
+                        <h5>Placa</h5>
+                    </div>
+                    <div class="col-lg-6 small-margin-top ">
+                        <button type="submit " class="btn blue "><i class="fa fa-pencil "></i></button>
+                        <button type="submit " class="btn red "><i class="fa fa-trash "></i></button>
+                    </div>
 
+                </div>
+            </div>
+
+        </div>
 
     </div>
 
