@@ -1,21 +1,26 @@
-app.controller('newUsersController', function($scope,$auth,$rootScope,$http,$state,usersFunctions,companiesFunctions){
-  $rootScope.headerTitle = "Users accounts";
-  $scope.title = "Crear administrador";
-  $scope.button = "Crear";
-  $scope.permissions= usersFunctions.permissions();
+app.controller('newUsersController', function($scope, $auth, $rootScope, $http, $state, usersFunctions, companiesFunctions) {
+    $rootScope.headerTitle = "Users accounts";
+    $scope.title = "Crear administrador";
+    $scope.button = "Crear";
+    $scope.permissions = usersFunctions.permissions();
 
-  companiesFunctions.getCompaniesList().success(function(companies) {
+    companiesFunctions.getCompaniesList().success(function(companies) {
         $scope.companies = companies;
-  });
+    });
 
-  $scope.actionButton = function (){
-     usersFunctions.sign_up({email: $scope.email, confirm_success_url: "/",permission_level: 3 ,id_company :$scope.companySelected.id}).success(function (data, status) {
-          $state.go('users');
-       })
-       .error(function (data,status) {
-  alert('adfad')
-       });
-  }
+    $scope.actionButton = function() {
+        usersFunctions.sign_up({
+                email: $scope.email,
+                confirm_success_url: "/",
+                permission_level: 3,
+                id_company: $scope.companySelected.id
+            }).success(function(data, status) {
+                $state.go('users');
+            })
+            .error(function(data, status) {
+                alert('adfad')
+            });
+    }
 
 });
 //

@@ -34,7 +34,7 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
                         vehiculesFunctions.getAll().success(function(vehicules) {
                             $scope.vehicules = vehicules;
                             bootbox.hideAll();
-                            toastr["success"]("Se ha eliminado la casa correctamente");
+                            toastr["success"]("Se ha eliminado el vehículo correctamente");
                         })
                     });
                 }

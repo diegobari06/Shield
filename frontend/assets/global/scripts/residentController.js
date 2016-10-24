@@ -87,7 +87,9 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
                     phone_number: $scope.phone_number,
                     isOwner: number
                 }).success(function(dataResident) {
-                    if ($scope.isOwner) {
+                    if ($scope.isOwner && $scope.email == "") {
+                        toastr["error"]("Debe ingresar un correo para asignarr el residente como autorizador de filial");
+                    } else if ($scope.isOwner) {
                         usersFunctions.sign_up({
                             email: $scope.email,
                             confirm_success_url: "/",
@@ -216,6 +218,7 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
                             });
                         }
                     } else if (makeAcccion == 2) {
+                        console.log(company_id)
                         usersFunctions.update_sign_up(user_id, {
                             id_company: company_id,
                             enabled: 0,

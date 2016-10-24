@@ -25,8 +25,6 @@ Rails.application.routes.draw do
     resources :access_door
     resources :users do
     get '/sign_in_count' => :count
-
-
     end
   end
   resources :roles

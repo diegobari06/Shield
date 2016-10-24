@@ -7,11 +7,11 @@
     <ul class="page-breadcrumb">
         <li>
             <i class="fa fa-home"></i>
-            <a href="">Administrar</a>
+            <a>Administrar</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="">Mis vehiculos</a>
+            <a>Mis vehiculos</a>
 
         </li>
 
@@ -46,16 +46,16 @@
                         <h3 class="no-padding no-margin ">{{vehicule.license_plate}}</h3>
                         <h5>Placa</h5>
                     </div>
-                    <div class="col-lg-6 small-margin-top ">
-                        <button type="submit " class="btn blue "><i class="fa fa-pencil "></i></button>
-                        <button type="submit " class="btn red "><i class="fa fa-trash "></i></button>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 small-margin-top ">
+                        <button type="submit" class="btn blue "><i class="fa fa-pencil "></i></button>
+                        <button type="submit" ng-click="deleteVehicule(vehicule.id,vehicule.house_id,vehicule.license_plate)" class="btn red "><i class="fa fa-trash "></i></button>
                     </div>
 
                 </div>
             </div>
 
         </div>
-
+        <h1 class="text-center gray-font" ng-show="noVehiculeResult==1">No hay vehículos registrados</h1>
     </div>
 
 </div>

@@ -1,7 +1,6 @@
 'use strict';
-app.controller('CondominosListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, housesFunctions) {
+app.controller('CondominosListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, housesFunctions, commonMethods) {
     $rootScope.active = "residentsHouses";
-
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         residentsAccionsController.getResidents(data.house_id).success(function(residents) {
             $("#loadingIcon").fadeOut(0);
@@ -37,6 +36,35 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
             })
         });
     });
+    $scope.deleteCondomino = function(id, house_id, name, last_name) {
+        bootbox.confirm({
+            message: "¿Está seguro que desea eliminar al residente " + name + " " + last_name + "?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    commonMethods.waitingMessage();
+                    residentsFunctions.delete(id).success(function() {
+                        residentsAccionsController.getResidents(house_id).success(function(residents) {
+                            $scope.residents = residents;
+                            bootbox.hideAll();
+                            toastr["success"]("Se ha eliminado el residente correctamente");
+                        })
+                    });
+                }
+            }
+        });
+
+
+    };
 });
 
 app.controller('keyConfigurationController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, housesFunctions, commonMethods, residentsFunctions) {
@@ -73,7 +101,8 @@ app.controller('keyConfigurationController', function($scope, $state, $rootScope
         }
     }
 })
-app.controller('ReportEmergencyController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, housesFunctions, commonMethods, residentsFunctions, accessFunctions) {
+
+app.controller('emergencyController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, housesFunctions, commonMethods, residentsFunctions) {
     $rootScope.active = "reportemergencyactive";
     commonMethods.validatePermisson(1);
 
@@ -102,18 +131,12 @@ app.controller('ReportEmergencyController', function($scope, $state, $rootScope,
                     isAttended: 1,
                     house_id: id_house
                 }).success(function() {
-                    console.log('fadf');
-                    // $rootScope.$broadcast('emergency');
 
                 });
             }
         })
-
-
-
-
-
     }
+
 
 })
 
@@ -121,6 +144,8 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
     $rootScope.active = "residentsHouses";
     $scope.title = "Registrar residente";
     $scope.button = "Registrar";
+    commonMethods.validateLetters();
+    commonMethods.validateNumbers();
     var id_house;
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         id_house = data.house_id;
@@ -134,6 +159,7 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
             } else if (commonMethods.validateRepeat($scope.residents, $scope.email, 2)) {
                 toastr["error"]("El correo ingresado ya existe");
             } else {
+                commonMethods.waitingMessage();
                 residentsFunctions.insert({
                     name: $scope.name,
                     last_name: $scope.last_name,
@@ -146,6 +172,7 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
                     phone_number: $scope.phone_number
                 }).success(function(dataResident) {
                     $state.go('condominos');
+                    bootbox.hideAll();
                 });
             }
         });
@@ -155,6 +182,8 @@ app.controller('editCondominoController', function($scope, $state, $rootScope, $
     $rootScope.active = "residentsHouses";
     $scope.title = "Editar residente";
     $scope.button = "Editar";
+    commonMethods.validateLetters();
+    commonMethods.validateNumbers();
     var user_id, company_id, email, identification_number;
     residentsFunctions.get($stateParams.id).success(function(data) {
 
@@ -182,6 +211,7 @@ app.controller('editCondominoController', function($scope, $state, $rootScope, $
             } else if (commonMethods.validateRepeat($scope.residents, $scope.email, 2) && $scope.email != email) {
                 toastr["error"]("El correo ingresado ya existe");
             } else {
+                commonMethods.waitingMessage();
                 residentsFunctions.update($scope.residentId, {
                     name: $scope.name,
                     last_name: $scope.last_name,
@@ -193,17 +223,23 @@ app.controller('editCondominoController', function($scope, $state, $rootScope, $
                     phone_number: $scope.phone_number
                 }).success(function(dataResident) {
                     $state.go('condominos');
+                    bootbox.hideAll();
                 });
 
             }
         });
     }
 });
-app.controller('CondominosVehiculesListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions) {
+app.controller('CondominosVehiculesListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, commonMethods, vehiculesFunctions) {
     $rootScope.active = "vehiculesHouses";
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         residentsAccionsController.getVehicules(data.house_id).success(function(vehicules) {
 
+            if (vehicules.length == 0) {
+                $scope.noVehiculeResult = 1;
+            } else {
+                $scope.noVehiculeResult = 0;
+            }
             $("#loadingIcon").fadeOut(0);
             setTimeout(function() {
                 $("#vehicules_container").fadeIn(700);
@@ -211,9 +247,39 @@ app.controller('CondominosVehiculesListController', function($scope, $state, $ro
             $scope.vehicules = vehicules;
         })
     });
+
+    $scope.deleteVehicule = function(id, house_id, license_plate) {
+        bootbox.confirm({
+            message: "¿Está seguro que desea eliminar al vehículo " + license_plate + "?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    commonMethods.waitingMessage();
+                    vehiculesFunctions.delete(id).success(function() {
+                        residentsAccionsController.getVehicules(house_id).success(function(vehicules) {
+                            $scope.vehicules = vehicules;
+                            bootbox.hideAll();
+                            toastr["success"]("Se ha eliminado el vehículo correctamente");
+                        })
+                    });
+                }
+            }
+        });
+
+
+    };
 });
 
-app.controller('CreateCondominoVehiculeController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, residentsFunctions, commonMethods) {
+app.controller('CreateCondominoVehiculeController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, residentsFunctions, housesFunctions, vehiculesFunctions, commonMethods) {
     var val
     $rootScope.active = "vehiculesHouses";
     $scope.title = "Registrar vehículo";
@@ -222,9 +288,10 @@ app.controller('CreateCondominoVehiculeController', function($scope, $state, $ro
         val = $('#color-rgb').css('background-color');
 
     }
-    vehiculesFunctions.getAllHouses().success(function(houses) {
-        $scope.houses = houses;
-    })
+    var id_house;
+    residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+        id_house = data.house_id;
+    });
 
     $scope.brands = {
         data: [{
@@ -308,16 +375,15 @@ app.controller('CreateCondominoVehiculeController', function($scope, $state, $ro
 
 
     $scope.actionButton = function() {
-        console.log($scope.house.id);
         vehiculesFunctions.getAll().success(function(houses) {
             vehiculesFunctions.insert({
                 license_plate: $scope.license_plate,
-                house_id: $scope.house.id,
+                house_id: id_house,
                 color: val,
                 brand: $scope.brand.name,
                 company_id: 3
             }).success(function() {
-                $state.go('vehicules');
+                $state.go('residents_vehicules');
             })
 
 
@@ -334,6 +400,11 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         id_house = data.house_id;
         residentsAccionsController.getVisitors(id_house).success(function(visitors) {
+            if (visitors.length == 0) {
+                $scope.noVisitorsResult = 1;
+            } else {
+                $scope.noVisitorsResult = 0;
+            }
             $scope.myVisitors = visitors;
         });
     });

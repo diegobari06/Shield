@@ -3,15 +3,15 @@
     <ul class="page-breadcrumb">
         <li>
             <i class="fa fa-home"></i>
-            <a href="index.html">Condominio</a>
+            <a>Condominio</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="#">Vehículos</a>
+            <a>Vehículos</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="#">Registrar</a>
+            <a>Registrar</a>
         </li>
     </ul>
     <div class="page-toolbar">
@@ -57,17 +57,14 @@
                                 Color del vehículo
                                </button>
                             </div>
-                            <div class="form-group form-md-line-input has-info">
-                                <select class="form-control gray-font" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
-                                    <option value="">Seleccione una casa</option>
-                                </select>
-                                <label for="form_control_1" class="font-15">Número de casa</label>
-                            </div>
+
                         </div>
+
+                        <div class="height-12-percent col-md-6 col-sm-6 hidden-xs"></div>
                         <div class="form-actions noborder">
                             <h3 class="text-right">
                             <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> {{button}}</button>
-                            <button type="button" class="btn red default">Cancelar</button>
+                            <button type="button" ui-sref="residents_vehicules()" class="btn red default">Cancelar</button>
                           </h3>
                         </div>
                     </div>

@@ -562,16 +562,16 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     return $auth.validateUser();
                 }
             }
-        }).state("keysConguration", {
-            url: "/condomino/configuracion/claves",
+        }).state("reportEmergency", {
+            url: "/condomino/reportar/emergencia",
             views: {
                 "header": {
                     templateUrl: '../admin/header.html',
                     controller: 'homeController'
                 },
                 "body": {
-                    templateUrl: '../Residents/keyConfiguration.html',
-                    controller: 'keyConfigurationController'
+                    templateUrl: '../Residents/emergency.html',
+                    controller: 'emergencyController'
                 },
                 "menu": {
                     templateUrl: '../admin/menu.html',
@@ -586,16 +586,16 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     return $auth.validateUser();
                 }
             }
-        }).state("reportEmergency", {
-            url: "/condomino/reportar/emergencia",
+        }).state("keysConguration", {
+            url: "/condomino/configuracion/claves",
             views: {
                 "header": {
                     templateUrl: '../admin/header.html',
                     controller: 'homeController'
                 },
                 "body": {
-                    templateUrl: '../Residents/formEmergency.html',
-                    controller: 'ReportEmergencyController'
+                    templateUrl: '../Residents/keyConfiguration.html',
+                    controller: 'keyConfigurationController'
                 },
                 "menu": {
                     templateUrl: '../admin/menu.html',

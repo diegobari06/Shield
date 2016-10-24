@@ -39,7 +39,8 @@ class UsersController < ApplicationController
       render json: { errors: @user.errors }, status: 422
     end
   end
-
+  end
+  
   def update
     @user = User.find(params[:id])
     if @user.update user_params
@@ -48,7 +49,7 @@ class UsersController < ApplicationController
       render json: { errors: @users.errors }, status: 422
     end
   end
-  end
+
 
   def user_params
        params.permit(:name, :session, :password, :password_confirmation, :email,:nickname,:permission_level,:rol_id,:id,:enabled,:company_id, :resident_id)

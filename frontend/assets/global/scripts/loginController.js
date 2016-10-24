@@ -40,7 +40,7 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
 
         window.user = user.id;
         usersFunctions.sign_in_count(user.id).success(function(data) {
-            if (user.enabled != false) {
+            if (user.enabled == 1) {
                 if (data.count == 1) {
                     $state.go('changePassword');
                 } else {
