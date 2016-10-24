@@ -539,7 +539,7 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 }
             }
         }).state("condominoRegisterVisitor", {
-            url: "/condomino/visitantes/reportar",
+            url: "/condomino/reportar/visitantes",
             views: {
                 "header": {
                     templateUrl: '../admin/header.html',
@@ -548,6 +548,54 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 "body": {
                     templateUrl: '../Residents/formVisitor.html',
                     controller: 'CondominosVisitorsListController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+            },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
+        }).state("keysConguration", {
+            url: "/condomino/configuracion/claves",
+            views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                    templateUrl: '../Residents/keyConfiguration.html',
+                    controller: 'keyConfigurationController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+            },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
+        }).state("reportEmergency", {
+            url: "/condomino/reportar/emergencia",
+            views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                    templateUrl: '../Residents/formEmergency.html',
+                    controller: 'ReportEmergencyController'
                 },
                 "menu": {
                     templateUrl: '../admin/menu.html',
@@ -630,18 +678,19 @@ app.factory('commonMethods', function($rootScope, $state, residentsFunctions, ve
             return condition;
         },
         waitingMessage: function(message) {
-            // bootbox.dialog({
-            //     message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/4.gif" style="width: 20px; height: 20px;"/>  Por favor espere...</div>'
-            // })
-            var box = bootbox.dialog({
-                message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/loading-circle.gif" style="width:40%; height 40%;" /></div>'
-
-            })
-            box.find('.modal-content').css({
-                'background': 'rgba(0, 0, 0, 0.0)',
-                'border': '0px solid',
-                'box-shadow': '0px 0px 0px #999'
-            });
+            bootbox.dialog({
+                    message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/4.gif" style="width: 20px; height: 20px;"/>  Por favor espere...</div>',
+                    closeButton: false,
+                })
+                // var box = bootbox.dialog({
+                //     message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/loading-circle.gif" style="width:40%; height 40%;" /></div>'
+                //
+                // })
+                // box.find('.modal-content').css({
+                //     'background': 'rgba(0, 0, 0, 0.0)',
+                //     'border': '0px solid',
+                //     'box-shadow': '0px 0px 0px #999'
+                // });
         },
         validateLetters: function() {
             $(".letters").keypress(function(key) {

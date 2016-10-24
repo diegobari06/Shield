@@ -2,15 +2,19 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
 
 
     $scope.beginSesion = function(loginForm) {
-        var box = bootbox.dialog({
-            message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/loading-circle.gif" style="width:40%; height 40%;" /></div>'
-
+        // var box = bootbox.dialog({
+        //     message: '<div class="text-center gray-font font-15"><img src="http://closera.com/skin/frontend/bizarre/skin2_new/images/Loading1.gif" style="width:40%; height 40%;" /></div>',
+        //     closeButton: false,
+        // })
+        // box.find('.modal-content').css({
+        //     'background': 'rgba(0, 0, 0, 0.0)',
+        //     'border': '0px solid',
+        //     'box-shadow': '0px 0px 0px #999'
+        // });
+        bootbox.dialog({
+            message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/4.gif" style="width: 20px; height: 20px;"/>  Iniciando sesión...</div>',
+            closeButton: false
         })
-        box.find('.modal-content').css({
-            'background': 'rgba(0, 0, 0, 0.0)',
-            'border': '0px solid',
-            'box-shadow': '0px 0px 0px #999'
-        });
         $auth.submitLogin(loginForm);
     }
     $scope.isRequestiongPassword = false;
@@ -40,11 +44,14 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
                 if (data.count == 1) {
                     $state.go('changePassword');
                 } else {
-                    console.log(user.permission_level)
                     if (user.permission_level == 3) {
                         $state.go('access');
-                    } else {
+                    } else if (user.permission_level == 2) {
                         $state.go('home');
+                    } else if (user.permission_level == 1) {
+                        $state.go('condominos');
+                    } else {
+                        $state.go('login');
                     }
                 }
                 bootbox.hideAll();

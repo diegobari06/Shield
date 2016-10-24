@@ -66,7 +66,7 @@
         <div class="height-6-percent col-md-12 hidden-xs"></div>
 
         <div class="access-container col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 ">
-            <div ng-hide="show==6" class="col-md-6 col-sm-6 no-padding " id="access-door-container">
+            <div ng-hide="hideRegisterForm==1" class="col-md-6 col-sm-6 no-padding " id="access-door-container">
                 <div class="portlet light bordered access-search-container col-md-12  col-sm-12 col-xs-12 ">
                     <h1 id="access_tittle" class="page-title small-margin-top text-center col-md-12"> Puerta de acceso </h1>
                     <div class="height-5-percent col-md-12 hidden-xs"></div>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
 
-                    <div class="height-2-percent col-md-12 col-sm-12 hidden-xs"></div>
+                    <div class="height-12-percent col-md-12 col-sm-12 hidden-xs"></div>
                     <div class="form-group no-padding col-md-offset-2 col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon ">
@@ -89,15 +89,7 @@
                             <input type="text" class="form-control height-12-percent font-20 input_id " ng-change="getVehicule()" ng-model="id_vehicule" placeholder="Número de placa">
                         </div>
                     </div>
-                    <div class="height-2-percent col-md-12 col-sm-12 hidden-xs"></div>
-                    <div class="form-group no-padding col-md-offset-2 col-md-8">
-                        <div class="input-group">
-                            <span class="input-group-addon ">
-                                <i class="fa fa-key"></i>
-                                </span>
-                            <input type="text" class="form-control height-12-percent font-20 input_id " ng-change="getVehicule()" ng-model="security_key" placeholder="Clave de seguridad">
-                        </div>
-                    </div>
+
                     <div class="height-6-percent col-md-12 col-sm-12 hidden-xs "></div>
                     <button type="submit" class="btn blue font-15 col-md-offset-2 col-md-8  col-sm-12 col-xs-12 btn-access-door" ng-click="show=5" name="button">Registrar visitante</button>
 
@@ -106,7 +98,7 @@
                 <button type="submit" class="btn green font-15 col-md-12 col-sm-12 col-xs-12 btn-access-door" ng-click="getOfficials()" name="buton">Registrar cambio de turno</button>
 
             </div>
-            <div ng-hide="show==6" class="access-result-search-container col-md-6 col-sm-6 col-xs-12 ">
+            <div ng-hide="hideRegisterForm==1" class="access-result-search-container col-md-6 col-sm-6 col-xs-12 ">
 
                 <div class="portlet light bordered access-information-result-container col-md-12 col-sm-12">
 
@@ -122,37 +114,41 @@
                         <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
                             <h1 class="text-center"><img src="../../assets/global/img/2.gif" alt="" /></h1>
                         </div>
-                        <div class="display-none" id="vehiculeAccess">
+                        <div class="display-none " id="vehiculeAccess">
                             <h1 class="page-title green-font bold text-center font-30 " id="access_tittle">Vehículo registrado</h1>
                             <div class="col-md-12 col-sm-12 ">
                                 <div id="success-car-image" class="result-image "></div>
 
                             </div>
-
-
                             <!-- <div class="height-7-percent col-md-6 col-sm-12 hidden-xs "></div> -->
+                            <div class="access_car_information gray-font text-center col-md-4 col-sm-12 col-xs-12 no-padding">
+                                <h5 class="bold font-30">{{license_plate}}</h5>
+                                <h5 class="font-20">Placa</h5>
+                            </div>
 
+                            <div class="col-md-4 col-sm-12 col-xs-12 no-padding marging-top-20">
+                                <h1 class="col-mg-12 text-center "><i class=" text-center fa fa-car font-80 " style="color: {{color}}; " aria-hidden="true "></i> </h1>
+                            </div>
                             <div class="col-md-4 col-sm-12 no-padding text-center ">
                                 <span class="gray-font font-20 col-md-16 col-sm-12 col-xs-12 no-padding">
                                   <h5 class="bold font-30">{{SelectedBrand}}</h5>
                                   <h5 class=" font-20">Marca</h5>
                                 </span>
                             </div>
-                            <div class="col-md-4 col-sm-12 col-xs-12 no-padding marging-top-20">
-                                <h1 class="col-mg-12 text-center "><i class=" text-center fa fa-car font-80 " style="color: {{color}}; " aria-hidden="true "></i> </h1>
+                            <div class="col-md-12">
+                                <div class="access_car_information gray-font text-center col-md-4 col-sm-12 col-xs-12 no-padding">
+                                    <h3 class="bold font-35" id="house_number_span">{{SelectedHouse}}</h3>
+                                    <h5 class=" font-20">Casa</h5>
+                                </div>
+                                <div class="height-7-percent col-md-6 col-sm-12 hidden-xs text-center">
+                                </div>
+                                <button type="submit" class="btn red font-11 col-md-offset-2 col-md-6 col-sm-12 col-xs-12 btn-access-door " ng-click="getKeys()" name="buton ">Ver claves de seguridad</button>
+                                <!-- <div class="col-md-8 col-sm-12 col-xs-12">
+                                    <h3 ng-show="keyShow==1" class="  font-17" id="house_number_span">Clave de seguridad <span class="bold gray-font">madick</span></h3>
+                                    <h3 ng-show="keyShow==1" class=" font-17" id="house_number_span">Clave de emergencia <span class="bold gray-font">12323</span></h3>
+                                    <button type="submit" class="btn red font-11 col-md-offset-2 col-md-6 col-sm-12 col-xs-12 btn-access-door " ng-show="keyShow==1" ng-click="keyShow=2f" name="buton">Ocultar</button>
+                                </div> -->
                             </div>
-                            <div class="access_car_information gray-font text-center col-md-4 col-sm-12 col-xs-12 no-padding">
-                                <h5 class="bold font-30">{{license_plate}}</h5>
-                                <h5 class="font-20">Placa</h5>
-                            </div>
-
-                            <div class="access_car_information gray-font  text-center col-md-12 col-sm-12 col-xs-12 no-padding">
-                                <h3 class=" font-20" id="house_number_span">Casa: <span class="bold font-22" >{{SelectedHouse}}</span></h3>
-                                <h3 class=" font-20" id="house_number_span">Clave seguridad: <span class="bold font-22">madick</span></h3>
-
-                            </div>
-
-
 
                         </div>
                     </div>
@@ -245,8 +241,17 @@
 
                 </div>
             </div>
-            <div class="height-5-percent col-md-12 col-sm-12 hidden-xs "></div>
-
+            <!-- <div class="height-5-percent col-md-12 col-sm-12 hidden-xs "></div> -->
+            <div class="row" ng-show="show==7" ng-hide="hideEmergencyForm==1">
+                <div class="col-md-12 " id="emergencyContainer">
+                    <h1 class="text-center white-color font-60">Emergencia</h1>
+                    <form role="form" ng-submit="attendEmergency()">
+                        <h3 class="text-center">
+                          <button type="submit" class="btn blue white-color default col-md-offset-4 col-md-4 font-15 height-12-percent">Atender emergencia</button>
+                      </h3>
+                    </form>
+                </div>
+            </div>
             <div class="row" ng-show="show==6">
                 <div class="col-md-12">
                     <div class="portlet light bordered">

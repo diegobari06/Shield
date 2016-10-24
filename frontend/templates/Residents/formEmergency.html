@@ -1,0 +1,54 @@
+<div class="page-bar route-title">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-ambulance"></i>
+            <a ui-sref="reportEmergency()">Reportar emergencia</a>
+        </li>
+
+
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right"> </div>
+    </div>
+</div>
+<div class="row">
+
+    <form ng-submit="reportEmergency()">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-haze">
+                    <i class="fa fa-key font-green-haze"></i>
+                    <span class="caption-subject bold uppercase">Reportar emergencia</span>
+
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                </div>
+            </div>
+
+            <div class="portlet-body form ">
+                <p class="font-15 gray-font">
+                    Las claves de seguridad son utilizadas para
+                </p>
+                <p class="font-15 gray-font">
+                    * Debe tomar en cuenta que las claves deben ser legibles para el oficial o el administrador
+                </p>
+                <div class="form-actions noborder">
+                    <h3 class="text-center">
+                        <button type="submit" class="btn red default col-md-offset-4 col-md-4 font-15 height-12-percent"><i class="fa fa-exclamation-triangle font-22"></i> Reportar emergencia</button>
+                    </h3>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+
+<script>
+    jQuery(document).ready(function() {
+        $("#loadingIcon").fadeIn("slow");
+    });
+</script>

@@ -38,7 +38,9 @@
 body {
     background-color: white !important;
 }
-
+.white-color{
+	color: white !important;
+}
 .max-width{
   width: 100% !important;
 }
@@ -196,7 +198,9 @@ display: none;
 }
 
 
-
+.font-11 {
+    font-size: 12px !important;
+}
 .font-12 {
     font-size: 13px !important;
     color: #616161 !important;
@@ -231,6 +235,9 @@ display: none;
 .font-35{
   font-size: 35px;
 
+}
+.font-24{
+	font-size: 24px !important;
 }
 .margin-right-10{
   margin-right: 10px;
@@ -284,7 +291,7 @@ color: #009688;
 .access-information-result-container{
   background-color: #E0E0E0;
   margin-top: 1%;
-  min-height: 69%;
+  min-height: 68%;
 
 }
 .bold{
@@ -292,6 +299,12 @@ color: #009688;
 }
 .red{
 color: #C62828;
+
+}
+#emergencyContainer{
+	/*height: 100%;*/
+	background: red;
+	min-height: 500px;
 
 }
 .result-image{

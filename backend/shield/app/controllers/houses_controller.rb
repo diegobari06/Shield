@@ -107,6 +107,6 @@ end
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def house_params
-      params.permit(:id,:house_number,:extension,:company_id,:is_desocupated,:desocupation_initial_time,:desocupation_limit_time)
+      params.permit(:id,:house_number,:extension,:company_id,:is_desocupated,:desocupation_initial_time,:desocupation_limit_time,:securityKey,:emergencyKey)
     end
 end

@@ -1,8 +1,8 @@
 'use strict';
-app.controller('CondominosListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions) {
+app.controller('CondominosListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, housesFunctions) {
     $rootScope.active = "residentsHouses";
-    residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
 
+    residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         residentsAccionsController.getResidents(data.house_id).success(function(residents) {
             $("#loadingIcon").fadeOut(0);
             setTimeout(function() {
@@ -10,9 +10,111 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
             }, 100)
 
             $scope.residents = residents;
-        })
+            housesFunctions.get(data.house_id).success(function(dataHouse) {
+                if (dataHouse.securitykey == null && dataHouse.emergencyKey == null) {
+                    bootbox.confirm({
+                        message: '<div class="gray-font font-15">Sus claves de seguridad aun no han sido definidas, recuerde que el tener establecidas las claves le provee mayor seguridad.</div>',
+                        closeButton: false,
+
+                        buttons: {
+                            confirm: {
+                                label: 'Establecer ahora',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'Recordarmelo luego',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $state.go('keysConguration');
+                            }
+
+                        }
+                    })
+                }
+            })
+        });
     });
 });
+app.controller('keyConfigurationController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, housesFunctions, commonMethods, residentsFunctions) {
+    $rootScope.active = "keysConguration";
+    commonMethods.validatePermisson(1);
+    residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+        housesFunctions.get(data.house_id).success(function(data) {
+            $scope.securityKey = data.securityKey;
+            $scope.emergencyKey = data.emergencyKey;
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#register_edit_form").fadeIn(300);
+            }, 200)
+        })
+    });
+    $scope.actionButton = function() {
+
+        if ($scope.securityKey == $scope.emergencyKey) {
+            toastr["error"]("Las claves no pueden ser iguales");
+        } else {
+            commonMethods.waitingMessage();
+            residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+                housesFunctions.update(data.house_id, {
+                    securityKey: $scope.securityKey,
+                    emergencyKey: $scope.emergencyKey
+                }).success(function() {
+                    bootbox.hideAll();
+                    $state.go('condominos');
+                    toastr["success"]("Se establecieron las claves de seguridad correctamente");
+
+
+                });
+            });
+        }
+    }
+})
+app.controller('ReportEmergencyController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, housesFunctions, commonMethods, residentsFunctions, accessFunctions) {
+    $rootScope.active = "reportemergencyactive";
+    commonMethods.validatePermisson(1);
+
+    var id_house;
+    residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+        id_house = data.house_id;
+    });
+    $scope.reportEmergency = function() {
+        bootbox.confirm({
+            message: '<div class="gray-font font-15">¿Seguro que desea reportar una emergencia?</div>',
+            closeButton: false,
+
+            buttons: {
+                confirm: {
+                    label: 'Reportar emergencia',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                residentsAccionsController.reportEmergency({
+                    company_id: 3,
+                    isAttended: 1,
+                    house_id: id_house
+                }).success(function() {
+                    console.log('fadf');
+                    // $rootScope.$broadcast('emergency');
+
+                });
+            }
+        })
+
+
+
+
+
+    }
+
+})
 app.controller('CreateCondominoController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, residentsFunctions, commonMethods) {
     $rootScope.active = "residentsHouses";
     $scope.title = "Registrar residente";
@@ -294,6 +396,13 @@ app.factory('residentsAccionsController', function($http) {
         },
         getVehicules: function(id) {
             return $http.get('http://localhost:3000/companies/3/houses/find/vehicules/' + id);
+        },
+        reportEmergency: function(data) {
+            return $http({
+                url: "http://localhost:3000/companies/3/emergencies",
+                method: 'POST',
+                data: data
+            });
         }
     };
 });

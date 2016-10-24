@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :officers
     resources :visitants
     resources :watches
+    resources :emergencies
     resources :company_configuration
     get 'visitants/find/:id' => 'visitants#find'
     get 'visitants/invited/find/:id' => 'visitants#findRegisteredVisitant'
