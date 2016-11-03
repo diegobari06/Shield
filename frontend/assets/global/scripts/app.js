@@ -129,11 +129,6 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     controller: 'loginController'
                 }
 
-            },
-            resolve: {
-                auth: function($auth) {
-                    return $auth.validateUser();
-                }
             }
 
         }).state("editResident", {
@@ -146,6 +141,30 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                 "body": {
                     templateUrl: 'resident/form.html',
                     controller: 'ResidentsEditController'
+                },
+                "menu": {
+                    templateUrl: '../../templates/admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+            },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
+        }).state("viewResident", {
+            url: "/residentes/:id/detalle",
+            views: {
+                "header": {
+                    templateUrl: '../../templates/admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                    templateUrl: 'resident/info.html',
+                    controller: 'ResidentsViewController'
                 },
                 "menu": {
                     templateUrl: '../../templates/admin/menu.html',
@@ -355,6 +374,30 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
             }
 
 
+        }).state("editOfficer", {
+            url: "/oficiales/:id/editar",
+            views: {
+                "header": {
+                    templateUrl: '../../templates/admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                    templateUrl: '../admin/officer/form.html',
+                    controller: 'OfficersEditController'
+                },
+                "menu": {
+                    templateUrl: '../../templates/admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+            },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
         }).state("newUser", {
             url: "/usuarios/nuevo",
             views: {
@@ -775,7 +818,24 @@ app.factory('commonMethods', function($rootScope, $state, residentsFunctions, ve
                 $state.go('home');
             }
 
-        }
+        },
+        moveToLinked: function(item, itemsToLink, itemsLinked) {
+            var index = itemsToLink.indexOf(item);
+            itemsToLink.splice(index, 1);
+            var item = {
+                id: item.id,
+                name: item.name,
+                last_name: item.last_name,
+                second_last_name: item.second_last_name,
+                identification_number: item.identification_number
+            }
+            itemsLinked.push(item);
 
+        },
+        moveToLink: function(item, itemsToLink, itemsLinked) {
+            var index = itemsLinked.indexOf(item);
+            itemsLinked.splice(index, 1);
+            itemsToLink.push(item);
+        }
     };
 })

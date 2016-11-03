@@ -49,6 +49,11 @@ app.controller('OfficersCreateController', function($scope, $http, $rootScope, $
     $scope.button = "Registrar";
     commonMethods.validateLetters();
     commonMethods.validateNumbers();
+    $("#loadingIcon").fadeOut(0);
+    setTimeout(function() {
+        $("#edit_officer_form").fadeIn(300);
+    }, 600)
+
     $scope.actionButton = function() {
 
         officersFunctions.getAll().success(function(officers) {
@@ -75,7 +80,7 @@ app.controller('OfficersCreateController', function($scope, $http, $rootScope, $
 });
 
 
-app.controller('OfficersEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, officersFunctions) {
+app.controller('OfficersEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, officersFunctions, commonMethods) {
     $rootScope.active = "officers";
     var officerId;
     $scope.title = "Editar oficial";
@@ -88,7 +93,10 @@ app.controller('OfficersEditController', function($scope, $http, $state, $rootSc
         $scope.last_name = data.last_name;
         $scope.second_last_name = data.second_last_name;
         $scope.identification_number = data.identification_number;
-
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#edit_officer_form").fadeIn(300);
+        }, 200)
     });
 
     $scope.actionButton = function() {
@@ -104,7 +112,7 @@ app.controller('OfficersEditController', function($scope, $http, $state, $rootSc
                     company_id: 3,
                     identification_number: $scope.identification_number
                 }).success(function() {
-
+                    bootbox.hideAll();
                     $state.go('officers');
                 })
             }

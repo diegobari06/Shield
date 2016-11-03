@@ -167,7 +167,7 @@ app.controller('VehiculesCreateController', function($scope, $http, $rootScope, 
 
 app.controller('VehiculesEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, vehiculesFunctions, commonMethods) {
     $rootScope.active = "vehicules";
-    var residentName, val;
+    var residentName, val, licence_plate;
     $scope.title = "Editar vehículo";
     $scope.button = "Editar";
     $scope.submitColour = function() {
@@ -248,7 +248,7 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
         $scope.license_plate = data.license_plate;
         $scope.vehiculeId = data.id;
         $scope.color = data.color;
-
+        licence_plate = $scope.license_plate;
         setTimeout(function() {
             var house = $scope.houses.filter(function(el) {
                 return el.id == data.house_id;
@@ -261,20 +261,24 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
 
 
     $scope.actionButton = function() {
-        vehiculesFunctions.getAll().success(function(houses) {
-            commonMethods.waitingMessage();
-            vehiculesFunctions.update($scope.vehiculeId, {
-                license_plate: $scope.license_plate,
-                house_id: $scope.house.id,
-                color: val,
-                brand: $scope.brand.name,
-                company_id: 3
-            }).success(function() {
-                bootbox.hideAll();
-                $state.go('vehicules');
-                toastr["success"]("Se editó el vehículo correctamente");
-            })
-
+        vehiculesFunctions.getAll().success(function(vehicules) {
+            $scope.vehicules = vehicules
+            if (commonMethods.validateRepeat($scope.vehicules, $scope.license_plate, 4) && $scope.license_plate != licence_plate) {
+                toastr["error"]("El número de placa ingresado ya existe");
+            } else {
+                commonMethods.waitingMessage();
+                vehiculesFunctions.update($scope.vehiculeId, {
+                    license_plate: $scope.license_plate,
+                    house_id: $scope.house.id,
+                    color: val,
+                    brand: $scope.brand.name,
+                    company_id: 3
+                }).success(function() {
+                    bootbox.hideAll();
+                    $state.go('vehicules');
+                    toastr["success"]("Se editó el vehículo correctamente");
+                })
+            }
         });
     }
 

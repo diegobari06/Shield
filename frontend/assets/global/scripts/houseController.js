@@ -47,11 +47,16 @@ app.controller('HousesListController', function($scope, $state, $rootScope, $win
 
 
 app.controller('HousesCreateController', function($scope, $http, $rootScope, $state, housesFunctions, commonMethods) {
+
+    $("#loadingIcon").fadeOut(0);
     commonMethods.validatePermisson(2);
     $rootScope.active = "houses";
     $scope.title = "Registrar casa";
     $scope.button = "Registrar";
     $scope.isLoading = true;
+    setTimeout(function() {
+        $("#edit_house_form").fadeIn(300);
+    }, 600)
 
     $scope.actionButton = function() {
 
@@ -102,7 +107,10 @@ app.controller('HousesEditController', function($scope, $http, $state, $rootScop
         $scope.securityKey = data.securityKey;
         $scope.emergencyKey = data.emergencyKey;
         house_number = data.id;
-
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#edit_house_form").fadeIn(300);
+        }, 200)
 
     });
 

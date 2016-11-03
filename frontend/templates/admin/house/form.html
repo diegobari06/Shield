@@ -22,63 +22,76 @@
 </div>
 <div class="" style="margin-top:30px">
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <!-- SE REQUIERE EN CADA VISTA -->
-        <!-- CONTENIDO EMPIEZA AQUI-->
-        <div class="portlet light bordered">
-            <div class="portlet-title">
-                <div class="caption font-green-haze">
-                    <i class="fa fa-home  font-green-haze"></i>
-                    <span class="caption-subject bold uppercase">{{title}}</span>
+<div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
+    <h1 class="text-center">
+        <img src="../../assets/global/img/loader4.gif" alt="" />
+
+    </h1>
+</div>
+<div class="display-none" id="edit_house_form">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- SE REQUIERE EN CADA VISTA -->
+            <!-- CONTENIDO EMPIEZA AQUI-->
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green-haze">
+                        <i class="fa fa-home  font-green-haze"></i>
+                        <span class="caption-subject bold uppercase">{{title}}</span>
+                    </div>
+                    <div class="actions">
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
+                        </a>
+                    </div>
                 </div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body form display-none" id="register_edit_form">
-                <form role="form" ng-submit="actionButton()">
-                    <div class="form-body">
-                        <div class="col-md-6">
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="house_number" type="text" class="form-control gray-font" id="form_control_1" required>
-                                <label for="form_control_1" class="font-15">Número de casa</label>
+                <div class="portlet-body form display-none" id="register_edit_form">
+                    <form role="form" ng-submit="actionButton()">
+                        <div class="form-body">
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input">
+                                    <input ng-model="house_number" type="text" class="form-control gray-font" id="form_control_1" required>
+                                    <label for="form_control_1" class="font-15">Número de casa</label>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input">
+                                    <input ng-model="extension" type="text" class="form-control gray-font" id="form_control_1">
+                                    <label for="form_control_1" class="font-15">Extensión</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input">
+                                    <input ng-model="securityKey" type="text" class="form-control gray-font" id="form_control_1">
+                                    <label for="form_control_1" class="font-15">Clave de seguridad</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input">
+                                    <input ng-model="emergencyKey" type="text" class="form-control gray-font" id="form_control_1">
+                                    <label for="form_control_1" class="font-15">Clave de emergencia</label>
+                                </div>
                             </div>
 
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="extension" type="text" class="form-control gray-font" id="form_control_1">
-                                <label for="form_control_1" class="font-15">Extensión</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="securityKey" type="text" class="form-control gray-font" id="form_control_1">
-                                <label for="form_control_1" class="font-15">Clave de seguridad</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="emergencyKey" type="text" class="form-control gray-font" id="form_control_1">
-                                <label for="form_control_1" class="font-15">Clave de emergencia</label>
-                            </div>
-                        </div>
 
-
-                        <div class="form-actions noborder">
-                            <h3 class="text-right">
+                            <div class="form-actions noborder">
+                                <h3 class="text-right">
                             <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> {{button}}</button>
                             <button type="button"  ui-sref="houses()" class="btn red default">Cancelar</button>
                           </h3>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    jQuery(document).ready(function() {
+        $("#loadingIcon").fadeIn("slow");
+    });
+</script>
 <script>
     jQuery(document).ready(function() {
         $("#register_edit_form").fadeIn("slow");

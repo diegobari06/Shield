@@ -47,13 +47,45 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
     };
 
 });
-app.controller('ResidentsViewController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions) {
+app.controller('ResidentsViewController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, commonMethods, housesFunctions) {
     $rootScope.active = "residents";
-    residentsFunctions.getAll().success(function(residents) {
-        $scope.residents = residents;
-    })
+    commonMethods.validatePermisson(2);
+    residentsFunctions.get($stateParams.id).success(function(data) {
+
+        $scope.title = data.name + " " + data.last_name + " " + data.second_last_name;
+        $scope.name = data.name;
+        $scope.residentId = data.id;
+        $scope.residentName = data.name;
+        $scope.last_name = data.last_name;
+        $scope.second_last_name = data.second_last_name;
+        $scope.identification_number = data.identification_number;
+        $scope.birthday = data.birthday;
+        $scope.email = data.email;
+
+        $scope.phone_number = data.phone_number;
+
+        housesFunctions.get(data.house_id).success(function(house) {
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#tableData").fadeIn(300);
+            }, 200)
+            $scope.house_id = house.house_number;
+            if (house.securityKey == null) {
+                $scope.security_key = "No definida"
+            } else {
+                $scope.security_key = house.securityKey;
+            }
+            if (house.emergencyKey == null) {
+                $scope.emergency_key = "No definida"
+            } else {
+                $scope.emergency_key = house.emergencyKey;
+            }
+        });
+    });
+
 });
 app.controller('ResidentsCreateController', function($scope, $http, $rootScope, $state, residentsFunctions, usersFunctions, commonMethods) {
+
     commonMethods.validatePermisson(2);
     $rootScope.active = "residents";
     $scope.permisson = 2;
@@ -63,7 +95,12 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
     commonMethods.validateNumbers();
     residentsFunctions.getAllHouses().success(function(houses) {
         $scope.houses = houses;
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#edit_resident_form").fadeIn(300);
+        }, 200)
     })
+
     $scope.actionButton = function() {
 
         residentsFunctions.getAll().success(function(residents) {
@@ -128,9 +165,7 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
     commonMethods.validateLetters();
     commonMethods.validateNumbers();
     $scope.selectedOption = {};
-    residentsFunctions.getAllHouses().success(function(houses) {
-        $scope.houses = houses;
-    });
+
     residentsFunctions.get($stateParams.id).success(function(data) {
         $scope.name = data.name;
         $scope.residentId = data.id;
@@ -150,15 +185,18 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
         if (data.is_owner == 1) {
             $("#checkbox1").prop("checked", true);
         }
-        setTimeout(function() {
+        residentsFunctions.getAllHouses().success(function(houses) {
+            $scope.houses = houses;
             var house = $scope.houses.filter(function(el) {
                 return el.id == data.house_id;
             });
             $scope.house = house[0];
-            $scope.$apply();
-        }, 700);
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#edit_resident_form").fadeIn(300);
+            }, 200)
 
-
+        });
     });
 
     $scope.actionButton = function() {
@@ -218,7 +256,6 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
                             });
                         }
                     } else if (makeAcccion == 2) {
-                        console.log(company_id)
                         usersFunctions.update_sign_up(user_id, {
                             id_company: company_id,
                             enabled: 0,

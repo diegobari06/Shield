@@ -126,13 +126,21 @@ app.controller('emergencyController', function($scope, $state, $rootScope, $wind
                 }
             },
             callback: function(result) {
-                residentsAccionsController.reportEmergency({
-                    company_id: 3,
-                    isAttended: 1,
-                    house_id: id_house
-                }).success(function() {
+                if (result) {
+                    bootbox.dialog({
+                        message: '<div class="text-center gray-font font-15"><img src="../../assets/global/img/4.gif" style="width: 20px; height: 20px;"/> Reportando emergencia</div>',
+                        closeButton: false,
+                    })
+                    residentsAccionsController.reportEmergency({
+                        company_id: 3,
+                        isAttended: 1,
+                        house_id: id_house
+                    }).success(function() {
+                        bootbox.hideAll();
+                        toastr["success"]("Se ha reportado la emergencia, enseguida será notificada a los oficiales");
 
-                });
+                    });
+                }
             }
         })
     }

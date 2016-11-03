@@ -67,7 +67,7 @@
                                 <td>{{resident.phone_number}}</td>
                                 <td>{{resident.email}}</td>
                                 <td>{{resident.house_id}}</td>
-                                <td><a ui-sref="viewSubCategory({id:subcategory.id})">Ver detalle</a></td>
+                                <td><a ui-sref="viewResident({id:resident.id})">Ver detalle</a></td>
                                 <td> <a ui-sref="editResident({id:resident.id})">Editar</a></td>
                                 <td> <a ng-click="deleteResident(resident.id, resident.name, resident.last_name)">Eliminar</a></td>
                             </tr>

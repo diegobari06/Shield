@@ -29,7 +29,9 @@
     width: 100%;
 }
 
-
+#access_key_button{
+	height: 38px;
+}
 .light-gray-background{
    background-color: #FAFAFA !important;
 }
@@ -118,7 +120,12 @@ display: none;
 
   margin-right: 15px;
 }
-
+.marging-top-100{
+	margin-top: 100px;
+}
+.marging-top-2-percent{
+	margin-top: 2%;
+}
 .medium-padding {
     padding: 70px !important;
 }
@@ -143,11 +150,20 @@ display: none;
 .height-2-percent{
   height: 2%;
 }
+.height-100-percent{
+height: 100%;
+}
 .height-3-percent{
-  height: 3%;
+  height: 3% !important;
 }
 .height-5-percent{
-  height: 20px;
+  height: 5%;
+}
+.height-4-percent{
+  height: 4%;
+}
+.height-1-percent{
+  height: 1%;
 }
 .height-6-percent{
   height: 6%;
@@ -164,7 +180,9 @@ display: none;
 .height-8-percent{
   height: 8%;
 }
-
+.height-80-percent{
+  height: 80%;
+}
 #fail-icon{
   font-size: 250px !important;
   color: #C62828;
@@ -238,7 +256,7 @@ display: none;
 
 }
 .font-35{
-  font-size: 35px;
+  font-size: 35px !important;
 
 }
 .font-24{
@@ -262,10 +280,13 @@ display: none;
 }
 .access-container{
     margin-top: 2%;
-    background-color: white;
     background-color: #F5F5F5 ;
 }
+.access_officer_table{
 
+	height:35%;
+	overflow-y: scroll;
+}
 .access-back{
     height: 100vh;
     width: 100%;
@@ -307,11 +328,17 @@ color: #C62828;
 
 }
 #emergencyContainer{
-	/*height: 100%;*/
-	background: red;
+
+	background-color:  #D50000;
 	min-height: 500px;
 
 }
+.rojoOscuro{
+	background-color: black !important;
+  transition: all 3s ease !important;
+
+}
+
 .result-image{
   background-repeat: no-repeat;
   background-size: cover;
@@ -344,8 +371,8 @@ height: 150px;
 width: 150px;
 }
 #success-resident-image{
-height: 250px;
-width: 250px;
+height: 200px;
+width: 200px;
 margin: 0 auto;
 }
 .gray-font{

@@ -59,12 +59,9 @@
 </div>
 <div class="access-back ">
     <div class="opacity col-lg-12 col-md-12 col-sm-12">
-
-        <form ng-submit="submitAccess(accessForm)" role="form" ng-init="accessForm = {}" name="access">
-
+        <form ng-submit="submitAccess(accessForm)" role="form" ng-init="accessForm = {}" name="access">}
         </form>
-        <div class="height-6-percent col-md-12 hidden-xs"></div>
-
+        <div class="height-6-percent col-md-12 hidden-sm hidden-xs"></div>
         <div class="access-container col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12 ">
             <div ng-hide="hideRegisterForm==1" class="col-md-6 col-sm-6 no-padding " id="access-door-container">
                 <div class="portlet light bordered access-search-container col-md-12  col-sm-12 col-xs-12 ">
@@ -76,7 +73,7 @@
                             <span class="input-group-addon ">
                                   <i class="fa fa-user"></i>
                                   </span>
-                            <input type="text" class="form-control height-12-percent font-20 input_id" ng-change="getResident()" ng-model="id_number" placeholder="Cédula">
+                            <input type="text" class="form-control height-12-percent numbers font-20 input_id" ng-change="getResident()" ng-model="id_number" placeholder="Cédula">
                         </div>
                     </div>
 
@@ -89,15 +86,21 @@
                             <input type="text" class="form-control height-12-percent font-20 input_id " ng-change="getVehicule()" ng-model="id_vehicule" placeholder="Número de placa">
                         </div>
                     </div>
-
                     <div class="height-6-percent col-md-12 col-sm-12 hidden-xs "></div>
-                    <button type="submit" class="btn blue font-15 col-md-offset-2 col-md-8  col-sm-12 col-xs-12 btn-access-door" ng-click="show=5" name="button">Registrar visitante</button>
+
+                    <button type="submit" class="btn blue font-15 col-md-offset-2 col-md-7  col-sm-9 col-xs-9 btn-access-door" ng-click="searchVisitor()" name="button">Registrar visitante</button>
+
+                    <button class="btn red col-md-1 col-sm-2 col-xs-2 btn-access-door" id="access_key_button" ng-click="show=8" name="button">
+                        <span>  <i class="fa fa-key font-17" aria-hidden="true"></i></span>
+                    </button>
+
+
 
                 </div>
-
                 <button type="submit" class="btn green font-15 col-md-12 col-sm-12 col-xs-12 btn-access-door" ng-click="getOfficials()" name="buton">Registrar cambio de turno</button>
 
             </div>
+
             <div ng-hide="hideRegisterForm==1" class="access-result-search-container col-md-6 col-sm-6 col-xs-12 ">
 
                 <div class="portlet light bordered access-information-result-container col-md-12 col-sm-12">
@@ -118,60 +121,137 @@
                             <h1 class="page-title green-font bold text-center font-30 " id="access_tittle">Vehículo registrado</h1>
                             <div class="col-md-12 col-sm-12 ">
                                 <div id="success-car-image" class="result-image "></div>
-
                             </div>
-                            <!-- <div class="height-7-percent col-md-6 col-sm-12 hidden-xs "></div> -->
-                            <div class="access_car_information gray-font text-center col-md-4 col-sm-12 col-xs-12 no-padding">
+                            <div class="height-5-percent hidden-md col-sm-12 hidden-xs "></div>
+                            <div class="access_car_information gray-font text-center col-md-4 col-sm-6 col-xs-12 no-padding">
                                 <h5 class="bold font-30">{{license_plate}}</h5>
                                 <h5 class="font-20">Placa</h5>
                             </div>
 
-                            <div class="col-md-4 col-sm-12 col-xs-12 no-padding marging-top-20">
+                            <div class="col-md-4 col-sm-6 col-xs-12 no-padding marging-top-20">
                                 <h1 class="col-mg-12 text-center "><i class=" text-center fa fa-car font-80 " style="color: {{color}}; " aria-hidden="true "></i> </h1>
                             </div>
-                            <div class="col-md-4 col-sm-12 no-padding text-center ">
-                                <span class="gray-font font-20 col-md-16 col-sm-12 col-xs-12 no-padding">
-                                  <h5 class="bold font-30">{{SelectedBrand}}</h5>
-                                  <h5 class=" font-20">Marca</h5>
-                                </span>
+                            <div class="height-4-percent hidden-md hidden-lg col-sm-12 hidden-xs "></div>
+                            <div class="col-md-4 col-sm-6 gray-font no-padding text-center ">
+                                <h5 class="bold font-30">{{SelectedBrand}}</h5>
+                                <h5 class=" font-20">Marca</h5>
+
                             </div>
-                            <div class="col-md-12">
-                                <div class="access_car_information gray-font text-center col-md-4 col-sm-12 col-xs-12 no-padding">
-                                    <h3 class="bold font-35" id="house_number_span">{{SelectedHouse}}</h3>
-                                    <h5 class=" font-20">Casa</h5>
-                                </div>
-                                <div class="height-7-percent col-md-6 col-sm-12 hidden-xs text-center">
-                                </div>
-                                <button type="submit" class="btn red font-11 col-md-offset-2 col-md-6 col-sm-12 col-xs-12 btn-access-door " ng-click="getKeys()" name="buton ">Ver claves de seguridad</button>
-                                <!-- <div class="col-md-8 col-sm-12 col-xs-12">
-                                    <h3 ng-show="keyShow==1" class="  font-17" id="house_number_span">Clave de seguridad <span class="bold gray-font">madick</span></h3>
-                                    <h3 ng-show="keyShow==1" class=" font-17" id="house_number_span">Clave de emergencia <span class="bold gray-font">12323</span></h3>
-                                    <button type="submit" class="btn red font-11 col-md-offset-2 col-md-6 col-sm-12 col-xs-12 btn-access-door " ng-show="keyShow==1" ng-click="keyShow=2f" name="buton">Ocultar</button>
-                                </div> -->
+
+                            <div class="height-1-percent col-md-12 hidden-sm hidden-xs text-center"></div>
+
+                            <div class="col-md-5 col-sm-6 text-center gray-font no-padding">
+                                <h5 class="font-30 bold text-center "> {{SelectedHouse}}</h5>
+                                <h5 class=" font-20 text-center">Casa</h5>
                             </div>
+                            <div class="height-1-percent hidden-md hidden-lg col-sm-12 hidden-xs text-center"></div>
+                            <div class="height-6-percent col-md-7 hidden-sm hidden-xs text-center"></div>
+                            <button type="submit" class="btn red font-11 col-md-7 col-sm-12 col-xs-12 btn-access-door " ng-click="getKeys()" name="buton ">Ver claves de seguridad </button>
 
                         </div>
                     </div>
-
 
                     <div class="col-md-12 col-sm-12 col-xs-12 " ng-show="show==1 ">
                         <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
                             <h1 class="text-center"><img src="../../assets/global/img/2.gif" alt="" /></h1>
                         </div>
                         <div class="display-none" id="residentAccess">
-
-                            <h1 class="page-title green-font bold text-center font-30 " id="access_tittle ">Residente registrado</h1>
+                            <h1 class="page-title green-font bold text-center font-30 " id="registered_access_tittle">Residente registrado</h1>
                             <div class="" id="success-resident-image">
                                 <img src="http://www.qtem.org/files/attach/images/contact/5438/BVP%20profile%20sq%202.jpg " id="success-resident-image" class="img-rounded" />
                             </div>
-                            <div class="height-5-percent col-md-12 col-sm-12 hidden-xs "></div>
-                            <span class=" gray-font font-20 access_car_information col-md-12 col-sm-12 no-padding ">Nombre: {{name}}</span>
-                            <span class=" gray-font font-20 access_car_information col-md-8 col-sm-12 no-padding ">Cédula:<span class="font-35 bold "> {{indentification}}</span></span>
-                            <span class="font-20 gray-font col-md-4 no-padding ">Casa: <span class="font-35 bold ">{{house_number}}</span></span>
+
+                            <div class="col-md-8 gray-font">
+                                <div class="height-5-percent col-md-12 hidden-sm hidden-xs "></div>
+                                <h5 class="font-20 text-center bold gray-font">{{name}}</h5>
+                                <h5 class="font-20 text-center gray-font">Nombre</h5>
+                            </div>
+                            <div class="col-md-4 col-sm-4  gray-font">
+                                <h5 class="font-30 bold text-center"> {{house_number}}</h5>
+                                <h5 class="font-20 text-center">Casa</h5>
+                            </div>
+
+
+
+                            <div class="col-md-8 col-sm-8 text-center gray-font no-padding">
+                                <h5 class="font-30 bold text-center "> {{indentification}}</h5>
+                                <h5 class=" font-20 text-center">Cédula</h5>
+                            </div>
+                            <div class="height-5-percent col-md-4 col-sm-12 hidden-xs text-center"></div>
+                            <button type="submit" class="btn red font-11 col-md-4 col-sm-12 col-xs-12 btn-access-door " ng-click="getKeys()" name="buton ">Ver claves </button>
+
+
                         </div>
                     </div>
 
                     <div class="col-md-12 col-sm-12 col-xs-12 " ng-show="show==5 ">
+                        <div class="portlet-title gray-font">
+                            <div class="caption text-center font-19">
+                                Registrar visitante
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <form role="form" ng-submit="insertVisitor()">
+                                <div class="form-body">
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                        <i class="fa fa-indent"></i>
+                                        </span>
+                                            <input type="text" ng-change="getVisitor()" ng-model="visitor_id_number" class="form-control font-15 gray-font numbers" id="identification_number" placeholder="Cédula" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                    											<i class="fa fa-user"></i>
+                    											</span>
+                                            <input type="text" id="name" ng-model="visitor_name" class="form-control font-15 gray-font letters" placeholder="Nombre" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                          <i class="fa fa-user"></i>
+                                          </span>
+                                            <input type="text" ng-model="visitor_last_name" class="form-control font-15 gray-font letters" id="last_name" placeholder="Primer apellido" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                          <i class="fa fa-user"></i>
+                                          </span>
+                                            <input type="text" ng-model="visitor_second_last_name" class="form-control font-15 gray-font letters" id="second_last_name" placeholder="Segundo apellido">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                          <i class="fa fa-car"></i>
+                                          </span>
+                                            <input type="text" ng-model="visitor_license_plate" class="form-control font-15 gray-font" id="license_plate" placeholder="Número de placa (opcional)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group  col-md-12 no-padding">
+                                        <label class="col-md-4 col-sm-3 col-xs-5 gray-font">Número de casa</label>
+                                        <div class="form-group col-md-8 col-sm-9 col-xs-7">
+                                            <select class="form-control gray-font" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
+                                                <option value="">Seleccione una casa</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group  col-md-12 ">
+                                        <h3 class="text-right">
+                                        <button type="submit" class="btn blue">Registrar</button>
+                                        <button type="button" ng-click="show=4" class="btn default">Cancelar</button>
+                                      </h3>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 " ng-show="show==8 ">
                         <div class="portlet-title gray-font">
                             <div class="caption text-center font-19">
                                 Registrar visitante
@@ -191,8 +271,8 @@
                                     <div class="form-group col-md-12">
                                         <div class="input-group">
                                             <span class="input-group-addon">
-                    											<i class="fa fa-user"></i>
-                    											</span>
+                                          <i class="fa fa-user"></i>
+                                          </span>
                                             <input type="text" id="name" ng-model="visitor_name" class="form-control font-15" placeholder="Nombre">
                                         </div>
                                     </div>
@@ -204,30 +284,7 @@
                                             <input type="text" ng-model="visitor_last_name" class="form-control font-15" id="last_name" placeholder="Primer apellido">
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                          <i class="fa fa-user"></i>
-                                          </span>
-                                            <input type="text" ng-model="visitor_second_last_name" class="form-control font-15" id="second_last_name" placeholder="Segundo apellido">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                          <i class="fa fa-car"></i>
-                                          </span>
-                                            <input type="text" ng-model="visitor_license_plate" class="form-control font-15" id="license_plate" placeholder="Número de placa (opcional)">
-                                        </div>
-                                    </div>
-                                    <div class="form-group  col-md-12 no-padding">
-                                        <label class="col-md-4 col-sm-3 col-xs-5 gray-font">Número de casa</label>
-                                        <div class="form-group col-md-8 col-sm-9 col-xs-7">
-                                            <select class="form-control" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
-                                              <option value="">Seleccione una casa</option>
-                                            </select>
-                                        </div>
-                                    </div>
+
                                     <div class="form-group  col-md-12 ">
                                         <h3 class="text-right">
                                         <button type="submit" class="btn blue">Registrar</button>
@@ -244,15 +301,15 @@
             <!-- <div class="height-5-percent col-md-12 col-sm-12 hidden-xs "></div> -->
             <div class="row" ng-show="show==7" ng-hide="hideEmergencyForm==1">
                 <div class="col-md-12 " id="emergencyContainer">
-                    <h1 class="text-center white-color font-60">Emergencia</h1>
+                    <h1 class="text-center huge-margin-top white-color font-80 bold ">Emergencia reportada en la casa número {{house_number_emergency}}</h1>
                     <form role="form" ng-submit="attendEmergency()">
                         <h3 class="text-center">
-                          <button type="submit" class="btn blue white-color default col-md-offset-4 col-md-4 font-15 height-12-percent">Atender emergencia</button>
+                          <button type="submit" class="btn blue white-color default col-md-offset-4 col-md-4 font-20 marging-top-100 height-12-percent">Atender emergencia</button>
                       </h3>
                     </form>
                 </div>
             </div>
-            <div class="row" ng-show="show==6">
+            <div class="row access-container" ng-show="show==6" ng-hide="hideRegisterForm==2 || hideEmergencyForm==2">
                 <div class="col-md-12">
                     <div class="portlet light bordered">
                         <div class="portlet-title">
@@ -260,44 +317,51 @@
                                 <i class="fa fa-car font-green-haze"></i>
                                 <span class="caption-subject bold uppercase">Reportar cambio de turno</span>
                             </div>
-                            <div class="actions">
-                                <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
-                                </a>
-                            </div>
+
                         </div>
                         <div class="portlet-body form">
-                            <form role=" form " ng-submit="actionButton() ">
+                            <form role=" form " ng-submit="reportTurn() ">
                                 <div class="form-body ">
                                     <p class="gray-font font-15">
                                         Para seleccionar los oficiales de este turno, de click sobre la fila del oficial que desee elegir.
                                     </p>
                                     <div class="col-md-6">
-                                        <div class="portlet box red">
-                                            <div class="portlet-title">
-                                                <div class="caption">
-                                                    <i class="fa fa-cogs"></i>Oficiales
+                                        <div class="portlet box gray">
+                                            <div class="portlet-title col-md-12">
+                                                <div class="caption col-md-7 ">
+                                                    Oficiales
                                                 </div>
-
+                                                <div class="form-group no-padding col-md-5 marging-top-2-percent col-sm-3 col-xs-6">
+                                                    <div class="input-icon ">
+                                                        <i class="fa fa-search"></i>
+                                                        <input type="text" class="form-control input-circle" placeholder="Buscar oficial" ng-model="search">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="portlet-body">
-                                                <div class="table-scrollable">
-                                                    <table class="table table-hover">
+                                            <div class="portlet-body access_officer_table">
+                                                <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIconaa">
+                                                    <h1 class="text-center"><img src="../../assets/global/img/loader4.gif" alt="" /></h1>
+                                                </div>
+                                                <div class="table-scrollable display-none" id="officers_turn_container">
+
+                                                    <table class="table table-striped table-hover font-12">
                                                         <thead>
                                                             <tr>
-                                                                <th>Nombre</th>
+                                                                <th>Nombre completo</th>
                                                                 <th>Cédula</th>
-
                                                             </tr>
                                                         </thead>
+
+
                                                         <tbody>
-                                                            <tr>
-                                                                <td>Mark Otto Ramirez</td>
-                                                                <td>11847184</td>
+                                                            <tr ng-repeat="officer in officers | filter:search | orderBy:'name' " ng-click="moveToLinked(officer)">
+                                                                <td>{{officer.name}} {{officer.last_name}} {{officer.second_last_name}}</td>
+                                                                <td>{{officer.identification_number}}</td>
+                                                                <td><i class="fa fa-plus" aria-hidden="true" style="color:green;"></i></td>
                                                             </tr>
 
-
-
                                                         </tbody>
+
                                                     </table>
                                                 </div>
                                             </div>
@@ -305,30 +369,29 @@
 
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="portlet box red ">
+                                        <div class="portlet box gray ">
                                             <div class="portlet-title">
-                                                <div class="caption">
-                                                    <i class="fa fa-cogs"></i>Oficiales seleccionados
+                                                <div class="caption  ">
+                                                    Oficiales seleccionados
                                                 </div>
                                             </div>
-                                            <div class="portlet-body">
-                                                <div class="table-scrollable">
-                                                    <table class="table table-hover">
+
+                                            <div class="portlet-body access_officer_table">
+
+                                                <div class="table-scrollable ">
+                                                    <table class="table table-striped table-hover font-12">
                                                         <thead>
                                                             <tr>
                                                                 <th>Nombre</th>
                                                                 <th>Cédula</th>
-
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>Mark Otto Ramirez</td>
-                                                                <td>11847184</td>
+                                                            <tr ng-repeat="officer in officersLinked |  orderBy:'name' " ng-click="moveToLink(officer)">
+                                                                <td>{{officer.name}} {{officer.last_name}} {{officer.second_last_name}}</td>
+                                                                <td>{{officer.identification_number}}</td>
+                                                                <td><i class="fa fa-minus" aria-hidden="true" style="color:red;"></i></td>
                                                             </tr>
-
-
-
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -336,13 +399,11 @@
                                         </div>
 
                                     </div>
-                                    <div class="form-actions noborder ">
-                                        <h3 class="text-right ">
-                                          <button type="submit " class="btn blue "><i class="fa fa-pencil "></i> Reportar turno</button>
-                                          <button type="button " ng-ckick="show=4 "  class="btn default gray-font ">Cancelar</button>
-                                        </h3>
-                                    </div>
 
+                                    <h3 class="text-right ">
+                                          <button type="submit" class="btn blue "><i class="fa fa-pencil "></i> Reportar turno</button>
+                                          <button  type="button" ng-click="hideRegisterForm=2"  class="btn default gray-font ">Cancelar</button>
+                                    </h3>
 
                                 </div>
                             </form>

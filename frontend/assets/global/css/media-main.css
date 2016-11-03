@@ -1,8 +1,15 @@
 
 @media only screen and  (max-width: 995px)  {
-  #access_tittle{
+  #raccess_tittle{
     font-size: 25px !important;
     margin-top: 20px;
+  }
+  #registered_access_tittle{
+    font-size: 20px !important;
+    margin-top: 20px;
+  }
+  .access-container{
+      margin-top: 0% ;
   }
   #error-image{
     height: 150px;
@@ -35,7 +42,7 @@
 }
 .access-information-result-container{
     padding: 0 !important;
-    min-height: 62%;
+    min-height: 75%;
 
 }
 .access-result-search-container{
@@ -55,6 +62,9 @@
   .access-information-result-container{
     height: 37%;
     margin-top: 100px;
+  }
+  .access-container{
+      margin-top: 0% ;
   }
   #error-image{
     height: 180px;
@@ -91,6 +101,10 @@
   }
   #index-search-bar{
     padding: 0 !important;
+  }
+  .access-information-result-container{
+    min-height: 20% !important;
+    margin-top: 2% !important;
   }
 }
 
@@ -148,5 +162,7 @@
 #house_number_span{
   font-size: 20px;
 }
-
+#access_key_button{
+  height: 35px;
+}
 }
