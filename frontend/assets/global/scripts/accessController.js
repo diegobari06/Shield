@@ -142,7 +142,6 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
     $scope.hideEmergencyForm = 1
 
     getEmergency = function() {
-        console.log(attended);
         if ($rootScope.user.signedIn && $rootScope.user.permission_level == 3 && attended == 0) {
 
             accessFunctions.getEmergency().success(function(emergency) {
@@ -229,7 +228,6 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
         } else {
             $scope.show = 3;
             angular.forEach(residentsPrueba, function(item, index) {
-
                 if (item.identification_number == $scope.id_number) {
                     $("#residentAccess").fadeIn(100);
                     $scope.show = 1;
@@ -245,10 +243,61 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
                     });
                 }
             });
+            $("#loadingIconnn").fadeIn(0);
+            if ($scope.id_number.length > 6) {
+
+                accessFunctions.findRegisteredVisitant($scope.id_number).success(function(data) {
+
+                    if (data == 0) {
+                        console.log('no se encuentra');
+                    } else {
+                        $("#loadingIconnn").fadeOut(100);
+                        setTimeout(function() {
+                            $("#visitantInvitedtAccess").fadeIn(200);
+                        }, 200)
+                        $scope.show = 10;
+                        $scope.invited_visitant_name = data.name
+                        $scope.invited_visitant_last_name = data.last_name;
+                        $scope.invited_visitant_second_last_name = data.second_last_name;
+                        $scope.invited_visitant_house_number = data.id_house;
+                        $scope.invited_visitant_indentification = data.identification_number;
+                        if (data.license_plate == null) {
+                            $scope.invited_visitant_license_plate = "Ninguna";
+
+                        } else {
+                            $scope.invited_visitant_license_plate = data.license_plate;
+                        }
+
+
+                    }
+                });
+            }
         }
     };
 
+    $scope.insert_visitant_invited = function() {
 
+        commonMethods.waitingMessage();
+        accessFunctions.insertVisitor({
+            name: $scope.invited_visitant_name,
+            last_name: $scope.invited_visitant_last_name,
+            second_last_name: $scope.invited_visitant_second_last_name,
+            company_id: 3,
+            identification_number: $scope.invited_visitant_indentification,
+            license_plate: $scope.invited_visitant_license_plate,
+            id_house: $scope.invited_visitant_house_numberd,
+            is_invited: 0
+        }).success(function() {
+            $scope.id_number = "";
+            $scope.id_vehicule = "";
+            bootbox.hideAll();
+            $scope.show = 4;
+            toastr["success"]("Se ha registrado el visitante correctamente");
+
+        });
+
+
+    }
     $scope.getVehicule = function() {
         $scope.id_number = "";
 
@@ -489,6 +538,9 @@ app.factory('accessFunctions', function($http, $rootScope) {
                 method: 'PUT',
                 data: data
             })
+        },
+        findRegisteredVisitant: function(id) {
+            return $http.get('http://localhost:3000/companies/3/visitants/invited/find/' + id)
         },
         reportTurn: function(data) {
             return $http({

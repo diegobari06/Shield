@@ -97,8 +97,8 @@
 
 
                 </div>
-                <button type="submit" class="btn green font-15 col-md-12 col-sm-12 col-xs-12 btn-access-door" ng-click="getOfficials()" name="buton">Registrar cambio de turno</button>
-
+                <button type="submit" class="btn green font-15 col-md-12 col-sm-12 col-xs-12 btn-access-door " ng-click="getOfficials()" name="buton">Registrar cambio de turno</button>
+                <div class="height-3-percent col-md-12 col-sm-12 hidden-xs "></div>
             </div>
 
             <div ng-hide="hideRegisterForm==1" class="access-result-search-container col-md-6 col-sm-6 col-xs-12 ">
@@ -295,7 +295,41 @@
                             </form>
                         </div>
                     </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 " ng-show="show==10">
+                        <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIconnn">
+                            <h1 class="text-center"><img src="../../assets/global/img/2.gif" alt="" /></h1>
+                        </div>
+                        <div class="display-none" id="visitantInvitedtAccess">
+                            <h1 class="page-title green-font bold text-center font-30 " id="registered_access_tittle">Visitante invitado</h1>
 
+                            <div class="col-md-8 gray-font">
+                                <div class="height-5-percent col-md-12 hidden-sm hidden-xs "></div>
+                                <h5 class="font-20 text-center bold gray-font">{{invited_visitant_name}} {{invited_visitant_last_name}} {{invited_visitant_second_last_name}}</h5>
+                                <h5 class="font-20 text-center gray-font">Nombre</h5>
+                            </div>
+                            <div class="col-md-4 col-sm-4  gray-font">
+                                <div class="height-5-percent col-md-12 hidden-sm hidden-xs "></div>
+                                <h5 class="font-30 bold text-center"> {{invited_visitant_house_number}}</h5>
+                                <h5 class="font-20 text-center">Casa</h5>
+                            </div>
+                            <div class="height-5-percent col-md-12 hidden-sm hidden-xs "></div>
+
+
+                            <div class="col-md-7 col-sm-8 text-center gray-font no-padding">
+                                <h5 class="font-30 bold text-center "> {{invited_visitant_indentification}}</h5>
+                                <h5 class=" font-20 text-center">Cédula</h5>
+                            </div>
+                            <div class="col-md-5 col-sm-8 text-center gray-font no-padding">
+                                <h5 class="font-30 bold text-center "> {{invited_visitant_license_plate}}</h5>
+                                <h5 class=" font-20 text-center">Placa</h5>
+                            </div>
+
+                            <div class="height-5-percent col-md-12 col-sm-12 hidden-xs text-center"></div>
+                            <button type="submit" class="btn red font-15 col-md-offset-1 col-md-10 col-sm-12 col-xs-12 btn-access-door " ng-click="insert_visitant_invited()" name="buton ">Registrar visita </button>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- <div class="height-5-percent col-md-12 col-sm-12 hidden-xs "></div> -->

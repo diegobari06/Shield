@@ -487,7 +487,7 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
     }
     $scope.getResidents();
 });
-app.controller('CreateCondominosVisitorsController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions) {
+app.controller('CreateCondominosVisitorsController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, commonMethods) {
     $rootScope.active = "residentsVisitors";
     $scope.title = "Reportar visitante";
     $scope.button = "Reportar";
@@ -576,6 +576,8 @@ app.controller('CreateCondominosVisitorsController', function($scope, $state, $r
     }
 
     $scope.actionButton = function() {
+
+        commonMethods.waitingMessage();
         residentsAccionsController.insert({
             name: $scope.name,
             last_name: $scope.last_name,
@@ -588,7 +590,9 @@ app.controller('CreateCondominosVisitorsController', function($scope, $state, $r
             invitation_limit_time: $scope.parseDate($scope.final_date, $scope.final_hour),
             is_invited: 1
         }).success(function() {
-
+            $state.go('condominoVisitors');
+            bootbox.hideAll();
+            toastr["success"]("Se ha reportado el visitante correctamente");
         });
     }
 });

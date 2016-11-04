@@ -288,7 +288,8 @@ height: 100%;
 	overflow-y: scroll;
 }
 .access-back{
-    height: 100vh;
+    /*height: 100vh;*/
+		    height: 100%;
     width: 100%;
     background-image: url("http://www.carvarisa.com/wp-content/uploads/via_nova_2.jpg");
     background-size: cover;
