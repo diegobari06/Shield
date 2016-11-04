@@ -653,6 +653,30 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     return $auth.validateUser();
                 }
             }
+        }).state("watches", {
+            url: "/condomino/turnos/consultar",
+            views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                    templateUrl: '../admin/watches/index.html',
+                    controller: 'watchesController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+            },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
         })
 
 

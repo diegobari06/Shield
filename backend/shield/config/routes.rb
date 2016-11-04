@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :officers
     resources :visitants
     resources :watches
+    get 'current/watch/' => 'watches#currentWatch'
+    get 'watch/filter/' => 'watches#filterWatches'
     resources :emergencies
     resources :company_configuration
     get 'visitants/find/:id' => 'visitants#find'

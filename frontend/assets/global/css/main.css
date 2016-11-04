@@ -9,7 +9,21 @@
 	z-index: 9999;
 	background: url(http://smallenvelop.com/wp-content/uploads/2014/08/Preloader_11.gif) center no-repeat #fff;
 }
-
+.dark-blue-border{
+	border: solid 1px #2b3643;
+}
+.font-60{
+	font-size: 1px;
+}
+.text-right{
+	text-align: right;
+}
+.pointer{
+	cursor: pointer;
+}
+.dark-blue{
+	background-color: #2b3643;
+}
 .nothing{
 	border: none;
 	background-color: transparent;
@@ -264,6 +278,10 @@ height: 100%;
 }
 .margin-right-10{
   margin-right: 10px;
+}
+.font-back{
+	font-size: 40px !important;
+	margin-top: 10px;
 }
 .font-60{
   font-size: 60px !important;

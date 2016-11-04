@@ -13,6 +13,30 @@ class WatchesController < ApplicationController
   render :json => @watch.to_json(:include => [:officers])
   end
 
+  def filterWatches
+      @watches = Watch.where("company_id = ?", params[:company_id])
+      @filteredWatches = [];
+       @limitTime = params[:consulting_final_time].to_datetime.strftime('%d/%m/%y');
+       @initialTime = params[:consulting_initial_time].to_datetime.strftime('%d/%m/%y');
+       puts @limitTime
+       puts @initialTime
+       @watches.each do |watch|
+         if(watch.final_time == nil)
+           if(watch.initial_time.strftime('%d %m %y') >= @initialTime && Time.now.strftime('%d %m %y') <= @limitTime)
+            @filteredWatches.push(watch)
+         end
+         else
+         if(watch.initial_time.strftime('%d %m %y') >= @initialTime && watch.final_time.strftime('%d %m %y') <= @limitTime)
+          @filteredWatches.push(watch)
+       end
+     end
+     end
+      render json: @filteredWatches, status: 200
+  end
+
+  def currentWatch
+     render :json => Watch.where("company_id = ?",params[:company_id]).last.to_json(:include => [:officers])
+  end
   # GET /categories/new
   def new
     @watch = Watch.new
@@ -29,7 +53,7 @@ class WatchesController < ApplicationController
     @lastWatch.final_time = @currentTime
     @lastWatch.setMyGuardsInactive
     @lastWatch.save
-   end
+  else
     @watch = Watch.new(watch_params)
     @watch.setOfficers = params[:officers]
     @watch.initial_time = @currentTime
@@ -38,6 +62,7 @@ class WatchesController < ApplicationController
     else
       render json: { errors: @watch.errors }, status: 422
     end
+  end
   end
   def destroy
     @watch.destroy
