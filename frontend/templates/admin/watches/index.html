@@ -27,8 +27,9 @@
         <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
             <h1 class="text-center"><img src="../../assets/global/img/loader4.gif" alt="" /></h1>
         </div>
-        <div class="display-none" id="tableData">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <h2 class="text-center" ng-show="noData==true">No existe ningún turno registrado aún</h2>
+        <div class="display-none" id="tableData" ng-show="noData==false">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 <div class="portlet light bordered">
                     <div class="portlet-title">
                         <div class="caption font-green">
@@ -71,6 +72,7 @@
                         <span ng-click="filterWatches()" class="float-right pointer" ng-show="showBackBtn==true"><i class="fa fa-arrow-circle-o-left font-green font-back" aria-hidden="true"></i></span>
                     </div>
                     <div class="col-md-10 col-lg-10 col-sm-10 col-xs-11">
+                      <h2 class="text-center" ng-show="noData==true">No existe ningún turno registrado aún</h2>
                         <div class="portlet box dark-blue" ng-show="showTable==false">
                             <div class="portlet-title">
                                 <h4 class="text-center" ng-show="currentTurn==true">Turno actual</h4>

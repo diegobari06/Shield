@@ -19,14 +19,16 @@ class WatchesController < ApplicationController
        @limitTime = params[:consulting_final_time].to_datetime.strftime('%d/%m/%y');
        @initialTime = params[:consulting_initial_time].to_datetime.strftime('%d/%m/%y');
        puts @limitTime
+
        puts @initialTime
        @watches.each do |watch|
+           puts watch.initial_time.to_datetime.strftime('%d/%m/%y')
          if(watch.final_time == nil)
-           if(watch.initial_time.strftime('%d %m %y') >= @initialTime && Time.now.strftime('%d %m %y') <= @limitTime)
+           if(watch.initial_time.to_datetime.strftime('%d/%m/%y') >= @initialTime && Time.now.strftime('%d/%m/%y') <= @limitTime)
             @filteredWatches.push(watch)
          end
          else
-         if(watch.initial_time.strftime('%d %m %y') >= @initialTime && watch.final_time.strftime('%d %m %y') <= @limitTime)
+         if(watch.initial_time.strftime('%d/%m/%y') >= @initialTime && watch.final_time.to_datetime.strftime('%d/%m/%y') <= @limitTime)
           @filteredWatches.push(watch)
        end
      end
@@ -47,13 +49,13 @@ class WatchesController < ApplicationController
   end
   # POST /categories.json
   def create
-    @currentTime = Time.now
+    @currentTime = DateTime.now - 1.days
     @lastWatch = Watch.where("company_id = ? and access_door_id =?",params[:company_id], params[:access_door_id]).last
     if @lastWatch != nil
     @lastWatch.final_time = @currentTime
     @lastWatch.setMyGuardsInactive
     @lastWatch.save
-  else
+    end
     @watch = Watch.new(watch_params)
     @watch.setOfficers = params[:officers]
     @watch.initial_time = @currentTime
@@ -62,7 +64,7 @@ class WatchesController < ApplicationController
     else
       render json: { errors: @watch.errors }, status: 422
     end
-  end
+
   end
   def destroy
     @watch.destroy

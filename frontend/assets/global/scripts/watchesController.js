@@ -5,7 +5,9 @@ app.controller('watchesController', function($scope, $state, $rootScope, $window
     $scope.showCleanBtn = false;
     $scope.showBackBtn = false;
     $scope.currentTurn= true;
+    $scope.noData = false;
     setWatch = function(data){
+      if(data!=null){
       $scope.showTable = false;
       $scope.currentTurn= false;
       $scope.showBackBtn = true;
@@ -18,6 +20,9 @@ app.controller('watchesController', function($scope, $state, $rootScope, $window
           $scope.final_time = moment(data.final_time).format('h:mm a');
       }
       $scope.officers = data.officers;
+    }else{
+      $scope.noData = true;
+    }
     }
     $scope.getCurrentWatch = function(){
       $("#data").fadeOut(0);
@@ -55,19 +60,6 @@ app.controller('watchesController', function($scope, $state, $rootScope, $window
        setWatch(data);
      })
    }
-    $scope.revertRenderDate = function(date, hours) {
-        var splitted = hours.split(":");
-        var hour = splitted[0];
-        var minute = splitted[1];
-        var am_pm;
-        if (hour > 12) {
-            hour = hour - 12;
-            am_pm = "PM";
-        } else {
-            am_pm = "AM"
-        }
-        return date + "   " + hour + ":" + minute + " " + am_pm;
-    }
 
     $scope.filterWatches = function() {
       $("#data").fadeOut(0);
