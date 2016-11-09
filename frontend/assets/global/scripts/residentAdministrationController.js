@@ -157,6 +157,10 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
     var id_house;
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         id_house = data.house_id;
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#edit_resident_form").fadeIn(300);
+        }, 200)
     });
     $scope.actionButton = function() {
 
@@ -181,6 +185,7 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
                 }).success(function(dataResident) {
                     $state.go('condominos');
                     bootbox.hideAll();
+
                 });
             }
         });
@@ -208,7 +213,10 @@ app.controller('editCondominoController', function($scope, $state, $rootScope, $
         company_id = data.company_id;
         email = data.email;
         identification_number = data.identification_number;
-
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#edit_resident_form").fadeIn(300);
+        }, 200)
     });
 
     $scope.actionButton = function() {

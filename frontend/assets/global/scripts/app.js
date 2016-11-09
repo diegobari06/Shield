@@ -422,6 +422,30 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     return $auth.validateUser();
                 }
             }
+        }).state("users", {
+            url: "/usuarios",
+            views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                    templateUrl: '../Users/users.html',
+                    controller: 'UsersListController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+            },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
         }).state("access", {
             url: "/puertaAcceso",
             views: {

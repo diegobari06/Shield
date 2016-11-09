@@ -23,6 +23,20 @@ app.controller('newUsersController', function($scope, $auth, $rootScope, $http, 
     }
 
 });
+
+app.controller('UsersListController', function($scope, $state, $http, $rootScope, $window, residentsFunctions, usersFunctions, commonMethods) {
+
+    $http.get('http://localhost:3000/companies/3/users').success(function(users) {
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#tableData").fadeIn(300);
+        }, 200)
+        console.log(users);
+        $scope.users = users;
+
+
+    });
+});
 //
 // angular.module('authApp').controller('usersController', function($scope,$auth,$location,$rootScope,$http){
 //   $rootScope.headerTitle = "Users accounts";

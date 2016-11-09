@@ -1,29 +1,56 @@
+<!-- SE REQUIERE EN CADA VISTA -->
 
-          <input type="text" name="name" value="" placeholder="Search user" class="search-bar float-left" ng-model="userSearch">
-          <input type="button" name="Disabled" value="{{viewLabel}}" class="button small-margin-left" ng-click="changeView()" ng-show="isSuperAdmin()">
-          <input type="submit" name="name" value="Create user" class="submit-button float-right" ui-sref="newUser()" ng-show="isSuperAdmin()">
-          <hr>
-          <table class="table table-striped table-inverse">
-            <thead>
-              <tr>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Permisson Level</th>
-                <th ng-show="isSuperAdmin()">Edit</th>
-                <th ng-show="isSuperAdmin()">Enabled</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="userR in users | orderBy: 'email' | filter:userSearch" ng-show="userR.email!= user.email" >
-                <td>{{userR.email}}</td>
-                <td>{{userR.rol.name}}</td>
-                <td><span ng-repeat="permission in permissions" ng-if="permission.value == userR.permission_level">{{permission.name}}</span></td>
-                <td ng-show="isSuperAdmin()"><a href="#/users/edit/{{userR.id}}">Edit</a></td>
-                <td ng-show="isSuperAdmin()">
-                  <!--<a href="" ng-click="delete(userR.id)">Enabled</a>-->
-                  <input bs-switch ng-model="switch[userR.id]" type="checkbox" ng-change="changeState({{userR}})" switch-on-text="{{ onLabel }}" switch-off-text="{{ offLabel }}">
-                </td>
-                </span>
-              </tr>
-            </tbody>
-          </table>
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="page-title col-md-10">	Usuarios </h3>
+        <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
+            <h1 class="text-center">  <img src="../../assets/global/img/loader4.gif" alt="" />    </h1>
+        </div>
+        <div class="display-none" id="tableData">
+
+            <div class="form-group col-md-offset-7 col-md-3 col-sm-offset-7 col-sm-3 col-xs-6">
+                <div class="input-icon">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Buscar casa" ng-model="search">
+                </div>
+            </div>
+            <button type="submit" class="btn green col-md-2 col-sm-2 col-xs-6 small-margin-bottom" ui-sref="newUser()">Registrar usuario</button>
+            <div class="portlet-body ">
+
+                <div class="table-scrollable">
+                    <table class="table table-striped table-hover font-12">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <!-- <th>Role</th> -->
+                                <th>Permisson Level</th>
+                                <th>Edit</th>
+                                <th>Enabled</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="userR in users | orderBy: 'email' | filter:userSearch" ng-show="userR.email!= user.email">
+                                <td>{{userR.email}}</td>
+                                <!-- <td>{{userR.rol.name}}</td> -->
+                                <td>{{userR.permission_level}}</td>
+
+                                <!-- <td><span ng-repeat="permission in permissions" ng-if="permission.value == userR.permission_level">{{permission.name}}</span></td>
+                                <td ng-show="isSuperAdmin()"><a href="#/users/edit/{{userR.id}}">Edit</a></td>
+                                <td ng-show="isSuperAdmin()">
+
+                                    <input bs-switch ng-model="switch[userR.id]" type="checkbox" ng-change="changeState({{userR}})" switch-on-text="{{ onLabel }}" switch-off-text="{{ offLabel }}">
+                                </td> -->
+                                </span>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function() {
+        $("#loadingIcon").fadeIn("slow");
+    });
+</script>

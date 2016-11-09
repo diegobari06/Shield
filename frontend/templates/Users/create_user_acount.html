@@ -42,30 +42,23 @@
 
                 <div class=" form-md-line-input col-lg-offset-1 col-lg-10 ">
                     <div class="form-group form-md-line-input small-margin-top">
-                        <input type="text" class="form-control" ng-model="email" id="form_control_1" placeholder="Digite el email">
+                        <input type="text" class="form-control" ng-model="email" id="form_control_1" placeholder="">
                         <label for="form_control_1">Email</label>
                     </div>
-
                     <div class="form-group form-md-line-input small-margin-top">
-                        <!-- <select ng-model="house_id" >
-                <option ng-repeat="house in houses">{{house.house_number}}</option>
-            </select> -->
-                        <select class="form-control" id="form_control_1" ng-model="companySelected" ng-options="company.name for company in companies | orderBy: 'name' track by company.id" required>
-              <option value="">Seleccione la compañia</option>
-            </select>
-                        <label for="form_control_1">Compañia</label >
-      </div>
-  </div>
-  <div class="form-actions noborder col-lg-12">
-      <h3 class="text-right">
-      <button type="submit" class="btn blue">{{button}}</button>
-      <button type="button" class="btn default">Cancelar</button>
-    </h3>
-  </div>
-</form>
-</div>
-</div>
-<!--CONTENIDO FINALIZA AQUI -->
-</div>
-</form>
+                        <select class="form-control gray-font" id="form_control_1" ng-model="companySelected" ng-options="company.name for company in companies | orderBy: 'name' track by company.id" required>
+                            <option value="">Seleccione la compañia</option>
+                        </select>
+                        <label for="form_control_1">Compañia</label>
+                    </div>
+                </div>
+                <div class="form-actions noborder col-lg-12">
+                    <h3 class="text-right">
+                        <button type="submit" class="btn blue">{{button}}</button>
+                        <button type="button" class="btn default">Cancelar</button>
+                    </h3>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
