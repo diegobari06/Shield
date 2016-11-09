@@ -2,18 +2,59 @@
 app.controller('VehiculesListController', function($scope, $state, $rootScope, $window, vehiculesFunctions, commonMethods) {
     commonMethods.validatePermisson(2);
     $rootScope.active = "vehicules";
-    vehiculesFunctions.getAll().success(function(vehicules) {
-        $("#loadingIcon").fadeOut(0);
-        setTimeout(function() {
-            $("#tableData").fadeIn(300);
-        }, 200)
+    $scope.loadingVehicules = function() {
+      $("#tableData").fadeOut(0);
+      setTimeout(function() {
+          $("#loadingIcon").fadeIn(300);
+      }, 200)
+        vehiculesFunctions.getAll().success(function(vehicules) {
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#tableData").fadeIn(300);
+            }, 200)
 
-        $scope.vehicules = vehicules;
-    })
+            $scope.vehicules =  $scope.formatVehicules(vehicules);
+        });
+    }
+    $scope.findVehiculesByHouse = function(house) {
+        var vehiculesByHouse = [];
+        if (house == undefined) {
+            $scope.loadingVehicules();
+        } else {
+            $("#tableData").fadeOut(0);
+            setTimeout(function() {
+                $("#loadingIcon").fadeIn(300);
+            }, 200)
+            vehiculesFunctions.getAll().success(function(vehicules) {
+                $("#loadingIcon").fadeOut(0);
+                setTimeout(function() {
+                    $("#tableData").fadeIn(300);
+                }, 200)
+                $scope.vehicules = vehicules;
+                for (var i = 0; i < $scope.vehicules.length; i++) {
+                    console.log($scope.vehicules[i].house_id);
+                    if (house.id === $scope.vehicules[i].house_id) {
+                        vehiculesByHouse.push($scope.vehicules[i])
+                    }
+                }
+                $scope.vehicules = $scope.formatVehicules(vehiculesByHouse);
+            });
+        }
+    }
     vehiculesFunctions.getAllHouses().success(function(houses) {
         $scope.houses = houses;
+        $scope.loadingVehicules();
     })
-
+    $scope.formatVehicules = function(vehicules) {
+        for (var i = 0; i < vehicules.length; i++) {
+            for (var e = 0; e < $scope.houses.length; e++) {
+                if (vehicules[i].house_id == $scope.houses[e].id) {
+                    vehicules[i].house_id = $scope.houses[e].house_number;
+                }
+            }
+        }
+        return vehicules;
+    }
     $scope.deleteVehicule = function(id, license_plate) {
         bootbox.confirm({
             message: "¿Está seguro que desea eliminar al vehículo " + license_plate + "?",
@@ -51,14 +92,12 @@ app.controller('VehiculesCreateController', function($scope, $http, $rootScope, 
     $rootScope.active = "vehicules";
     $scope.title = "Registrar vehículo";
     $scope.button = "Registrar";
-    $scope.submitColour = function() {
-        val = $('#color-rgb').css('background-color');
-
-    }
     vehiculesFunctions.getAllHouses().success(function(houses) {
         $scope.houses = houses;
     })
-
+    $scope.submitColor = function() {
+        $scope.color = $('#color').css('background-color');
+    }
     $scope.brands = {
         data: [{
 
@@ -150,7 +189,7 @@ app.controller('VehiculesCreateController', function($scope, $http, $rootScope, 
                 vehiculesFunctions.insert({
                     license_plate: $scope.license_plate,
                     house_id: $scope.house.id,
-                    color: val,
+                    color: $scope.color,
                     brand: $scope.brand.name,
                     company_id: 3
                 }).success(function() {
@@ -170,9 +209,8 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
     var residentName, val, licence_plate;
     $scope.title = "Editar vehículo";
     $scope.button = "Editar";
-    $scope.submitColour = function() {
-        val = $('#color-rgb').css('background-color');
-
+    $scope.submitColor = function() {
+        $scope.color = $('#color').css('background-color');
     }
     $scope.brands = {
         data: [{
@@ -270,7 +308,7 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
                 vehiculesFunctions.update($scope.vehiculeId, {
                     license_plate: $scope.license_plate,
                     house_id: $scope.house.id,
-                    color: val,
+                    color: $scope.color,
                     brand: $scope.brand.name,
                     company_id: 3
                 }).success(function() {

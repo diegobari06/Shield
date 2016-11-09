@@ -32,7 +32,9 @@
             <div class="form-group col-md-offset-4 col-md-3 col-sm-offset-2  col-sm-4 col-xs-7 no-padding">
                 <label class="col-md-5 col-sm-5  col-xs-4 control-label no-padding gray-font">Filtrar por casa</label>
                 <div class="col-md-7 col-sm-7 col-xs-8 ">
-                    <select name="repeatSelect" class="form-control no-padding gray-font" ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required></select>
+                    <select class="form-control gray-font" ng-change="findResidentsByHouse(house)" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
+                    <option value="">Todas</option>
+              </select>
                 </div>
             </div>
 
@@ -44,9 +46,9 @@
             </div>
             <button type="submit" class="btn green col-md-2 col-sm-3 col-xs-12 small-margin-bottom" ui-sref="newResident()">Registrar residente</button>
             <div class="portlet-body ">
-
                 <div class="table-scrollable">
-                    <table class="table table-striped table-hover font-12">
+                    <h2 ng-show="residents.length==0" class="text-center gray-font">No existen residentes registrados</h2>
+                    <table ng-show="residents.length>0" class="table table-striped table-hover font-12">
                         <thead>
                             <tr>
                                 <th>Nombre completo</th>
@@ -57,12 +59,11 @@
                                 <th>Ver detalle</th>
                                 <th>Editar</th>
                                 <th>Eliminar</th>
-
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="resident in residents | filter:search | orderBy:'name'">
-                                <td>{{resident.name}} {{resident.last_name}}</td>
+                                <td>{{resident.name}}</td>
                                 <td>{{resident.identification_number}}</td>
                                 <td>{{resident.phone_number}}</td>
                                 <td>{{resident.email}}</td>
@@ -83,6 +84,6 @@
 
 <script>
     jQuery(document).ready(function() {
-        $("#loadingIcon").fadeIn("slow");
+
     });
 </script>

@@ -12,7 +12,8 @@ app.controller('watchesController', function($scope, $state, $rootScope, $window
       $scope.currentTurn= false;
       $scope.showBackBtn = true;
       $scope.watch = data;
-      $scope.day = moment(data).format('LL');
+      $scope.day = moment(data.initial_time).format('LL');
+
       $scope.initial_time = moment(data.initial_time).format('h:mm a');
       if (data.final_time === null) {
           $scope.final_time = 'Aún en progreso'

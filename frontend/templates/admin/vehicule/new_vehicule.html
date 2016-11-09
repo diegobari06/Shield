@@ -52,16 +52,20 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                <button type="button" ng-blur="submitColour()" id="color-rgb" class="jscolor {valueElement:null,value:'ffff'} btn btn-default" style="width:100%; background-color: {{color}}!important;">
-                                Color del vehículo
-                               </button>
-                            </div>
                             <div class="form-group form-md-line-input has-info">
                                 <select class="form-control gray-font" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
                                     <option value="">Seleccione una casa</option>
                               </select>
                                 <label for="form_control_1" class="font-15">Número de casa</label>
+                            </div>
+                            <div class="form-group form-md-line-input has-info color-pickerr">
+                                <label class="font-15 light-gray-font no-margin">Color del vehículo</label>
+                                <div style="background-color:{{color}}" class="input-group color colorpicker-default col-lg-12" data-color="#ffff" data-color-format="rgba">
+                                    <input ng-model="color" ng-show="false" type="text" class="form-control" value="#ffff" readonly>
+                                    <span class="input-group-btn">
+                              <button ng-blur="submitColor()" class="btn default form-control no-padding" type="button"><i id="color" style="background-color: #ffff;"></i>&nbsp;</button>
+                              </span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-actions noborder">
@@ -80,5 +84,6 @@
 <script>
     jQuery(document).ready(function() {
         $("#register_edit_form").fadeIn("slow");
+        ComponentsPickers.init();
     });
 </script>

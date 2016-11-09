@@ -12,6 +12,12 @@
 .dark-blue-border{
 	border: solid 1px #2b3643;
 }
+.light-gray-font{
+	color: #888888 !important;
+}
+.color-pickerr{
+	margin-top: -20px!important;
+}
 .font-60{
 	font-size: 1px;
 }

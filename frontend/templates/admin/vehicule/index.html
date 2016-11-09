@@ -29,13 +29,12 @@
         </div>
         <div class="display-none" id="tableData">
             <div class="form-group col-md-offset-4 col-md-3 col-sm-offset-2  col-sm-4 col-xs-7 no-padding">
-                <label class="col-md-5 col-sm-5  col-xs-4 control-label no-padding gray-font">Filtrar por casa</label>
-                <div class="col-md-7 col-sm-7 col-xs-8 ">
-                    <select name="repeatSelect" class="form-control  gray-font" ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
-
+              <label class="col-md-5 col-sm-5  col-xs-4 control-label no-padding gray-font">Filtrar por casa</label>
+              <div class="col-md-7 col-sm-7 col-xs-8 ">
+                  <select class="form-control gray-font" ng-change="findVehiculesByHouse(house)" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
+                  <option value="">Todas</option>
             </select>
-
-                </div>
+              </div>
             </div>
             <div class="form-group col-md-3 col-sm-3 col-xs-5" id="index-search-bar">
                 <div class="input-icon">

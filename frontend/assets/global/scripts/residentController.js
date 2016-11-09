@@ -3,18 +3,61 @@
 app.controller('ResidentsListController', function($scope, $state, $rootScope, $window, residentsFunctions, usersFunctions, commonMethods) {
     commonMethods.validatePermisson(2);
     $rootScope.active = "residents";
-    residentsFunctions.getAll().success(function(residents) {
-        $("#loadingIcon").fadeOut(0);
-        setTimeout(function() {
-            $("#tableData").fadeIn(300);
-        }, 200)
+    $scope.loadResidents = function() {
+        $("#tableData").fadeOut(0);
 
-        $scope.residents = residents;
+            $("#loadingIcon").fadeIn(300);
 
-    });
+        residentsFunctions.getAll().success(function(residents) {
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#tableData").fadeIn(300);
+            }, 200)
+
+            $scope.residents = $scope.formatResidents(residents);
+        });
+    }
+    $scope.formatResidents = function(residents) {
+        var formattedResidents = [];
+        for (var i = 0; i < residents.length; i++) {
+            for (var e = 0; e < $scope.houses.length; e++) {
+                if (residents[i].house_id == $scope.houses[e].id) {
+                    residents[i].house_id = $scope.houses[e].house_number;
+                }
+            }
+            residents[i].name = residents[i].name + " " + residents[i].last_name;
+        }
+        return residents;
+    }
+    $scope.findResidentsByHouse = function(house) {
+        var residentsByHouse = [];
+        if (house == undefined) {
+            $scope.loadResidents();
+        } else {
+            $("#tableData").fadeOut(0);
+            setTimeout(function() {
+                $("#loadingIcon").fadeIn(300);
+            }, 200)
+            residentsFunctions.getAll().success(function(residents) {
+                $("#loadingIcon").fadeOut(0);
+                setTimeout(function() {
+                    $("#tableData").fadeIn(300);
+                }, 200)
+                $scope.residents = residents;
+                for (var i = 0; i < $scope.residents.length; i++) {
+                    console.log($scope.residents[i].house_id);
+                    if (house.id === $scope.residents[i].house_id) {
+                        residentsByHouse.push($scope.residents[i])
+                    }
+                }
+                $scope.residents = $scope.formatResidents(residentsByHouse);
+            });
+        }
+    }
 
     residentsFunctions.getAllHouses().success(function(houses) {
         $scope.houses = houses;
+        $scope.loadResidents();
     })
     $scope.deleteResident = function(id, name, last_name) {
         bootbox.confirm({
@@ -61,9 +104,7 @@ app.controller('ResidentsViewController', function($scope, $http, $state, $rootS
         $scope.identification_number = data.identification_number;
         $scope.birthday = data.birthday;
         $scope.email = data.email;
-
         $scope.phone_number = data.phone_number;
-
         housesFunctions.get(data.house_id).success(function(house) {
             $("#loadingIcon").fadeOut(0);
             setTimeout(function() {
