@@ -26,6 +26,7 @@ class NotesController < ApplicationController
   # POST /residents.json
   def create
     @note = Note.new(note_params)
+    @note.creation_date = Time.now.strftime('%a %b %e %T %Y');
     if @note.save
       render json: @note, status: 200
     else
@@ -42,6 +43,17 @@ class NotesController < ApplicationController
     end
   end
 
+ def destroyOldHomeServices
+  @homeServices = Note.where('company_id =? and note_type =?', params[:company_id], 1)
+  @currentTime = Time.now.strftime('%a %b %e %T %Y');
+   @homeServices.each do |homeService|
+     @deleteInTime = (homeService.creation_date + 1.hours).strftime('%a %b %e %T %Y');
+     if(@currentTime >= @deleteInTime)
+       homeService.destroy
+     end
+   end
+   head 204
+ end
   # DELETE /residents/1.json
   def destroy
     @note.destroy

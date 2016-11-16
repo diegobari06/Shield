@@ -16,19 +16,22 @@ class WatchesController < ApplicationController
   def filterWatches
       @watches = Watch.where("company_id = ?", params[:company_id])
       @filteredWatches = [];
-       @limitTime = params[:consulting_final_time].to_datetime.strftime('%d/%m/%y');
-       @initialTime = params[:consulting_initial_time].to_datetime.strftime('%d/%m/%y');
-       puts @limitTime
+       @limitTime = params[:consulting_final_time].to_date;
+       @initialTime = params[:consulting_initial_time].to_date;
+       @currentTime = DateTime.now.to_date;
+
+       puts @currentTime
 
        puts @initialTime
+              puts @limitTime
        @watches.each do |watch|
-           puts watch.initial_time.to_datetime.strftime('%d/%m/%y')
+           puts watch.initial_time.to_date;
          if(watch.final_time == nil)
-           if(watch.initial_time.to_datetime.strftime('%d/%m/%y') >= @initialTime && Time.now.strftime('%d/%m/%y') <= @limitTime)
+           if(watch.initial_time.to_date >= @initialTime && @currentTime <= @limitTime)
             @filteredWatches.push(watch)
-         end
+           end
          else
-         if(watch.initial_time.strftime('%d/%m/%y') >= @initialTime && watch.final_time.to_datetime.strftime('%d/%m/%y') <= @limitTime)
+         if(watch.initial_time.to_date >= @initialTime && watch.final_time.to_date <= @limitTime)
           @filteredWatches.push(watch)
        end
      end
@@ -49,7 +52,7 @@ class WatchesController < ApplicationController
   end
   # POST /categories.json
   def create
-    @currentTime = DateTime.now - 1.days
+    @currentTime =(DateTime.now - 1.days);
     @lastWatch = Watch.where("company_id = ? and access_door_id =?",params[:company_id], params[:access_door_id]).last
     if @lastWatch != nil
     @lastWatch.final_time = @currentTime

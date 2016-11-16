@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     get 'find/visitant/:id' => 'houses#findVisitant'
     end
     resources :notes
+    get 'delete/expired/homeservice' => 'notes#destroyOldHomeServices'
     resources :officers
     resources :visitants
     resources :watches

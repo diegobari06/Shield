@@ -6,7 +6,7 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
     $scope.loadResidents = function() {
         $("#tableData").fadeOut(0);
 
-            $("#loadingIcon").fadeIn(300);
+        $("#loadingIcon").fadeIn(300);
 
         residentsFunctions.getAll().success(function(residents) {
             $("#loadingIcon").fadeOut(0);
@@ -196,7 +196,24 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
     }
 });
 
-
+app.controller('homeServiceController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
+    $scope.actionButton = function() {
+        var data = {
+            description: $scope.note,
+            company_id: $rootScope.user.company_id,
+            note_type: 1
+        }
+        commonMethods.waitingMessage();
+        residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
+            data.house_id = pdata.house_id;
+            residentsFunctions.insertNote(data).success(function(data) {
+                $state.go('condominos');
+                bootbox.hideAll()
+                toastr["success"]("Se ha reportado el servicio a domicilio correctamente");
+            })
+        })
+    }
+});
 app.controller('ResidentsEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
     $rootScope.active = "residents";
     $scope.permisson = 2;
@@ -306,15 +323,10 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
                     } else {
                         residentsFunctions.goResident();
                     }
-
-
                 });
             };
         });
-
-
     };
-
 });
 app.factory('residentsFunctions', function($http, $state) {
     return {
@@ -369,6 +381,13 @@ app.factory('residentsFunctions', function($http, $state) {
         insert: function(data) {
             return $http({
                 url: "http://localhost:3000/companies/3/residents",
+                method: 'POST',
+                data: data
+            });
+        },
+        insertNote: function(data) {
+            return $http({
+                url: "http://localhost:3000/companies/3/notes",
                 method: 'POST',
                 data: data
             });

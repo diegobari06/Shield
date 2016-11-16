@@ -701,6 +701,30 @@ angular.module('app').config(function($stateProvider, $httpProvider) {
                     return $auth.validateUser();
                 }
             }
+        }).state("homeService", {
+            url: "/condomino/serviciodomicilio",
+            views: {
+                "header": {
+                    templateUrl: '../admin/header.html',
+                    controller: 'homeController'
+                },
+                "body": {
+                    templateUrl: '../Residents/home_service.html',
+                    controller: 'homeServiceController'
+                },
+                "menu": {
+                    templateUrl: '../admin/menu.html',
+                    controller: 'menuController'
+                },
+                "footer": {
+                    templateUrl: '../../templates/admin/footer.html'
+                }
+            },
+            resolve: {
+                auth: function($auth) {
+                    return $auth.validateUser();
+                }
+            }
         })
 
 
