@@ -6,7 +6,7 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
     $scope.loadResidents = function() {
         $("#tableData").fadeOut(0);
 
-            $("#loadingIcon").fadeIn(300);
+        $("#loadingIcon").fadeIn(300);
 
         residentsFunctions.getAll().success(function(residents) {
             $("#loadingIcon").fadeOut(0);
@@ -105,6 +105,12 @@ app.controller('ResidentsViewController', function($scope, $http, $state, $rootS
         $scope.birthday = data.birthday;
         $scope.email = data.email;
         $scope.phone_number = data.phone_number;
+
+        if (data.is_owner == 1) {
+            $scope.authorizer = "SI";
+        } else {
+            $scope.authorizer = "NO";
+        }
         housesFunctions.get(data.house_id).success(function(house) {
             $("#loadingIcon").fadeOut(0);
             setTimeout(function() {
@@ -274,6 +280,7 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
                 }).success(function(dataResident) {
                     if (makeAcccion == 1) {
                         if (user_id != null) {
+
                             usersFunctions.update_sign_up(user_id, {
                                 id_company: company_id,
                                 enabled: 1,
@@ -301,6 +308,14 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
                             id_company: company_id,
                             enabled: 0,
                             email: $scope.email
+                        });
+                        residentsFunctions.goResident();
+                    } else if (email !== $scope.email) {
+                        alert('cambiare el email');
+                        usersFunctions.update_sign_up(user_id, {
+                            id_company: company_id,
+                            email: $scope.email
+
                         });
                         residentsFunctions.goResident();
                     } else {

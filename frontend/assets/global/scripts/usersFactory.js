@@ -9,7 +9,7 @@ app.factory('usersFunctions', function($http) {
             })
         },
         getAll: function() {
-            return $http.get(server + '/users.json');
+            return $http.get(server + 'companies/3' + '/users');
         },
         delete: function(id, data) {
             return $http({
@@ -18,7 +18,7 @@ app.factory('usersFunctions', function($http) {
             });
         },
         get: function(id) {
-            return $http.get(server + 'users/' + id + '.json')
+            return $http.get(server + 'companies/3/users/' + id)
         },
         permissions: function() {
             return [{

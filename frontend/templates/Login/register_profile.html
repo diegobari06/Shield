@@ -1,0 +1,35 @@
+<div class="blue-background">
+    <h2 class="text-center no-margin big-padding-top"><img src="http://www.clipartbest.com/cliparts/9ip/eb5/9ipeb5zkT.png" alt="" height="100px"/></h2>
+    <h2 class="text-center">Bienvenido a shield</h2>
+    <div class="small-margin-top" id="login-form">
+        <form ng-submit="actionButton()" role="form">
+            <h4 class="text-center">Por favor cambia completa tus datos personales</h4>
+            <h1 class="text-center">
+            <div class=" col-md-offset-1 col-md-5 col-sm-6">
+                <div class="form-group form-md-line-input small-margin-top   col-lg-10  col-md-10 ">
+                    <input ng-model="name" type="text" class="form-control text-center letters" placeholder="" required>
+                    <label for="form_control_1" class="font-15">Nombre</label>
+                </div>
+                <div class="form-group form-md-line-input small-margin-top col-lg-10 col-md-10">
+                    <input ng-model="last_name" type="text" class="form-control text-center letters" placeholder="" required>
+                    <label for="form_control_1" class="font-15">Primer Apellido</label>
+                </div>
+
+            </div>
+            <div class="  col-md-offset-1 col-md-5 col-sm-6">
+              <div class="form-group form-md-line-input small-margin-top col-lg-10 col-md-10 ">
+                  <input ng-model="second_last_name" type="text" class="form-control text-center letters" placeholder="" required>
+                  <label for="form_control_1" class="font-15">Segundo apellido</label>
+              </div>
+              <div class="form-group form-md-line-input small-margin-top col-lg-10 col-md-10">
+                  <input ng-model="identification_number" type="text" class="form-control text-center numbers" placeholder="" required>
+                  <label for="form_control_1" class="font-15">Número de cédula</label>
+              </div>
+
+            </div>
+            <button type="submit" name="name" id="login-button" class="btn blue"><i class="fa fa-pencil"></i> Registrar datos</button>
+              </h1>
+
+        </form>
+    </div>
+</div>

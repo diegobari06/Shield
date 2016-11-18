@@ -10,7 +10,7 @@
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a>Registrar</a>
+            <a>{{title}}</a>
         </li>
     </ul>
     <div class="page-toolbar">
@@ -44,15 +44,15 @@
                         <input type='file' id="imgInp" />
                         <div class="col-md-6 col-sm-6 marging-top-20">
                             <div class="form-group form-md-line-input">
-                                <input ng-model="name" type="text" class="form-control letters gray-font" required>
+                                <input ng-model="name" type="text" class="form-control letters gray-font" required style="text-transform: capitalize;">
                                 <label for="form_control_1" class="font-15">Nombre</label>
                             </div>
                             <div class="form-group form-md-line-input">
-                                <input ng-model="last_name" type="text" class="form-control letters gray-font" required>
+                                <input ng-model="last_name" type="text" class="form-control letters gray-font" required style="text-transform: capitalize;">
                                 <label for="form_control_1" class="font-15">Primer Apellido</label>
                             </div>
                             <div class="form-group form-md-line-input">
-                                <input ng-model="second_last_name" type="text" class="form-control letters gray-font" required>
+                                <input ng-model="second_last_name" type="text" class="form-control letters gray-font" required style="text-transform: capitalize;">
                                 <label for="form_control_1" class="font-15">Segundo Apellido</label>
                             </div>
                             <div class="form-group form-md-line-input">
@@ -74,6 +74,7 @@
                             <div class="form-group form-md-line-input ">
                                 <input ng-model="email" type="email" class="form-control gray-font" placeholder="" id="form_control_1" required>
                                 <label for="form_control_1" class="font-15">Correo electrónico</label>
+                                <span ng-show="showSpan == 1" class="help-block">Si cambia el correo electronico, al guardar los cambios se cerrará sesión.</span>
                             </div>
 
                         </div>

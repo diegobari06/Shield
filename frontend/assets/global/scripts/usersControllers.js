@@ -12,7 +12,7 @@ app.controller('newUsersController', function($scope, $auth, $rootScope, $http, 
         usersFunctions.sign_up({
                 email: $scope.email,
                 confirm_success_url: "/",
-                permission_level: 3,
+                permission_level: 2,
                 id_company: $scope.companySelected.id
             }).success(function(data, status) {
                 $state.go('users');
@@ -25,18 +25,139 @@ app.controller('newUsersController', function($scope, $auth, $rootScope, $http, 
 });
 
 app.controller('UsersListController', function($scope, $state, $http, $rootScope, $window, residentsFunctions, usersFunctions, commonMethods) {
-
-    $http.get('http://localhost:3000/companies/3/users').success(function(users) {
+    $rootScope.active = "profile";
+    usersFunctions.getAll().success(function(users) {
         $("#loadingIcon").fadeOut(0);
         setTimeout(function() {
             $("#tableData").fadeIn(300);
         }, 200)
-        console.log(users);
         $scope.users = users;
-
-
     });
+    $scope.deleteUser = function(id, id_company) {
+        bootbox.confirm({
+            message: "¿Está seguro que desea eliminar al usuario?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    commonMethods.waitingMessage();
+                    usersFunctions.delete(id, id_company).success(function() {
+                        residentsFunctions.getAll().success(function(users) {
+                            $scope.users = users;
+                            bootbox.hideAll();
+                            toastr["success"]("Se ha eliminado el usuario correctamente");
+                        })
+                    });
+                }
+            }
+        });
+
+
+    };
+
 });
+
+app.controller('userEditProfileController', function($scope, $state, $auth, $stateParams, $http, $rootScope, $window, residentsFunctions, usersFunctions, commonMethods) {
+
+    $scope.email = $rootScope.user.email;
+    $scope.name = $rootScope.user.name;
+    $scope.last_name = $rootScope.user.last_name;
+    $scope.second_last_name = $rootScope.user.second_last_name;
+    $scope.identification_number = $rootScope.user.identification_number;
+
+    setTimeout(function() {
+        $("#edit_resident_form").fadeIn(300);
+    }, 200)
+    commonMethods.validateLetters();
+    commonMethods.validateNumbers();
+    $scope.actionButton = function() {
+        commonMethods.waitingMessage();
+        var action = false;
+        if ($scope.email != $rootScope.user.email) {
+            $auth.signOut();
+
+            action = true;
+        }
+        setTimeout(function() {
+
+            usersFunctions.update_sign_up($rootScope.user.id, {
+                email: $scope.email,
+                name: $scope.name,
+                last_name: $scope.last_name,
+                second_last_name: $scope.second_last_name,
+                identification_number: $scope.identification_number,
+                uid: $scope.email,
+                id_company: $rootScope.user.company_id
+            }).success(function() {
+                $rootScope.user.email = $scope.email;
+                $rootScope.user.name = $scope.name;
+                $rootScope.user.last_name = $scope.last_name;
+                $rootScope.user.second_last_name = $scope.second_last_name;
+                $rootScope.user.identification_number = $scope.identification_number;
+                $rootScope.user.email = $scope.email;
+                $rootScope.user.uid = $scope.email;
+                bootbox.hideAll();
+                if (action) {
+                    toastr["success"]("Se editó el perfil correctamente, inicie sesión con el nuevo email");
+                    $state.go('login');
+                } else {
+                    $state.go('residents');
+
+                    toastr["success"]("Se editó el perfil correctamente");
+                }
+
+
+
+            });
+        }, 300)
+    }
+
+});
+
+
+app.controller('userRegisterProfileController', function($scope, $state, $stateParams, $http, $rootScope, $window, residentsFunctions, usersFunctions, commonMethods) {
+
+    setTimeout(function() {
+        $("#edit_resident_form").fadeIn(300);
+    }, 200)
+    commonMethods.validateLetters();
+    commonMethods.validateNumbers();
+    $scope.actionButton = function() {
+        commonMethods.waitingMessage();
+        usersFunctions.update_sign_up($rootScope.user.id, {
+            name: $scope.name,
+            last_name: $scope.last_name,
+            second_last_name: $scope.second_last_name,
+            identification_number: $scope.identification_number,
+            id_company: $rootScope.user.company_id
+        }).success(function() {
+            $rootScope.user.name = $scope.name;
+            $rootScope.user.last_name = $scope.last_name;
+            $rootScope.user.second_last_name = $scope.second_last_name;
+            $rootScope.user.identification_number = $scope.identification_number;
+            bootbox.hideAll();
+            $state.go('residents');
+            toastr["success"]("Se registro el perfil correctamente");
+
+
+        });
+
+    }
+
+});
+
+
+
+
+
 //
 // angular.module('authApp').controller('usersController', function($scope,$auth,$location,$rootScope,$http){
 //   $rootScope.headerTitle = "Users accounts";

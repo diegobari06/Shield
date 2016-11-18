@@ -36,6 +36,9 @@
                     <p class="font-15 gray-font">
                         * Debe tomar en cuenta que las claves deben ser legibles para el oficial o el administrador
                     </p>
+                    <p class="font-15 gray-font">
+                        * Las claves no deben de contener caracteres especiales
+                    </p>
                     <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
                         <h1 class="text-center">  <img src="../../assets/global/img/loader4.gif" alt="" />    </h1>
                     </div>
@@ -53,14 +56,14 @@
                         </div>
 
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 gray-font">
-                            <label for="form_control_1" class="font-15 ">Clave de emergencia</label>
+                            <label for="form_control_1" class="font-15 specialCharacters">Clave de emergencia</label>
                             <div class="input-group">
 
                                 <span class="input-group-addon ">
                               <i class="fa fa-ambulance"></i>
                             </span>
 
-                                <input type="text" class="form-control gray-font  font-15 input_id " ng-model="emergencyKey" placeholder="Clave de emergencia" required>
+                                <input type="text" class="form-control gray-font specialCharacters font-15 input_id " ng-model="emergencyKey" placeholder="Clave de emergencia" required>
                             </div>
                         </div>
                         <div class="form-actions noborder">

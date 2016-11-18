@@ -10,7 +10,7 @@
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a href="">Registrar</a>
+            <a href="">{{title}}</a>
         </li>
     </ul>
     <div class="page-toolbar">
@@ -37,63 +37,63 @@
                             <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
                         </div>
                     </div>
-                    <div class="portlet-body form display-none" id="register_edit_form">
-                        <div ng-show="permisson===2" class="col-md-offset-9 col-md-3 col-sm-offset-8 col-sm-4 col-xs-12">
-                            <span class=" font-15 gray-font col-md-10 col-sm-10 col-xs-10">Administrador de filial: </span>
-                            <div class="lg-checkbox-list col-md-2 col-sm-2 col-xs-2">
-                                <div class="md-checkbox">
-                                    <input type="checkbox" id="checkbox1" ng-model="isOwner" class="md-check">
-                                    <label for="checkbox1">
+
+                    <div ng-show="permisson===2" class="col-md-offset-9 col-md-3 col-sm-offset-8 col-sm-4 col-xs-12">
+                        <span class=" font-15 gray-font col-md-10 col-sm-10 col-xs-10">Autorizador de filial: </span>
+                        <div class="lg-checkbox-list col-md-2 col-sm-2 col-xs-2">
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="checkbox1" ng-model="isOwner" class="md-check">
+                                <label for="checkbox1">
                                       <span></span>
                                       <span class="check"></span>
                                       <span class="box"></span>
                                        </label>
-                                </div>
                             </div>
                         </div>
-                        <h3 class="text-center"><img id="blah" src="../../assets/global/img/nobody_m.original.jpg" alt="your image" width="200px" height="200px" class="img-circle"/></h3>
-                        <h3 class="text-center"><label for="imgInp"  class="btn default btn-file fileinput-new gray-font">Subir imagen</label></h3>
-                        <input type='file' id="imgInp" />
-                        <div class="col-md-6 col-sm-6 marging-top-20">
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="name" type="text" class="form-control letters gray-font" required>
-                                <label for="form_control_1" class="font-15">Nombre</label>
-                            </div>
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="last_name" type="text" class="form-control letters gray-font" required>
-                                <label for="form_control_1" class="font-15">Primer Apellido</label>
-                            </div>
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="second_last_name" type="text" class="form-control letters gray-font" required>
-                                <label for="form_control_1" class="font-15">Segundo Apellido</label>
-                            </div>
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="identification_number" type="text" class="form-control numbers gray-font" required>
-                                <label for="form_control_1" class="font-15">Número de cédula</label>
-                            </div>
+                    </div>
+                    <h3 class="text-center"><img id="blah" src="../../assets/global/img/nobody_m.original.jpg" alt="your image" width="200px" height="200px" class="img-circle"/></h3>
+                    <h3 class="text-center"><label for="imgInp"  class="btn default btn-file fileinput-new gray-font">Subir imagen</label></h3>
+                    <input type='file' id="imgInp" />
+                    <div class="col-md-6 col-sm-6 marging-top-20">
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="name" type="text" class="form-control letters gray-font" required style="text-transform: capitalize;">
+                            <label for="form_control_1" class="font-15">Nombre</label>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="last_name" type="text" class="form-control letters gray-font" required style="text-transform: capitalize;">
+                            <label for="form_control_1" class="font-15">Primer Apellido</label>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="second_last_name" type="text" class="form-control letters gray-font" required style="text-transform: capitalize;">
+                            <label for="form_control_1" class="font-15">Segundo Apellido</label>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="identification_number" type="text" class="form-control numbers gray-font" required>
+                            <label for="form_control_1" class="font-15">Número de cédula</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6  marging-top-20">
+                        <div class="form-group form-md-line-input">
+                            <input ng-model="birthday" type="text" class="form-control date-picker gray-font" placeholder="" required>
+                            <label for="form_control_1" class="font-15">Fecha de nacimiento</label>
                         </div>
 
-                        <div class="col-md-6 col-sm-6  marging-top-20">
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="birthday" type="text" class="form-control date-picker gray-font" placeholder="" required>
-                                <label for="form_control_1" class="font-15">Fecha de nacimiento</label>
-                            </div>
+                        <div class="form-group form-md-line-input">
+                            <input ng-focus="expression==1" ng-model="phone_number" type="text" placeholder="" class="form-control numbers gray-font" required>
+                            <label for="form_control_1" class="font-15">Número celular</label>
+                        </div>
+                        <div class="form-group form-md-line-input ">
+                            <input ng-model="email" type="email" class="form-control gray-font" placeholder="">
+                            <label for="form_control_1" class="font-15">Correo electrónico</label>
+                        </div>
+                        <div ng-show="permisson ==2" class="form-group form-md-line-input has-info">
 
-                            <div class="form-group form-md-line-input">
-                                <input ng-focus="expression==1" ng-model="phone_number" type="text" placeholder="" class="form-control numbers gray-font" required>
-                                <label for="form_control_1" class="font-15">Número celular</label>
-                            </div>
-                            <div class="form-group form-md-line-input ">
-                                <input ng-model="email" type="email" class="form-control gray-font" placeholder="">
-                                <label for="form_control_1" class="font-15">Correo electrónico</label>
-                            </div>
-                            <div ng-show="permisson ==2" class="form-group form-md-line-input has-info">
-
-                                <select class="form-control gray-font" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
+                            <select class="form-control gray-font" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
                                   <option value="">Seleccione una casa</option>
                             </select>
 
-                                <label for="form_control_1 " class="font-15 ">Número de casa</label >
+                            <label for="form_control_1 " class="font-15 ">Número de casa</label >
                         </div>
                     </div>
                     <div class="form-actions noborder ">
@@ -103,7 +103,7 @@
                           </h3>
                     </div>
 
-                </div>
+
             </div>
         </form>
     </div>
@@ -114,11 +114,7 @@
         $("#loadingIcon").fadeIn("slow");
     });
 </script>
-<script>
-    jQuery(document).ready(function() {
-          $("#register_edit_form").fadeIn(800);
-    });
-</script>
+
 <script type="text/javascript ">
     $('.date-picker').datepicker({
         format: 'dd-mm-yyyy',

@@ -3,17 +3,17 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
     commonMethods.validatePermisson(2);
     $rootScope.active = "vehicules";
     $scope.loadingVehicules = function() {
-      $("#tableData").fadeOut(0);
-      setTimeout(function() {
-          $("#loadingIcon").fadeIn(300);
-      }, 200)
+        $("#tableData").fadeOut(0);
+        setTimeout(function() {
+            $("#loadingIcon").fadeIn(300);
+        }, 200)
         vehiculesFunctions.getAll().success(function(vehicules) {
             $("#loadingIcon").fadeOut(0);
             setTimeout(function() {
                 $("#tableData").fadeIn(300);
             }, 200)
 
-            $scope.vehicules =  $scope.formatVehicules(vehicules);
+            $scope.vehicules = $scope.formatVehicules(vehicules);
         });
     }
     $scope.findVehiculesByHouse = function(house) {
@@ -89,11 +89,16 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
 
 app.controller('VehiculesCreateController', function($scope, $http, $rootScope, $state, vehiculesFunctions, commonMethods) {
     var val
+    commonMethods.validateSpecialCharacters();
     $rootScope.active = "vehicules";
     $scope.title = "Registrar vehículo";
     $scope.button = "Registrar";
     vehiculesFunctions.getAllHouses().success(function(houses) {
         $scope.houses = houses;
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#register_edit_form").fadeIn(300);
+        }, 200)
     })
     $scope.submitColor = function() {
         $scope.color = $('#color').css('background-color');
@@ -209,6 +214,7 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
     var residentName, val, licence_plate;
     $scope.title = "Editar vehículo";
     $scope.button = "Editar";
+    commonMethods.validateSpecialCharacters();
     $scope.submitColor = function() {
         $scope.color = $('#color').css('background-color');
     }
@@ -282,19 +288,35 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
     vehiculesFunctions.get($stateParams.id).success(function(data) {
         vehiculesFunctions.getAllHouses().success(function(houses) {
             $scope.houses = houses;
-        })
-        $scope.license_plate = data.license_plate;
-        $scope.vehiculeId = data.id;
-        $scope.color = data.color;
-        licence_plate = $scope.license_plate;
-        setTimeout(function() {
-            var house = $scope.houses.filter(function(el) {
-                return el.id == data.house_id;
-            });
-            $scope.house = house[0];
-            $scope.$apply();
-        }, 900);
 
+            $scope.license_plate = data.license_plate;
+            $scope.vehiculeId = data.id;
+            $scope.color = data.color;
+
+            $scope.brand = $scope.brands.data[1];
+            setTimeout(function() {
+                var brand = $scope.brands.data.filter(function(el) {
+                    return el.name == data.brand;
+                })
+                $scope.brand = brand[0];
+            }, 100);
+
+            licence_plate = $scope.license_plate;
+            setTimeout(function() {
+                var house = $scope.houses.filter(function(el) {
+                    return el.id == data.house_id;
+                });
+
+
+
+                $scope.house = house[0];
+                $scope.$apply();
+                $("#loadingIcon").fadeOut(0);
+                setTimeout(function() {
+                    $("#register_edit_form").fadeIn(300);
+                }, 200)
+            }, 100);
+        })
     });
 
 

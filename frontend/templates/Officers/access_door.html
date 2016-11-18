@@ -67,26 +67,29 @@
                 <div class="portlet light bordered access-search-container col-md-12  col-sm-12 col-xs-12 ">
                     <h1 id="access_tittle" class="page-title small-margin-top text-center col-md-12"> Puerta de acceso </h1>
                     <div class="height-5-percent col-md-12 hidden-xs"></div>
-
+                    <div class="form-group no-padding col-md-offset-2 col-md-8 col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-addon ">
+                                <i class="fa fa-car"></i>
+                                </span>
+                            <input type="text" id="vehicule_license_plate" class="form-control height-12-percent font-19 input_id specialCharacters gray-font" ng-change="getVehicule()" ng-model="id_vehicule" placeholder="Número Placa">
+                        </div>
+                        <span class="help-block"><i class="fa fa-hand-o-right" aria-hidden="true"></i> Escriba el número de placa sin guiones</span>
+                    </div>
+                    <div class="height-8-percent col-md-12 col-sm-12 hidden-xs"></div>
                     <div class="form-group no-padding col-md-offset-2  col-md-8 col-sm-12">
                         <div class="input-group">
                             <span class="input-group-addon ">
                                   <i class="fa fa-user"></i>
                                   </span>
-                            <input type="text" class="form-control height-12-percent numbers font-20 input_id" ng-change="getResident()" ng-model="id_number" placeholder="Cédula">
+                            <input type="text" class="form-control height-12-percent numbers font-20 input_id gray-font" ng-change="getResident()" ng-model="id_number" placeholder="Cédula">
                         </div>
+
                     </div>
 
-                    <div class="height-12-percent col-md-12 col-sm-12 hidden-xs"></div>
-                    <div class="form-group no-padding col-md-offset-2 col-md-8">
-                        <div class="input-group">
-                            <span class="input-group-addon ">
-                                <i class="fa fa-car"></i>
-                                </span>
-                            <input type="text" class="form-control height-12-percent font-20 input_id " ng-change="getVehicule()" ng-model="id_vehicule" placeholder="Número de placa">
-                        </div>
-                    </div>
-                    <div class="height-6-percent col-md-12 col-sm-12 hidden-xs "></div>
+
+
+                    <div class="height-4-percent col-md-12 col-sm-12 hidden-xs "></div>
 
                     <button type="submit" class="btn blue font-15 col-md-offset-2 col-md-7  col-sm-9 col-xs-9 btn-access-door" ng-click="searchVisitor()" name="button">Registrar visitante</button>
 
@@ -206,7 +209,7 @@
                                             <span class="input-group-addon">
                     											<i class="fa fa-user"></i>
                     											</span>
-                                            <input type="text" id="name" ng-model="visitor_name" class="form-control font-15 gray-font letters" placeholder="Nombre" required>
+                                            <input type="text" id="name" ng-model="visitor_name" class="form-control font-15 gray-font letters" placeholder="Nombre" required style="text-transform: capitalize;">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -214,7 +217,7 @@
                                             <span class="input-group-addon">
                                           <i class="fa fa-user"></i>
                                           </span>
-                                            <input type="text" ng-model="visitor_last_name" class="form-control font-15 gray-font letters" id="last_name" placeholder="Primer apellido" required>
+                                            <input type="text" ng-model="visitor_last_name" class="form-control font-15 gray-font letters" id="last_name" placeholder="Primer apellido" required style="text-transform: capitalize;">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -222,7 +225,7 @@
                                             <span class="input-group-addon">
                                           <i class="fa fa-user"></i>
                                           </span>
-                                            <input type="text" ng-model="visitor_second_last_name" class="form-control font-15 gray-font letters" id="second_last_name" placeholder="Segundo apellido">
+                                            <input type="text" ng-model="visitor_second_last_name" class="form-control font-15 gray-font letters" id="second_last_name" placeholder="Segundo apellido" style="text-transform: capitalize;">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -230,7 +233,7 @@
                                             <span class="input-group-addon">
                                           <i class="fa fa-car"></i>
                                           </span>
-                                            <input type="text" ng-model="visitor_license_plate" class="form-control font-15 gray-font" id="license_plate" placeholder="Número de placa (opcional)">
+                                            <input type="text" ng-model="visitor_license_plate" ng-change="capitalize()" class="form-control font-15 gray-font specialCharacters" id="license_plate" placeholder="Número placa (opcional)">
                                         </div>
                                     </div>
                                     <div class="form-group  col-md-12 no-padding">
@@ -244,7 +247,7 @@
                                     <div class="form-group  col-md-12 ">
                                         <h3 class="text-right">
                                         <button type="submit" class="btn blue">Registrar</button>
-                                        <button type="button" ng-click="show=4" class="btn default">Cancelar</button>
+                                        <button type="button" ng-click="show=4" class="btn default gray-font">Cancelar</button>
                                       </h3>
                                     </div>
                                 </div>
@@ -254,43 +257,26 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 " ng-show="show==8 ">
                         <div class="portlet-title gray-font">
                             <div class="caption text-center font-19">
-                                Registrar visitante
+                                Consultar clave de seguridad
                             </div>
                         </div>
+                        <div class="height-5-percent col-md-12 hidden-sm hidden-xs "></div>
                         <div class="portlet-body form">
                             <form role="form" ng-submit="insertVisitor()">
                                 <div class="form-body">
                                     <div class="form-group col-md-12">
                                         <div class="input-group">
                                             <span class="input-group-addon">
-                                        <i class="fa fa-indent"></i>
+                                        <i class="fa fa-key"></i>
                                         </span>
-                                            <input type="text" ng-change="getVisitor()" ng-model="visitor_id_number" class="form-control font-15" id="identification_number" placeholder="Cédula">
+                                            <input type="text" ng-change="getVisitor()" ng-model="visitor_id_number" class="form-control  height-12-percent font-19 " id="identification_number" placeholder="Clave de seguridad o emergencia">
                                         </div>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                          <i class="fa fa-user"></i>
-                                          </span>
-                                            <input type="text" id="name" ng-model="visitor_name" class="form-control font-15" placeholder="Nombre">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                          <i class="fa fa-user"></i>
-                                          </span>
-                                            <input type="text" ng-model="visitor_last_name" class="form-control font-15" id="last_name" placeholder="Primer apellido">
-                                        </div>
+                                        <h3 class="text-right ">
+                                              <button type="submit" class="btn blue "><i class="fa fa-pencil "></i>Consultar</button>
+                                              <button  type="button" ng-click="hideRegisterForm=2"  class="btn default gray-font ">Cancelar</button>
+                                        </h3>
                                     </div>
 
-                                    <div class="form-group  col-md-12 ">
-                                        <h3 class="text-right">
-                                        <button type="submit" class="btn blue">Registrar</button>
-                                        <button type="button" class="btn default">Cancelar</button>
-                                      </h3>
-                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -449,4 +435,9 @@
         </div>
 
     </div>
+</div>
+
+</div>
+
+</div>
 </div>
