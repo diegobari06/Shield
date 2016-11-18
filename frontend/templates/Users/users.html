@@ -33,7 +33,7 @@
                                 <td>{{userR.email}}</td>
                                 <!-- <td>{{userR.rol.name}}</td> -->
                                 <td>{{userR.permission_level}}</td>
-
+                                <td> <a ng-click="deleteUser(userR.id,userR.company_id)">Eliminar</a></td>
                                 <!-- <td><span ng-repeat="permission in permissions" ng-if="permission.value == userR.permission_level">{{permission.name}}</span></td>
                                 <td ng-show="isSuperAdmin()"><a href="#/users/edit/{{userR.id}}">Edit</a></td>
                                 <td ng-show="isSuperAdmin()">

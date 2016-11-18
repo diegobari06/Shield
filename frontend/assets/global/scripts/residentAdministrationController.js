@@ -70,6 +70,7 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
 app.controller('keyConfigurationController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, housesFunctions, commonMethods, residentsFunctions) {
     $rootScope.active = "keysConguration";
     commonMethods.validatePermisson(1);
+    commonMethods.validateSpecialCharacters();
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         housesFunctions.get(data.house_id).success(function(data) {
             $scope.securityKey = data.securityKey;
@@ -154,6 +155,7 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
     $scope.button = "Registrar";
     commonMethods.validateLetters();
     commonMethods.validateNumbers();
+
     var id_house;
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         id_house = data.house_id;
@@ -191,15 +193,14 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
         });
     }
 });
-app.controller('editCondominoController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, residentsFunctions, commonMethods) {
+app.controller('editCondominoController', function($scope, $auth, $state, $rootScope, $window, $stateParams, residentsAccionsController, residentsFunctions, commonMethods, usersFunctions) {
     $rootScope.active = "residentsHouses";
     $scope.title = "Editar residente";
     $scope.button = "Editar";
     commonMethods.validateLetters();
     commonMethods.validateNumbers();
-    var user_id, company_id, email, identification_number;
+    var user_id, company_id, email, identification_number, is_owner;
     residentsFunctions.get($stateParams.id).success(function(data) {
-
         $scope.name = data.name;
         $scope.residentId = data.id;
         $scope.residentName = data.name;
@@ -212,7 +213,11 @@ app.controller('editCondominoController', function($scope, $state, $rootScope, $
         user_id = data.user_id;
         company_id = data.company_id;
         email = data.email;
+        is_owner = data.is_owner;
         identification_number = data.identification_number;
+        if (user_id == $rootScope.user.id) {
+            $scope.showSpan = 1;
+        }
         $("#loadingIcon").fadeOut(0);
         setTimeout(function() {
             $("#edit_resident_form").fadeIn(300);
@@ -238,7 +243,38 @@ app.controller('editCondominoController', function($scope, $state, $rootScope, $
                     email: $scope.email,
                     phone_number: $scope.phone_number
                 }).success(function(dataResident) {
-                    $state.go('condominos');
+                    console.log('estoy aqui');
+                    if (is_owner == 1 && $scope.email != email) {
+                        console.log('si es propietario');
+                        if (user_id == $rootScope.user.id) {
+                            $auth.signOut();
+                            $state.go('login');
+                            setTimeout(function() {
+                                console.log('soy el usuario activo');
+                                usersFunctions.update_sign_up($rootScope.user.id, {
+                                    id_company: $rootScope.user.company_id,
+                                    enabled: 1,
+                                    email: $scope.email
+                                });
+
+                            }, 400);
+                        } else {
+                            console.log('no soy el usuario activo');
+                            usersFunctions.update_sign_up($rootScope.user.id, {
+                                id_company: $rootScope.user.company_id,
+                                enabled: 1,
+                                email: $scope.email
+                            });
+                        }
+                    }
+                    if ($scope.showSpan == 1) {
+                        toastr["success"]("Se editó el perfil correctamente, inicie sesión con el nuevo email");
+
+                    } else {
+                        toastr["success"]("Se ha editado el residente correctamente");
+                        $state.go('condominos');
+                    }
+
                     bootbox.hideAll();
                 });
 
@@ -300,13 +336,19 @@ app.controller('CreateCondominoVehiculeController', function($scope, $state, $ro
     $rootScope.active = "vehiculesHouses";
     $scope.title = "Registrar vehículo";
     $scope.button = "Registrar";
+    commonMethods.validateSpecialCharacters();
     $scope.submitColour = function() {
         val = $('#color-rgb').css('background-color');
 
     }
+
     var id_house;
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         id_house = data.house_id;
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#register_edit_form").fadeIn(300);
+        }, 200)
     });
 
     $scope.brands = {
@@ -391,21 +433,160 @@ app.controller('CreateCondominoVehiculeController', function($scope, $state, $ro
 
 
     $scope.actionButton = function() {
-        vehiculesFunctions.getAll().success(function(houses) {
-            vehiculesFunctions.insert({
-                license_plate: $scope.license_plate,
-                house_id: id_house,
-                color: val,
-                brand: $scope.brand.name,
-                company_id: 3
-            }).success(function() {
-                $state.go('residents_vehicules');
-            })
+        vehiculesFunctions.getAll().success(function(vehicules) {
+            $scope.vehicules = vehicules;
+            if (commonMethods.validateRepeat($scope.vehicules, $scope.license_plate, 4)) {
+                toastr["error"]("El número de placa ingresado ya existe");
+            } else {
+                commonMethods.waitingMessage();
+                vehiculesFunctions.getAll().success(function(houses) {
+                    vehiculesFunctions.insert({
+                        license_plate: $scope.license_plate,
+                        house_id: id_house,
+                        color: val,
+                        brand: $scope.brand.name,
+                        company_id: 3
+                    }).success(function() {
+                        $state.go('residents_vehicules');
+                        bootbox.hideAll();
+                        toastr["success"]("Se creó el vehículo correctamente");
+                    })
 
 
+                });
+
+            }
         });
     }
 });
+
+
+app.controller('EditCondominoVehiculeController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, vehiculesFunctions, commonMethods) {
+    $rootScope.active = "vehiculesHouses";
+    var residentName, val, licence_plate;
+    $scope.title = "Editar vehículo";
+    commonMethods.validateSpecialCharacters();
+    $scope.button = "Editar";
+    $scope.submitColor = function() {
+        $scope.color = $('#color').css('background-color');
+    }
+    $scope.brands = {
+        data: [{
+
+            name: "Audi"
+        }, {
+            name: "Alfa Romeo"
+        }, {
+            name: "BMW"
+        }, {
+            name: "BYD"
+        }, {
+            name: "Chevrolet"
+        }, {
+            name: "Citroen"
+        }, {
+            name: "Fiat"
+        }, {
+            name: "Ford"
+        }, {
+            name: "Honda"
+        }, {
+            name: "Hyundai"
+        }, {
+            name: "Izuzu"
+        }, {
+            name: "Jaguar"
+        }, {
+            name: "Jeep"
+        }, {
+            name: "Kia"
+        }, {
+            name: "Land Rover"
+        }, {
+            name: "Lexus"
+        }, {
+            name: "Maserati"
+        }, {
+            name: "Mazda"
+        }, {
+            name: "Mercedes Benz"
+        }, {
+            name: "Mitsubishi"
+        }, {
+            name: "Nissan"
+        }, {
+            name: "Peugeot"
+        }, {
+            name: "Porshe"
+        }, {
+            name: "Renault"
+        }, {
+            name: "Ssanyong"
+        }, {
+            name: "Subaru"
+        }, {
+            name: "Suzuki"
+        }, {
+            name: "Toyota"
+        }, {
+            name: "Volkswagen"
+        }, {
+            name: "Volvo"
+
+        }, ]
+    }
+
+
+    vehiculesFunctions.get($stateParams.id).success(function(data) {
+
+        $scope.license_plate = data.license_plate;
+        $scope.vehiculeId = data.id;
+        $scope.color = data.color;
+
+        $scope.brand = $scope.brands.data[1];
+        setTimeout(function() {
+            var brand = $scope.brands.data.filter(function(el) {
+                return el.name == data.brand;
+            })
+            $scope.brand = brand[0];
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#register_edit_form").fadeIn(300);
+            }, 200)
+        }, 300);
+
+        licence_plate = $scope.license_plate;
+
+
+
+
+    });
+
+
+    $scope.actionButton = function() {
+        vehiculesFunctions.getAll().success(function(vehicules) {
+            $scope.vehicules = vehicules
+            if (commonMethods.validateRepeat($scope.vehicules, $scope.license_plate, 4) && $scope.license_plate != licence_plate) {
+                toastr["error"]("El número de placa ingresado ya existe");
+            } else {
+                commonMethods.waitingMessage();
+                vehiculesFunctions.update($scope.vehiculeId, {
+                    license_plate: $scope.license_plate,
+                    color: $scope.color,
+                    brand: $scope.brand.name,
+                    company_id: 3
+                }).success(function() {
+                    bootbox.hideAll();
+                    $state.go('residents_vehicules');
+                    toastr["success"]("Se editó el vehículo correctamente");
+                })
+            }
+        });
+    }
+
+
+});
+
 
 app.controller('CondominosVisitorsListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions) {
     $rootScope.active = "residentsVisitors";

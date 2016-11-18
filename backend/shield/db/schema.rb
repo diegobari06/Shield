@@ -33,22 +33,31 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "company_configurations", ["company_id"], name: "company_configuration_idx", using: :btree
 
+  create_table "emergencies", force: :cascade do |t|
+    t.string  "observation", limit: 300
+    t.integer "isAttended",  limit: 4
+    t.integer "house_id",    limit: 4
+    t.integer "company_id",  limit: 4,   null: false
+  end
+
   create_table "houses", force: :cascade do |t|
     t.string   "house_number",              limit: 45
     t.string   "extension",                 limit: 45
     t.integer  "company_id",                limit: 4
     t.integer  "is_desocupated",            limit: 1,  default: 0
     t.datetime "desocupation_initial_time"
-    t.datetime "desocupation_limit_time"
+    t.string   "securityKey",               limit: 20
+    t.string   "emergencyKey",              limit: 20
   end
 
   add_index "houses", ["company_id"], name: "me_company_idx", using: :btree
 
   create_table "notes", force: :cascade do |t|
-    t.string  "description", limit: 1000
-    t.integer "company_id",  limit: 4
-    t.integer "house_id",    limit: 4
-    t.string  "note_type",   limit: 45
+    t.string   "description",   limit: 1000
+    t.integer  "company_id",    limit: 4
+    t.integer  "house_id",      limit: 4
+    t.string   "note_type",     limit: 45
+    t.datetime "creation_date"
   end
 
   add_index "notes", ["company_id"], name: "company_note_idx", using: :btree
@@ -60,7 +69,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "second_last_name",      limit: 45
     t.string  "identification_number", limit: 45
     t.integer "company_id",            limit: 4
-    t.string  "license",               limit: 45
     t.integer "in_service",            limit: 1,  default: 0
   end
 
@@ -112,6 +120,9 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email",      limit: 255
     t.string   "name",                   limit: 255
+    t.string   "last_name",              limit: 255
+    t.string   "second_last_name",       limit: 255
+    t.integer  "identification_number",  limit: 4
     t.string   "nickname",               limit: 255
     t.string   "image",                  limit: 255
     t.string   "email",                  limit: 255

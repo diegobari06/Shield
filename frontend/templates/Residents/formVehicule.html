@@ -3,15 +3,15 @@
     <ul class="page-breadcrumb">
         <li>
             <i class="fa fa-home"></i>
-            <a>Condominio</a>
+            <a href="index.html">Condominio</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a>Vehículos</a>
+            <a href="#">Vehículos</a>
             <i class="fa fa-angle-right"></i>
         </li>
         <li>
-            <a>Registrar</a>
+            <a href="">{{title}}</a>
         </li>
     </ul>
     <div class="page-toolbar">
@@ -20,62 +20,70 @@
         </div>
     </div>
 </div>
+<div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
+    <h1 class="text-center">
+        <img src="../../assets/global/img/loader4.gif" alt="" />
 
-<div class="row">
-    <div class="col-md-12">
-        <!-- SE REQUIERE EN CADA VISTA -->
-        <!-- CONTENIDO EMPIEZA AQUI-->
-        <div class="portlet light bordered">
-            <div class="portlet-title">
-                <div class="caption font-green-haze">
-                    <i class="fa fa-car font-green-haze"></i>
-                    <span class="caption-subject bold uppercase">{{title}}</span>
-                </div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
-                    </a>
-                </div>
-            </div>
-            <div class="portlet-body form display-none" id="register_edit_form">
-                <form role="form" ng-submit="actionButton()">
-                    <div class="form-body">
-                        <div class="col-md-6">
-                            <div class="form-group form-md-line-input">
-                                <input ng-model="license_plate" type="text" class="form-control" id="form_control_1">
-                                <label for="form_control_1" class="font-15">Número de placa</label>
-                            </div>
-                            <div class="form-group form-md-line-input has-info">
-                                <select class="form-control gray-font" data-ng-model="brand" ng-options="brand.name for brand in brands.data | orderBy: 'name' track by brand.name" required>
-                                    <option value="">Seleccione una marca</option>
-                                </select>
-                                <label for="form_control_1" class="font-15">Marca</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-md-line-input form-md-floating-label has-info">
-                                <button type="button" ng-blur="submitColour()" id="color-rgb" class="jscolor {valueElement:null,value:'ffff'} btn btn-default" style="width:100%; background-color: {{color}}!important;">
-                                Color del vehículo
-                               </button>
-                            </div>
-
-                        </div>
-
-                        <div class="height-12-percent col-md-6 col-sm-6 hidden-xs"></div>
-                        <div class="form-actions noborder">
-                            <h3 class="text-right">
-                            <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> {{button}}</button>
-                            <button type="button" ui-sref="residents_vehicules()" class="btn red default">Cancelar</button>
-                          </h3>
-                        </div>
+    </h1>
+</div>
+<div class="display-none" id="register_edit_form">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green-haze">
+                        <i class="fa fa-car font-green-haze"></i>
+                        <span class="caption-subject bold uppercase">{{title}}</span>
                     </div>
-                </form>
+                    <div class="actions">
+                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form role="form" ng-submit="actionButton()">
+                        <div class="form-body">
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input">
+                                    <input ng-model="license_plate" type="text" class="form-control specialCharacters" id="form_control_1" style='text-transform:uppercase' required>
+                                    <label for="form_control_1" class="font-15">Número de placa</label>
+                                    <span class="help-block">Escriba el número de placa sin guiones</span>
+                                </div>
+                                <div class="form-group form-md-line-input has-info">
+                                    <select id="pruebisiima" class="form-control gray-font" data-ng-model="brand" ng-options="brand.name for brand in brands.data | orderBy: 'name' track by brand.name" required>
+                                        <option value="">Seleccione una marca</option>
+                                    </select>
+                                    <label for="form_control_1" class="font-15">Marca</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input has-info color-pickerr">
+                                    <label class="font-15 light-gray-font no-margin">Color del vehículo</label>
+                                    <div style="background-color:{{color}}" class="input-group color colorpicker-default col-lg-12" data-color="#ffff" data-color-format="rgba">
+                                        <input ng-model="color" ng-show="false" type="text" class="form-control" value="#ffff" readonly>
+                                        <span class="input-group-btn">
+                              <button ng-blur="submitColor()" class="btn default form-control no-padding" type="button"><i id="color" style="background-color: #ffff;"></i>&nbsp;</button>
+                              </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="height-12-percent col-md-6 col-sm-6 hidden-xs"></div>
+                            <div class="form-actions noborder">
+                                <h3 class="text-right">
+                            <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> {{button}}</button>
+                            <button type="button" ui-sref="residents_vehicules()"  class="btn red default">Cancelar</button>
+                          </h3>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script src="../../assets/global/scripts/jscolor.js"></script>
 <script>
     jQuery(document).ready(function() {
-        $("#register_edit_form").fadeIn("slow");
+        $("#loadingIcon").fadeIn("slow");
     });
 </script>
-<script src="../../assets/global/scripts/jscolor.js"></script>

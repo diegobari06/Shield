@@ -57,7 +57,7 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
                 bootbox.hideAll();
             } else {
                 $auth.signOut();
-                toastr["error"]("User disabled");
+                toastr["error"]("Usuario deshabilitado");
                 $state.go('login');
                 bootbox.hideAll();
             }
@@ -75,7 +75,7 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
 
     $scope.$on('auth:password-change-success', function(ev) {
         toastr["success"]("Se ha cambiado tu contraseña exitosamente");
-        $state.go('residents');
+        $state.go('registerProfile');
     });
 
     $scope.$on('auth:password-change-error', function(ev, reason) {

@@ -1,6 +1,7 @@
 app.controller('accessController', function($scope, $state, $rootScope, $window, accessFunctions, residentsFunctions, commonMethods, vehiculesFunctions, officersFunctions, residentsAccionsController, housesFunctions) {
     commonMethods.validateLetters();
     commonMethods.validateNumbers();
+    commonMethods.validateSpecialCharacters();
     var residentsPrueba, vehiculesPrueba, housesPrueba, emergencyList, visitorsList;
     residentsFunctions.getAll().success(function(list) {
         residentsPrueba = list;
@@ -223,6 +224,8 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
     $scope.show = 4;
     $scope.getResident = function() {
         $scope.id_vehicule = "";
+
+        $("#vehicule_license_plate").css("text-transform", "capitalize");
         if ($scope.id_number == "") {
             $scope.show = 4;
         } else {
@@ -298,9 +301,23 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
 
 
     }
+
+    $scope.capitalize = function() {
+        if ($scope.visitor_license_plate != "") {
+            $("#license_plate").css("text-transform", "uppercase");
+        } else {
+            $("#license_plate").css("text-transform", "capitalize");
+
+        }
+    }
     $scope.getVehicule = function() {
         $scope.id_number = "";
+        if ($scope.id_vehicule != "") {
+            $("#vehicule_license_plate").css("text-transform", "uppercase");
+        } else {
+            $("#vehicule_license_plate").css("text-transform", "capitalize");
 
+        }
         if ($scope.id_vehicule == "") {
             $scope.show = 4;
         } else {
@@ -383,22 +400,25 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
 
 
     $scope.getKeys = function() {
-            bootbox.dialog({
-                message: '<div class="text-center gray-font font-20"> <h1 class="font-30">Casa número <span class="font-30" id="key_id_house"></span></h1></div>\
+            if (securityKey == null || emergencyKey == null) {
+                toastr["error"]("Esta casa aún no tiene claves de seguridad asignadas");
+            } else {
+                bootbox.dialog({
+                    message: '<div class="text-center gray-font font-20"> <h1 class="font-30">Casa número <span class="font-30" id="key_id_house"></span></h1></div>\
                 <div class="text-center gray-font font-20"> <h1 class="font-20">Clave de seguridad: <span class="font-20 bold" id="security_key">1134314</span></h1></div>\
                   <div class="text-center gray-font font-20"> <h1 class="font-20">Clave de emergencia: <span class="font-20 bold" id="emergency_key">1134314</span></h1></div>',
-                closeButton: false,
-                buttons: {
-                    confirm: {
-                        label: 'Ocultar',
-                        className: 'btn-success'
-                    }
-                },
-            })
-            document.getElementById("key_id_house").innerHTML = "" + house_number;
-            document.getElementById("security_key").innerHTML = "" + securityKey;
-            document.getElementById("emergency_key").innerHTML = "" + emergencyKey;
-
+                    closeButton: false,
+                    buttons: {
+                        confirm: {
+                            label: 'Ocultar',
+                            className: 'btn-success'
+                        }
+                    },
+                })
+                document.getElementById("key_id_house").innerHTML = "" + house_number;
+                document.getElementById("security_key").innerHTML = "" + securityKey;
+                document.getElementById("emergency_key").innerHTML = "" + emergencyKey;
+            }
         }
         //
         //
