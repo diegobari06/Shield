@@ -32,8 +32,7 @@ class VisitantsController < ApplicationController
   # POST /visitants.json
   def create
     @visitant = Visitant.new(visitant_params)
-    time = Time.now
-    @visitant.date_time = time.inspect
+    @visitant.date_time = DateTime.now;
     if @visitant.save
       render json: @visitant, status: 200
     else

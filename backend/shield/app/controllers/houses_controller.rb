@@ -58,21 +58,21 @@ def findVisitants
   @visitants = Visitant.where("company_id = ? and id_house = ? and is_invited = ?", params[:company_id],params[:house_id], 0)
   @currentMonth = Time.now.strftime('%m');
   @filteredVisitants = [];
-  puts params[:consulting_final_time]
   if(params[:consulting_final_time] == nil && params[:consulting_initial_time] == nil)
    @visitants.each do |visitant|
      if(visitant.date_time.strftime('%m') == @currentMonth)
-       puts visitant.date_time.strftime('%m')
-       puts @currentMonth
       @filteredVisitants.push(visitant)
    end
  end
  else
-   @limitTime = params[:consulting_final_time].to_datetime.strftime('%d %m %y');
-   @initialTime = params[:consulting_initial_time].to_datetime.strftime('%d %m %y')
+   @limitTime = params[:consulting_final_time].to_date.strftime('%Y-%m-%d').to_date;
+   @initialTime = params[:consulting_initial_time].to_date.strftime('%Y-%m-%d').to_date;
+
    @visitants.each do |visitant|
-     if(visitant.date_time.strftime('%d %m %y') >= @initialTime && visitant.date_time.strftime('%d %m %y') <= @limitTime)
-      @filteredVisitants.push(visitant)
+      @dateTime = (visitant.date_time.to_date - 1.days);
+
+     if(@dateTime >= @initialTime && @dateTime <= @limitTime)
+      @filteredVisitants.push(visitant);
    end
  end
  end

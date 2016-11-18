@@ -12,8 +12,9 @@ app.controller('watchesController', function($scope, $state, $rootScope, $window
       $scope.currentTurn= false;
       $scope.showBackBtn = true;
       $scope.watch = data;
-      $scope.day = moment(new Date(data.initial_time).toISOString()).format('DD/MM/YYYY');
-
+      var init_time = new Date(data.initial_time);
+      init_time.setDate(init_time.getDate() + 1);
+      $scope.day = moment(data.initial_time).format('LL');
       $scope.initial_time = moment(data.initial_time).format('h:mm a');
       if (data.final_time === null) {
           $scope.final_time = 'Aún en progreso'
@@ -82,10 +83,14 @@ app.controller('watchesController', function($scope, $state, $rootScope, $window
             $scope.watches = [];
             for (var i = 0; i < watchesFilter.length; i++) {
                 var watch = watchesFilter[i];
+                var init_time = new Date(watch.initial_time);
+                init_time.setDate(init_time.getDate() + 1);
                 watch.initial_time = moment(watch.initial_time).format('LL h:mm a');
                 if (watch.final_time == null) {
                     watch.final_time = "Aún en progreso."
                 } else {
+                  var final_time = new Date(watch.final_time);
+                  final_time.setDate(final_time.getDate() + 1);
                     watch.final_time = moment(watch.final_time).format('LL h:mm a');
                 }
                 $scope.watches.push(watch);

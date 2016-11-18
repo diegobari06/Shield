@@ -23,23 +23,23 @@
 
 <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-        <h3 class="page-title col-md-6 col-lg-6 col-xs-12 col-sm-12 no-list">{{title}}
+        <h3 class="page-title col-md-4 col-lg-4 col-xs-12 col-sm-12 no-list">{{title}}
           <div ng-show="isConsulting==true">
             <h4>{{titleConsult}}</h4>
           </div>
         </h3>
-        <div class=" col-md-6 col-lg-6 col-sm-12 col-xs-12 no-padding">
+        <div class=" col-md-8 col-lg-8 col-sm-12 col-xs-12 no-padding">
             <div class="date-picker input-daterange" data-date="10/11/2012" data-date-format="dd-mm-yyyy" data-date-language="es">
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12" ng-show="isConsulting==true">
-                    <button type="button" class="nothing col-xs-12" ng-click="stopConsulting()" name="button"><i class="fa fa-times red-font"></i></button>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding gray-font">
+                <div class="col-lg-12 col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding gray-font">
                     <input ng-model="consulting_initial_time" type="text" placeholder="Desde la fecha" class="form-control text-center numbers gray-font dating" name="from">
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding">
                     <input ng-model="consulting_final_time" type="text" placeholder="Hasta la fecha" class="form-control text-center numbers gray-font dating" name="to">
                 </div>
-                <button ng-click="consultVisitors()" class="btn green col-md-3 col-sm-3 col-xs-12  small-margin-bottom">Consultar</button>
+                <button ng-disabled="isDisableButton()" ng-click="consultVisitors()" class="btn green col-md-2 col-sm-2 col-xs-12  small-margin-bottom">Consultar</button>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" ng-show="isConsulting==true">
+                    <button type="button" class="btn col-xs-12" ng-click="stopConsulting()" name="button">Limpiar</button>
+                </div>
             </div>
         </div>
         <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
@@ -60,7 +60,10 @@
             <div class="portlet-body ">
 
                 <div class="table-scrollable ">
-                    <table class="table table-striped table-hover font-12">
+                  <div ng-show="visitors.length == 0">
+                      <h4 class="text-center">No se encontró ningún visitante</h4>
+                  </div>
+                    <table class="table table-striped table-hover font-12"  ng-show="visitors.length > 0">
                         <thead>
                             <tr>
                                 <th>Nombre completo</th>
@@ -70,6 +73,7 @@
                             </tr>
                         </thead>
                         <tbody>
+
                             <tr ng-repeat="visitor in visitors | filter:search | orderBy:'name'">
                                 <td>{{visitor.name}} {{visitor.last_name}} {{visitor.second_last_name}}</td>
                                 <td>{{visitor.identification_number}}</td>
@@ -80,7 +84,7 @@
                     </table>
                 </div>
             </div>
-            <h1 class="text-center gray-font" ng-show="noVisitorsResult==1">No hay registro de visitantes</h1>
+            <h3 class="text-center gray-font" ng-show="noVisitorsResult==1">No hay registro de visitantes</h3>
         </div>
 
     </div>

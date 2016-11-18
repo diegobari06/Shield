@@ -23,11 +23,12 @@ class WatchesController < ApplicationController
        puts @currentTime
 
        puts @initialTime
-              puts @limitTime
+       puts @limitTime
        @watches.each do |watch|
            puts watch.initial_time.to_date;
          if(watch.final_time == nil)
            if(watch.initial_time.to_date >= @initialTime && @currentTime <= @limitTime)
+            #  watch.initial_time.to_date = watch.initial_time.to_date + 1.days;
             @filteredWatches.push(watch)
            end
          else
@@ -52,7 +53,7 @@ class WatchesController < ApplicationController
   end
   # POST /categories.json
   def create
-    @currentTime =(DateTime.now - 1.days);
+    @currentTime = DateTime.now;
     @lastWatch = Watch.where("company_id = ? and access_door_id =?",params[:company_id], params[:access_door_id]).last
     if @lastWatch != nil
     @lastWatch.final_time = @currentTime
