@@ -1,5 +1,5 @@
 app.controller('VisitorsListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions) {
-    $rootScope.active = "residentsVisitors";
+    $rootScope.active = "adminVisitors";
     $scope.title = "Visitantes del mes";
     $scope.isConsulting = false;
     $scope.myVisitors;

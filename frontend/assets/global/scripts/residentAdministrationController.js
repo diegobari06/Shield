@@ -1312,7 +1312,7 @@ app.factory('residentsAccionsController', function($http, $rootScope) {
             if (data != undefined) {
                 return $http.get(server + '/houses/' + id + '/find/visitants/?consulting_initial_time=' + data.consulting_initial_time + '&consulting_final_time=' + data.consulting_final_time + '')
             } else {
-                return $http.get('/houses/' + id + '/find/visitants/');
+                return $http.get(server + '/houses/' + id + '/find/visitants/');
             }
         },
         deleteInvitedVisitor: function(id) {

@@ -20,7 +20,7 @@
 
             </li>
 
-            <li class="" ng-show="isAdmin()" ng-class="{ 'active' : active === 'residents' ||  active === 'houses' ||  active === 'vehicules' || active === 'visitors'}">
+            <li class="" ng-show="isAdmin()" ng-class="{ 'active' : active === 'residents' ||  active === 'houses' ||  active === 'vehicules' || active === 'adminVisitors'}">
                 <a href="javascript:;">
                     <i class="icon-home" aria-hidden="true"></i>
                     <span class="title">Condominio</span>
@@ -45,7 +45,7 @@
                             <i class="fa fa-car " aria-hidden="true"></i> Vehículos
                         </a>
                     </li>
-                    <li ui-sref="adminVisitors()" ng-class="{ 'active' : active === 'visitors'}">
+                    <li ui-sref="adminVisitors()" ng-class="{ 'active' : active === 'adminVisitors'}">
                         <a href="">
                             <i class="fa fa-user" aria-hidden="true"></i> Visitantes
                         </a>
