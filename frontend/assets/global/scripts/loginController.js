@@ -1,4 +1,4 @@
-app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state, usersFunctions) {
+app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state, usersFunctions, commonMethotds) {
 
 
     $scope.beginSesion = function(loginForm) {
@@ -70,12 +70,19 @@ app.controller('loginController', function($scope, $auth, $location, $rootScope,
     });
 
     $scope.handleUpdatePasswordBtnClick = function() {
+        commonMethotds.waitingMessage();
         $auth.updatePassword($scope.updatePasswordForm);
     };
 
-    $scope.$on('auth:password-change-success', function(ev) {
+    $scope.$on('auth:password-change-success', function(ev, user) {
+
         toastr["success"]("Se ha cambiado tu contraseña exitosamente");
-        $state.go('registerProfile');
+        if ($rootScope.user.permission_level == 2) {
+            $state.go('registerProfile');
+        } else if ($rootScope.user.permission_level == 1) {
+            $state.go('condominos');
+        }
+
     });
 
     $scope.$on('auth:password-change-error', function(ev, reason) {

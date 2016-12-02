@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for "User", at: 'companies/0/auth' #controllers: { sessions: "sessions" }
   resources :companies do
+    get 'residents/find/enabled' => 'residents#findEnabled'
+    get 'residents/find/disabled' => 'residents#findDisabled'
+    get 'vehicules/find/enabled' => 'vehicules#findEnabled'
+    get 'vehicules/find/disabled' => 'vehicules#findDisabled'
     resources :residents
     get 'residents/find/:id' => 'residents#find'
     resources :vehicules
@@ -11,6 +15,10 @@ Rails.application.routes.draw do
     get 'notes/:id' => 'houses#findNotes'
     get 'find/vehicules' => 'houses#findVehicules'
     get 'find/residents' => 'houses#findResidents'
+    get 'find/residents/enabled' => 'houses#findResidentsEnabled'
+    get 'find/residents/disabled' => 'houses#findResidentsDisabled'
+    get 'find/vehicules/enabled' => 'houses#findVehiculesEnabled'
+    get 'find/vehicules/disabled' => 'houses#findVehiculesDisabled'
     get 'find/visitants' => 'houses#findVisitants'
     get 'find/visitant/:id' => 'houses#findVisitant'
     end

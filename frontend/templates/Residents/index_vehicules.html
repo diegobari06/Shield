@@ -26,15 +26,20 @@
 <div class="row ">
 
     <div class="col-md-12 gray-font">
-        <div class="col-md-12 col-sm-12 col-xs-12 ">
-            <h3 class=" page-title col-md-10 col-sm-9 ">	Mis vehículos </h3>
-            <button type="submit " class="btn green col-md-2 col-sm-3 col-xs-12 small-margin-bottom " ui-sref="newCondominoVehicule() ">Registrar vehículo</button>
+        <div class="col-md-6 col-sm-12 col-xs-12 ">
+            <h3 class=" page-title col-md-10 col-sm-9 ">{{titleVehiculeIndex}} </h3>
+
         </div>
         <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
             <h1 class="text-center"><img src="../../assets/global/img/loader4.gif" alt=""/></h1>
         </div>
         <div class=" display-none" id="vehicules_container">
-
+            <div class="col-md-4 col-sm-4 col-xs-12 col-lg-3">
+                <button type="submit" class="btn blue small-margin-bottom col-sm-12 col-lg-12 col-xs-12 " ng-click="swithEnabledDisabledResidentes()">{{buttonDisabledEnabledVehicules}}</button>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-12 col-lg-3 no-padding">
+                <button type="submit" class="btn green small-margin-bottom col-sm-12 col-lg-12 col-xs-12 col-md-12" ui-sref="newCondominoVehicule()">Registrar vehículo</button>
+            </div>
             <div class="col-md-4 " ng-repeat="vehicule in vehicules ">
                 <div class="portlet light bordered text-center col-sm-12 col-xs-12 ">
                     <h1 class="col-lg-6 text-center "><i class=" text-center fa fa-car font-60 " style="color: {{vehicule.color}}; " aria-hidden="true "></i> </h1>
@@ -43,24 +48,24 @@
                         <h5>Marca</h5>
                     </div>
                     <div class="col-lg-6 ">
-                        <h3 class="no-padding no-margin ">{{vehicule.license_plate}}</h3>
+                        <h3 class="no-padding no-margin " style='text-transform:uppercase'>{{vehicule.license_plate}}</h3>
                         <h5>Placa</h5>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 small-margin-top ">
                         <button type="submit" ui-sref="editCondominoVehicule({id:vehicule.id})" class="btn blue "><i class="fa fa-pencil "></i></button>
-                        <button type="submit" ng-click="deleteVehicule(vehicule.id,vehicule.house_id,vehicule.license_plate)" class="btn red "><i class="fa fa-trash "></i></button>
+                        <button type="submit" ng-click="disableEnabledVehicule(vehicule.id,vehicule.house_id,vehicule.license_plate)" title="{{titleDisabledButton}}" class=" btn {{color}} "><i class="{{iconDisabled}}"></i></button>
                     </div>
 
                 </div>
             </div>
 
         </div>
-        <h1 class="text-center gray-font" ng-show="noVehiculeResult==1">No hay vehículos registrados</h1>
+        <h1 class="text-center gray-font " ng-show="noVehiculeResult==1 ">No hay vehículos registrados</h1>
     </div>
 
 </div>
 <script>
     jQuery(document).ready(function() {
-        $("#loadingIcon").fadeIn("slow");
+        $("#loadingIcon ").fadeIn("slow ");
     });
 </script>

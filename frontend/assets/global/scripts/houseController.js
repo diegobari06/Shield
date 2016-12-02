@@ -116,7 +116,8 @@ app.controller('HousesEditController', function($scope, $http, $state, $rootScop
 
     $scope.actionButton = function() {
         housesFunctions.getAll().success(function(houses) {
-            if (commonMethods.validateRepeat($scope.houses, $scope.house_number, 3) && $scope.identification_number != house_number) {
+            $scope.houses = houses;
+            if (commonMethods.validateRepeat($scope.houses, $scope.house_number, 3) && $scope.house_number != house_number) {
                 toastr["error"]("El número de casa ingresado ya existe");
             } else {
                 if ($scope.securityKey == "") {

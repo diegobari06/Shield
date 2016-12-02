@@ -1,5 +1,5 @@
 'use strict';
-app.controller('CondominosListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, housesFunctions, commonMethods) {
+app.controller('CondominosListController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, housesFunctions, usersFunctions, commonMethods) {
     $rootScope.active = "residentsHouses";
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         residentsAccionsController.getResidents(data.house_id).success(function(residents) {
@@ -7,8 +7,13 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
             setTimeout(function() {
                 $("#residents_container").fadeIn(700);
             }, 100)
-
+            $scope.buttonDisabledEnabled = "Residentes deshabilitados";
+            $scope.titleCondominosIndex = "Habitantes de la filial";
+            $scope.titleDisabledButton = "Deshabilitar residente";
+            $scope.iconDisabled = "fa fa-user-times";
+            $scope.color = "red";
             $scope.residents = residents;
+
             housesFunctions.get(data.house_id).success(function(dataHouse) {
                 if (dataHouse.securitykey == null && dataHouse.emergencyKey == null) {
                     bootbox.confirm({
@@ -36,9 +41,62 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
             })
         });
     });
-    $scope.deleteCondomino = function(id, house_id, name, last_name) {
+
+    $scope.isUser = function(resident) {
+        if ($rootScope.user.id == resident.user_id) return true;
+        return false;
+    }
+    var enabledOptions = true;
+    $scope.swithEnabledDisabledResidentes = function() {
+        enabledOptions = !enabledOptions;
+        $("#loadingIcon").fadeIn(0);
+        $("#residents_container").fadeOut(0);
+        if (enabledOptions) {
+            $scope.buttonDisabledEnabled = "Residentes deshabilitados";
+            $scope.titleCondominosIndex = "Habitantes de la filial ";
+            $scope.titleDisabledButton = "Deshabilitar residente";
+            $scope.iconDisabled = "fa fa-user-times";
+            $scope.color = "red";
+            residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+                residentsAccionsController.getResidents(data.house_id).success(function(residents) {
+                    $("#loadingIcon").fadeOut(0);
+                    setTimeout(function() {
+                        $("#residents_container").fadeIn(700);
+                    }, 100)
+                    $scope.residents = residents;
+                });
+            });
+        } else {
+            $scope.buttonDisabledEnabled = "Residentes habilitados";
+            $scope.titleCondominosIndex = "Habitantes de la filial (deshabilitados)";
+            $scope.iconDisabled = "fa fa-undo";
+            $scope.color = "green";
+            residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+                residentsAccionsController.getResidentsDisabled(data.house_id).success(function(residents) {
+                    $("#loadingIcon").fadeOut(0);
+                    setTimeout(function() {
+                        $("#residents_container").fadeIn(700);
+                    }, 100)
+
+                    $scope.residents = residents;
+                    $scope.titleDisabledButton = "Habilitar residente";
+
+                })
+            })
+        }
+
+    }
+    $scope.disableEnabledResident = function(id, house_id, name, last_name, user_id, is_owner, company_id) {
+        var correctMessage;
+        if (enabledOptions) {
+            correctMessage = "¿Está seguro que desea deshabilitar al residente " + name + " " + last_name + "?";
+        } else {
+            correctMessage = "¿Está seguro que desea habilitar al residente " + name + " " + last_name + "?";
+        }
         bootbox.confirm({
-            message: "¿Está seguro que desea eliminar al residente " + name + " " + last_name + "?",
+
+            message: correctMessage,
+
             buttons: {
                 confirm: {
                     label: 'Aceptar',
@@ -52,13 +110,46 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
             callback: function(result) {
                 if (result) {
                     commonMethods.waitingMessage();
-                    residentsFunctions.delete(id).success(function() {
-                        residentsAccionsController.getResidents(house_id).success(function(residents) {
-                            $scope.residents = residents;
-                            bootbox.hideAll();
-                            toastr["success"]("Se ha eliminado el residente correctamente");
-                        })
-                    });
+                    if (enabledOptions) {
+                        residentsFunctions.update(id, {
+                            enabled: 0
+                        }).success(function() {
+                            if (is_owner == 1) {
+                                usersFunctions.update_sign_up(user_id, {
+                                    id_company: company_id,
+                                    enabled: 0
+                                }).success(function() {
+                                    residentsAccionsController.getResidents(house_id).success(function(residents) {
+                                        $scope.residents = residents;
+                                        bootbox.hideAll();
+                                        toastr["success"]("Se ha desabilitado el residente correctamente");
+                                    })
+                                })
+                            }
+
+
+
+                        });
+                    } else {
+                        residentsFunctions.update(id, {
+                            enabled: 1
+                        }).success(function() {
+                            if (is_owner == 1) {
+                                usersFunctions.update_sign_up(user_id, {
+                                    id_company: company_id,
+                                    enabled: 1
+                                }).success(function() {
+                                    residentsAccionsController.getResidentsDisabled(house_id).success(function(residents) {
+                                        $scope.residents = residents;
+                                        bootbox.hideAll();
+                                        toastr["success"]("Se ha habilitado el residente correctamente");
+                                    })
+                                })
+                            }
+
+                        });
+                    }
+
                 }
             }
         });
@@ -249,6 +340,7 @@ app.controller('editCondominoController', function($scope, $auth, $state, $rootS
                         if (user_id == $rootScope.user.id) {
                             $auth.signOut();
                             $state.go('login');
+                            toastr["success"]("Se editó el perfil correctamente, inicie sesión con el nuevo email");
                             setTimeout(function() {
                                 console.log('soy el usuario activo');
                                 usersFunctions.update_sign_up($rootScope.user.id, {
@@ -259,21 +351,19 @@ app.controller('editCondominoController', function($scope, $auth, $state, $rootS
 
                             }, 400);
                         } else {
-                            console.log('no soy el usuario activo');
+                            toastr["success"]("Se ha editado el residente correctamente");
+                            $state.go('condominos');
                             usersFunctions.update_sign_up($rootScope.user.id, {
                                 id_company: $rootScope.user.company_id,
                                 enabled: 1,
                                 email: $scope.email
                             });
                         }
-                    }
-                    if ($scope.showSpan == 1) {
-                        toastr["success"]("Se editó el perfil correctamente, inicie sesión con el nuevo email");
-
                     } else {
                         toastr["success"]("Se ha editado el residente correctamente");
                         $state.go('condominos');
                     }
+
 
                     bootbox.hideAll();
                 });
@@ -286,8 +376,12 @@ app.controller('CondominosVehiculesListController', function($scope, $state, $ro
     $rootScope.active = "vehiculesHouses";
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
         residentsAccionsController.getVehicules(data.house_id).success(function(vehicules) {
-
-            if (vehicules.length == 0) {
+            $scope.buttonDisabledEnabledVehicules = "Vehículos deshabilitados";
+            $scope.titleVehiculeIndex = "Mis vehículos";
+            $scope.titleDisabledButton = "Deshabilitar vehículo";
+            $scope.iconDisabled = "fa fa-user-times";
+            $scope.color = "red";
+            if (vehicules == null) {
                 $scope.noVehiculeResult = 1;
             } else {
                 $scope.noVehiculeResult = 0;
@@ -299,6 +393,116 @@ app.controller('CondominosVehiculesListController', function($scope, $state, $ro
             $scope.vehicules = vehicules;
         })
     });
+    var enabledOptions = true;
+    $scope.swithEnabledDisabledResidentes = function() {
+        enabledOptions = !enabledOptions;
+        $("#loadingIcon").fadeIn(0);
+        $("#vehicules_container").fadeOut(0);
+        if (!enabledOptions) {
+            $scope.buttonDisabledEnabledVehicules = "Vehículos habilitados";
+            $scope.titleVehiculeIndex = "Mis vehículos (deshabilitados)";
+            $scope.titleDisabledButton = "Habilitar vehículo";
+            $scope.iconDisabled = "fa fa-undo";
+            $scope.color = "green";
+
+
+            residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+                residentsAccionsController.getVehiculesDisabled(data.house_id).success(function(vehicules) {
+                    if (vehicules.length == 0) {
+                        $scope.noVehiculeResult = 1;
+                    } else {
+                        $scope.noVehiculeResult = 0;
+                    }
+                    $("#loadingIcon").fadeOut(0);
+                    setTimeout(function() {
+                        $("#vehicules_container").fadeIn(700);
+                    }, 100)
+                    $scope.vehicules = vehicules;
+                });
+            });
+        } else {
+            $scope.buttonDisabledEnabledVehicules = "Vehículos deshabilitados";
+            $scope.titleVehiculeIndex = "Mis vehículos";
+            $scope.titleDisabledButton = "Deshabilitar vehículo";
+            $scope.iconDisabled = "fa fa-user-times";
+            $scope.color = "red";
+            residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+                residentsAccionsController.getVehicules(data.house_id).success(function(vehicules) {
+
+                    if (vehicules.length == 0) {
+                        $scope.noVehiculeResult = 1;
+                    } else {
+                        $scope.noVehiculeResult = 0;
+                    }
+
+                    $("#loadingIcon").fadeOut(0);
+                    setTimeout(function() {
+
+                        $("#vehicules_container").fadeIn(900);
+                    }, 100)
+
+                    $scope.vehicules = vehicules;
+
+
+                })
+            })
+        }
+
+    }
+
+    $scope.disableEnabledVehicule = function(id, house_id, license_plate) {
+        var correctMessage;
+        if (enabledOptions) {
+            correctMessage = "¿Está seguro que desea deshabilitar al vehículo " + license_plate + "?";
+        } else {
+            correctMessage = "¿Está seguro que desea habilitar al vehículo " + license_plate + "?";
+        }
+        bootbox.confirm({
+
+            message: correctMessage,
+
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    commonMethods.waitingMessage();
+                    if (enabledOptions) {
+                        vehiculesFunctions.update(id, {
+                            enabled: 0
+                        }).success(function() {
+                            residentsAccionsController.getVehicules(house_id).success(function(vehicules) {
+                                $scope.vehicules = vehicules;
+                                bootbox.hideAll();
+                                toastr["success"]("Se ha desabilitado el vehiculo correctamente");
+                            })
+                        });
+                    } else {
+                        vehiculesFunctions.update(id, {
+                            enabled: 1
+                        }).success(function() {
+                            residentsAccionsController.getVehiculesDisabled(house_id).success(function(vehicules) {
+                                $scope.vehicules = vehicules;
+                                bootbox.hideAll();
+                                toastr["success"]("Se ha habilitado el vehiculo correctamente");
+                            })
+                        });
+                    }
+
+                }
+            }
+        });
+
+
+    };
+
 
     $scope.deleteVehicule = function(id, house_id, license_plate) {
         bootbox.confirm({
@@ -460,6 +664,24 @@ app.controller('CreateCondominoVehiculeController', function($scope, $state, $ro
     }
 });
 
+app.controller('homeServiceController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, residentsAccionsController, commonMethods) {
+    $scope.actionButton = function() {
+        var data = {
+            description: $scope.note,
+            company_id: $rootScope.user.company_id,
+            note_type: 1
+        }
+        commonMethods.waitingMessage();
+        residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
+            data.house_id = pdata.house_id;
+            residentsAccionsController.insertNote(data).success(function(data) {
+                $state.go('condominos');
+                bootbox.hideAll()
+                toastr["success"]("Se ha reportado el servicio a domicilio correctamente");
+            })
+        })
+    }
+});
 
 app.controller('EditCondominoVehiculeController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, vehiculesFunctions, commonMethods) {
     $rootScope.active = "vehiculesHouses";
@@ -619,9 +841,9 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
     //     }
     //     return date + "   " + hour + ":" + minute + " " + am_pm;
     // }
-    $scope.isDisableButton = function(){
-      if($scope.consulting_initial_time == undefined && $scope.consulting_final_time == undefined) return true;
-      return false;
+    $scope.isDisableButton = function() {
+        if ($scope.consulting_initial_time == undefined && $scope.consulting_final_time == undefined) return true;
+        return false;
     }
     console.log($scope.consulting_initial_time);
     $scope.consultVisitors = function() {
@@ -816,10 +1038,16 @@ app.factory('residentsAccionsController', function($http) {
             }
         },
         getResidents: function(id) {
-            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/residents/');
+            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/residents/enabled');
+        },
+        getResidentsDisabled: function(id) {
+            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/residents/disabled');
         },
         getVehicules: function(id) {
-            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/vehicules/');
+            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/vehicules/enabled');
+        },
+        getVehiculesDisabled: function(id) {
+            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/vehicules/disabled');
         },
         reportEmergency: function(data) {
             return $http({
@@ -832,6 +1060,13 @@ app.factory('residentsAccionsController', function($http) {
         getVisitant: function(idHouse, id) {
             return $http.get('http://localhost:3000/companies/3/houses/' + idHouse + '/find/visitant/' + id);
         },
+        insertNote: function(data) {
+            return $http({
+                url: "http://localhost:3000/companies/3/notes",
+                method: 'POST',
+                data: data
+            });
+        }
 
     };
 });

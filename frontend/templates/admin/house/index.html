@@ -45,16 +45,16 @@
                                 <th>Extención</th>
                                 <th>Ver claves de seguridad</th>
                                 <th>Editar</th>
-                                <th>Eliminar</th>
+                                <!-- <th>Eliminar</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="house in houses | filter:search">
                                 <td>{{house.house_number}}</td>
-                                <td>{{house.id}}</td>
+                                <td>{{house.extension}}</td>
                                 <td><a ng-click="getKeys(house.house_number,house.securityKey,house.emergencyKey)">Ver claves de seguridad</a></td>
                                 <td> <a ui-sref="editHouse({id:house.id})">Editar</a></td>
-                                <td> <a ng-click="deleteHouse(house.id,house.house_number)">Eliminar</a></td>
+                                <!-- <td> <a ng-click="deleteHouse(house.id,house.house_number)">Eliminar</a></td> -->
                             </tr>
                         </tbody>
                     </table>

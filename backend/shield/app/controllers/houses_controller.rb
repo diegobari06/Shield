@@ -45,14 +45,29 @@ class HousesController < ApplicationController
     end
   end
   end
-
+  def findResidents
+    @residents = Resident.where("company_id = ? and house_id = ?", params[:company_id],params[:house_id])
+    render json: @residents, status: 200
+  end
 def findVehicules
   @vehicules = Vehicule.where("company_id = ? and house_id = ?", params[:company_id],params[:house_id])
   render json: @vehicules, status: 200
 end
-def findResidents
-  @residents = Resident.where("company_id = ? and house_id = ?", params[:company_id],params[:house_id])
+def findResidentsEnabled
+  @residents = Resident.where("company_id = ? and house_id = ? and enabled = ?", params[:company_id],params[:house_id],1)
   render json: @residents, status: 200
+end
+def findResidentsDisabled
+  @residents = Resident.where("company_id = ? and house_id = ? and enabled = ?", params[:company_id],params[:house_id],0)
+  render json: @residents, status: 200
+end
+def findVehiculesEnabled
+  @vehicules = Vehicule.where("company_id = ? and house_id = ? and enabled = ?", params[:company_id],params[:house_id],1)
+  render json: @vehicules, status: 200
+end
+def findVehiculesDisabled
+  @vehicules = Vehicule.where("company_id = ? and house_id = ? and enabled = ?", params[:company_id],params[:house_id],0)
+  render json: @vehicules, status: 200
 end
 def findVisitants
   @visitants = Visitant.where("company_id = ? and id_house = ? and is_invited = ?", params[:company_id],params[:house_id], 0)

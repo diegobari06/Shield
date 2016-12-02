@@ -1,14 +1,16 @@
 'use strict';
 
 app.controller('ResidentsListController', function($scope, $state, $rootScope, $window, residentsFunctions, usersFunctions, commonMethods) {
+    var enabledOptions = true;
     commonMethods.validatePermisson(2);
     $rootScope.active = "residents";
-    $scope.loadResidents = function() {
+    $scope.loadResidentsEnabled = function() {
+        $scope.changesTitles();
         $("#tableData").fadeOut(0);
 
         $("#loadingIcon").fadeIn(300);
 
-        residentsFunctions.getAll().success(function(residents) {
+        residentsFunctions.getEnabledResidents().success(function(residents) {
             $("#loadingIcon").fadeOut(0);
             setTimeout(function() {
                 $("#tableData").fadeIn(300);
@@ -17,9 +19,21 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
             $scope.residents = $scope.formatResidents(residents);
         });
     }
+    $scope.changesTitles = function() {
+        if (enabledOptions) {
+            $scope.title = "Residentes habilitados";
+            $scope.buttonTitle = "Ver residentes deshabilitados";
+            $scope.actionButtonTitle = "Deshabilitar";
+        } else {
+            $scope.title = "Residentes deshabilitados";
+            $scope.buttonTitle = "Ver residentes habilitados";
+            $scope.actionButtonTitle = "Habilitar";
+        }
+    }
     $scope.formatResidents = function(residents) {
         var formattedResidents = [];
         for (var i = 0; i < residents.length; i++) {
+
             for (var e = 0; e < $scope.houses.length; e++) {
                 if (residents[i].house_id == $scope.houses[e].id) {
                     residents[i].house_id = $scope.houses[e].house_number;
@@ -32,33 +46,151 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
     $scope.findResidentsByHouse = function(house) {
         var residentsByHouse = [];
         if (house == undefined) {
-            $scope.loadResidents();
+            if (enabledOptions) {
+                $scope.loadResidentsEnabled();
+            } else {
+
+                $scope.loadResidentsDisabled();
+            }
+
         } else {
             $("#tableData").fadeOut(0);
             setTimeout(function() {
                 $("#loadingIcon").fadeIn(300);
             }, 200)
-            residentsFunctions.getAll().success(function(residents) {
-                $("#loadingIcon").fadeOut(0);
-                setTimeout(function() {
-                    $("#tableData").fadeIn(300);
-                }, 200)
-                $scope.residents = residents;
-                for (var i = 0; i < $scope.residents.length; i++) {
-                    console.log($scope.residents[i].house_id);
-                    if (house.id === $scope.residents[i].house_id) {
-                        residentsByHouse.push($scope.residents[i])
+            if (enabledOptions) {
+                $scope.changesTitles();
+                residentsFunctions.getEnabledResidents().success(function(residents) {
+                    $("#loadingIcon").fadeOut(0);
+                    setTimeout(function() {
+                        $("#tableData").fadeIn(300);
+                    }, 200)
+                    $scope.residents = residents;
+
+                    for (var i = 0; i < $scope.residents.length; i++) {
+
+                        if (house.id === $scope.residents[i].house_id) {
+                            residentsByHouse.push($scope.residents[i])
+                        }
                     }
-                }
-                $scope.residents = $scope.formatResidents(residentsByHouse);
-            });
+                    $scope.residents = $scope.formatResidents(residentsByHouse);
+                });
+            } else {
+                $scope.changesTitles();
+                residentsFunctions.getDisabledResidents().success(function(residents) {
+                    $("#loadingIcon").fadeOut(0);
+                    setTimeout(function() {
+                        $("#tableData").fadeIn(300);
+                    }, 200)
+                    $scope.residents = residents;
+
+                    for (var i = 0; i < $scope.residents.length; i++) {
+
+                        if (house.id === $scope.residents[i].house_id) {
+                            residentsByHouse.push($scope.residents[i])
+                        }
+                    }
+                    $scope.residents = $scope.formatResidents(residentsByHouse);
+                });
+
+
+            }
+
+
         }
     }
 
     residentsFunctions.getAllHouses().success(function(houses) {
         $scope.houses = houses;
-        $scope.loadResidents();
+        $scope.loadResidentsEnabled();
     })
+    $scope.disableEnabledResident = function(id, name, last_name, user_id, is_owner, company_id) {
+
+        var correctMessage;
+        if (enabledOptions) {
+            correctMessage = "¿Está seguro que desea deshabilitar al residente " + name + " " + last_name + "?";
+        } else {
+            correctMessage = "¿Está seguro que desea habilitar al residente " + name + " " + last_name + "?";
+        }
+        bootbox.confirm({
+
+            message: correctMessage,
+
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    commonMethods.waitingMessage();
+                    if (enabledOptions) {
+                        residentsFunctions.update(id, {
+                            enabled: 0
+                        }).success(function() {
+
+                            if (is_owner == 1) {
+                                usersFunctions.update_sign_up(user_id, {
+                                    id_company: company_id,
+                                    enabled: 0
+                                }).success(function() {
+                                    $scope.loadResidentsEnabled();
+                                    toastr["success"]("Se ha deshabilitado el residente correctamente");
+                                    bootbox.hideAll();
+                                })
+                            }
+
+                        });
+                    } else {
+                        residentsFunctions.update(id, {
+                            enabled: 1
+                        }).success(function() {
+
+                            if (is_owner == 1) {
+                                usersFunctions.update_sign_up(user_id, {
+                                    id_company: company_id,
+                                    enabled: 1
+                                }).success(function() {
+                                    $scope.loadResidentsDisabled();
+                                    toastr["success"]("Se ha habilitado el residente correctamente");
+                                    bootbox.hideAll();
+                                })
+                            }
+
+
+                        });
+                    }
+
+                }
+            }
+        });
+
+
+    };
+
+    $scope.loadResidentsDisabled = function() {
+        $("#tableData").fadeOut(0);
+        setTimeout(function() {
+            $("#loadingIcon").fadeIn(300);
+        }, 200)
+        $scope.changesTitles();
+        residentsFunctions.getDisabledResidents().success(function(residents) {
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#tableData").fadeIn(300);
+            }, 200)
+            $scope.residents = $scope.formatResidents(residents);
+        });
+    }
+    $scope.switchEnabledDisabledResidents = function() {
+        enabledOptions = !enabledOptions;
+        $scope.findResidentsByHouse($scope.house);
+    }
     $scope.deleteResident = function(id, name, last_name) {
         bootbox.confirm({
             message: "¿Está seguro que desea eliminar al residente " + name + " " + last_name + "?",
@@ -76,11 +208,18 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
                 if (result) {
                     commonMethods.waitingMessage();
                     residentsFunctions.delete(id).success(function() {
-                        residentsFunctions.getAll().success(function(residents) {
-                            $scope.residents = residents;
+                        toastr["success"]("Se ha eliminado el residente correctamente");
+                        if (enabledOptions) {
+                            $scope.loadResidentsEnabled();
+
                             bootbox.hideAll();
-                            toastr["success"]("Se ha eliminado el residente correctamente");
-                        })
+
+                        } else {
+                            $scope.loadResidentsDisabled();
+                            bootbox.hideAll();
+
+
+                        }
                     });
                 }
             }
@@ -202,24 +341,7 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
     }
 });
 
-app.controller('homeServiceController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
-    $scope.actionButton = function() {
-        var data = {
-            description: $scope.note,
-            company_id: $rootScope.user.company_id,
-            note_type: 1
-        }
-        commonMethods.waitingMessage();
-        residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
-            data.house_id = pdata.house_id;
-            residentsFunctions.insertNote(data).success(function(data) {
-                $state.go('condominos');
-                bootbox.hideAll()
-                toastr["success"]("Se ha reportado el servicio a domicilio correctamente");
-            })
-        })
-    }
-});
+
 app.controller('ResidentsEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
     $rootScope.active = "residents";
     $scope.permisson = 2;
@@ -365,60 +487,11 @@ app.factory('residentsFunctions', function($http, $state) {
                 method: 'DELETE'
             });
         },
-        getAll: function() {
-            return $http.get('http://localhost:3000/companies/3/residents');
+        getEnabledResidents: function() {
+            return $http.get('http://localhost:3000/companies/3/residents/find/enabled');
         },
-        getAllHouses: function() {
-            return $http.get('http://localhost:3000/companies/3/houses');
-        },
-        get: function(id) {
-            return $http.get('http://localhost:3000/companies/3/residents/' + id)
-        },
-        deleteUser: function(id) {
-            return $http({
-                url: 'http://localhost:3000/companies/3/users/deleteByResident/' + id,
-                method: 'DELETE'
-            });
-
-        },
-        goResident: function() {
-            $state.go('residents');
-            bootbox.hideAll();
-            setTimeout(function() {
-                toastr["success"]("Se ha actualizado el usuario correctamente");
-            }, 200)
-
-        }
-    };
-});
-app.factory('residentsFunctions', function($http, $state) {
-    return {
-        insert: function(data) {
-            return $http({
-                url: "http://localhost:3000/companies/3/residents",
-                method: 'POST',
-                data: data
-            });
-        },
-        insertNote: function(data) {
-            return $http({
-                url: "http://localhost:3000/companies/3/notes",
-                method: 'POST',
-                data: data
-            });
-        },
-        update: function(id, data) {
-            return $http({
-                url: "http://localhost:3000/companies/3/residents/" + id,
-                method: 'PUT',
-                data: data
-            });
-        },
-        delete: function(id) {
-            return $http({
-                url: "http://localhost:3000/companies/3/residents/" + id,
-                method: 'DELETE'
-            });
+        getDisabledResidents: function() {
+            return $http.get('http://localhost:3000/companies/3/residents/find/disabled');
         },
         getAll: function() {
             return $http.get('http://localhost:3000/companies/3/residents');

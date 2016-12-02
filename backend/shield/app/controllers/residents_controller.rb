@@ -39,7 +39,14 @@ class ResidentsController < ApplicationController
       render json: { errors: @resident.errors }, status: 422
     end
   end
-
+ def findEnabled
+   @residents = Resident.where("enabled = ? and company_id = ?",1,params[:company_id]);
+   render json: @residents, status: 200
+ end
+ def findDisabled
+   @residents = Resident.where("enabled = ? and company_id = ?",0,params[:company_id]);
+   render json: @residents, status: 200
+ end
   # PATCH/PUT /residents/1.json
   def update
     if @resident.update resident_params
@@ -68,6 +75,6 @@ class ResidentsController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def resident_params
-      params.permit(:id,:name,:last_name,:second_last_name,:phone_number,:birthday,:email,:picture,:house_id,:company_id,:identification_number,:is_owner,:user_id)
+      params.permit(:id,:name,:last_name,:second_last_name,:phone_number,:birthday,:email,:picture,:house_id,:company_id,:identification_number,:is_owner,:user_id, :enabled)
     end
 end

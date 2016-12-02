@@ -15,7 +15,14 @@ class VehiculesController < ApplicationController
   def new
     @vehicule = Vehicule.new
   end
-
+  def findEnabled
+    @vehicules = Vehicule.where("enabled = ? and company_id = ?",1,params[:company_id]);
+    render json: @vehicules, status: 200
+  end
+  def findDisabled
+    @vehicules = Vehicule.where("enabled = ? and company_id = ?",0,params[:company_id]);
+    render json: @vehicules, status: 200
+  end
   def find
     @vehicule = Vehicule.where(license_plate: params[:id]).last;
 
@@ -64,6 +71,6 @@ class VehiculesController < ApplicationController
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicule_params
-      params.permit(:id,:license_plate,:house_id,:color,:brand,:company_id)
+      params.permit(:id,:license_plate,:house_id,:color,:brand,:company_id, :enabled)
     end
 end

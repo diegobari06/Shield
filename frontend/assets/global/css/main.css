@@ -52,6 +52,17 @@
 #access_key_button{
 	height: 38px;
 }
+#delete_space_button{
+	height: 40px;
+}
+#tableVehiculesByKey{
+	height:16%;
+	overflow-y: scroll;
+}
+#tableResidentsByKey{
+	height:22%;
+	overflow-y: scroll;
+}
 .light-gray-background{
    background-color: #FAFAFA !important;
 }
@@ -82,7 +93,9 @@ a:hover {
     color: #337ab7;
     text-decoration: none;
 }
-
+.no-shadow{
+	box-shadow: none !important;
+}
 .hide{
 display: none;
 }
@@ -99,7 +112,9 @@ display: none;
 .blue {
     background-color: #3598dc
 }
-
+.blue-font{
+	  color: #3598dc
+}
 .invert-blue {
   color:#3598dc;
   border: 1px solid #3598dc;
@@ -160,6 +175,12 @@ display: none;
 
 .gray {
     background-color: #364150 !important;
+}
+.height-39-pixel{
+	height: 40px;
+}
+.height-41-pixel{
+	height: 41px;
 }
 .height-21-percent{
   height: 26%;
@@ -345,7 +366,7 @@ color: #009688;
 .access-information-result-container{
   background-color: #E0E0E0;
   margin-top: 1%;
-  min-height: 68%;
+  min-height: 69%;
 
 }
 .bold{
@@ -355,11 +376,17 @@ color: #009688;
 color: #C62828;
 
 }
+.red-font{
+	color: #C62828 !important;
+}
 #emergencyContainer{
 
 	background-color:  #D50000;
 	min-height: 500px;
 
+}
+.left-padding-10{
+ padding-left: 13px !important;
 }
 .rojoOscuro{
 	background-color: black !important;
@@ -394,7 +421,13 @@ margin-top: 30px;
 	background-color: rgb(43, 54, 67);
 }
 #success-car-image{
-background-image: url("http://www.tot19.com/wp-content/uploads/2015/10/check-300x300.png") !important;
+background-image: url("../../../assets/global/img/check-300x300.png") !important;
+height: 150px;
+width: 150px;
+}
+
+#disabled-car-image{
+background-image: url("../../../assets/global/img/disabled-car-image.jpg") !important;
 height: 150px;
 width: 150px;
 }

@@ -1,13 +1,15 @@
 'use strict';
 app.controller('VehiculesListController', function($scope, $state, $rootScope, $window, vehiculesFunctions, commonMethods) {
+    var enabledOptions = true;
     commonMethods.validatePermisson(2);
     $rootScope.active = "vehicules";
-    $scope.loadingVehicules = function() {
+    $scope.loadVehiculesEnabled = function() {
+        $scope.changesTitles();
         $("#tableData").fadeOut(0);
         setTimeout(function() {
             $("#loadingIcon").fadeIn(300);
         }, 200)
-        vehiculesFunctions.getAll().success(function(vehicules) {
+        vehiculesFunctions.getEnabledVehicules().success(function(vehicules) {
             $("#loadingIcon").fadeOut(0);
             setTimeout(function() {
                 $("#tableData").fadeIn(300);
@@ -16,35 +18,144 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
             $scope.vehicules = $scope.formatVehicules(vehicules);
         });
     }
+    $scope.changesTitles = function() {
+        if (enabledOptions) {
+            $scope.title = "Vehiculos habilitados";
+            $scope.buttonTitle = "Ver vehiculos deshabilitados";
+            $scope.actionButtonTitle = "Deshabilitar";
+        } else {
+            $scope.title = "Vehiculos deshabilitados";
+            $scope.buttonTitle = "Ver vehiculos habilitados";
+            $scope.actionButtonTitle = "Habilitar";
+        }
+    }
     $scope.findVehiculesByHouse = function(house) {
         var vehiculesByHouse = [];
         if (house == undefined) {
-            $scope.loadingVehicules();
+            if (enabledOptions) {
+                $scope.loadVehiculesEnabled();
+            } else {
+
+                $scope.loadVehiculesDisabled();
+            }
+
         } else {
             $("#tableData").fadeOut(0);
             setTimeout(function() {
                 $("#loadingIcon").fadeIn(300);
             }, 200)
-            vehiculesFunctions.getAll().success(function(vehicules) {
-                $("#loadingIcon").fadeOut(0);
-                setTimeout(function() {
-                    $("#tableData").fadeIn(300);
-                }, 200)
-                $scope.vehicules = vehicules;
-                for (var i = 0; i < $scope.vehicules.length; i++) {
-                    console.log($scope.vehicules[i].house_id);
-                    if (house.id === $scope.vehicules[i].house_id) {
-                        vehiculesByHouse.push($scope.vehicules[i])
+            if (enabledOptions) {
+                $scope.changesTitles();
+                vehiculesFunctions.getEnabledVehicules().success(function(vehicules) {
+                    $("#loadingIcon").fadeOut(0);
+                    setTimeout(function() {
+                        $("#tableData").fadeIn(300);
+                    }, 200)
+                    $scope.vehicules = vehicules;
+                    for (var i = 0; i < $scope.vehicules.length; i++) {
+                        console.log($scope.vehicules[i].house_id);
+                        if (house.id === $scope.vehicules[i].house_id) {
+                            vehiculesByHouse.push($scope.vehicules[i])
+                        }
                     }
-                }
-                $scope.vehicules = $scope.formatVehicules(vehiculesByHouse);
-            });
+                    $scope.vehicules = $scope.formatVehicules(vehiculesByHouse);
+                });
+            } else {
+                $scope.changesTitles();
+                vehiculesFunctions.getDisabledVehicules().success(function(vehicules) {
+                    $("#loadingIcon").fadeOut(0);
+                    setTimeout(function() {
+                        $("#tableData").fadeIn(300);
+                    }, 200)
+                    $scope.vehicules = vehicules;
+
+                    for (var i = 0; i < $scope.vehicules.length; i++) {
+
+                        if (house.id === $scope.vehicules[i].house_id) {
+                            vehiculesByHouse.push($scope.vehicules[i])
+                        }
+                    }
+                    $scope.vehicules = $scope.formatVehicules(vehiculesByHouse);
+                });
+
+
+            }
         }
     }
+    $scope.disableEnabledVehicule = function(id, license_plate) {
+        var correctMessage;
+        if (enabledOptions) {
+            correctMessage = "¿Está seguro que desea deshabilitar al vehículo " + license_plate + "?";
+        } else {
+            correctMessage = "¿Está seguro que desea habilitar al vehículo " + license_plate + "?";
+        }
+        bootbox.confirm({
+
+            message: correctMessage,
+
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    commonMethods.waitingMessage();
+                    if (enabledOptions) {
+                        vehiculesFunctions.update(id, {
+                            enabled: 0
+                        }).success(function() {
+                            $scope.loadVehiculesEnabled();
+                            bootbox.hideAll();
+                            toastr["success"]("Se ha deshabilitado el vehículo correctamente");
+
+                        });
+                    } else {
+                        vehiculesFunctions.update(id, {
+                            enabled: 1
+                        }).success(function() {
+                            $scope.loadVehiculesDisabled();
+                            bootbox.hideAll();
+                            toastr["success"]("Se ha habilitado el vehículo correctamente");
+
+                        });
+                    }
+
+                }
+            }
+        });
+
+
+    };
+
+
     vehiculesFunctions.getAllHouses().success(function(houses) {
         $scope.houses = houses;
-        $scope.loadingVehicules();
+        $scope.loadVehiculesEnabled();
     })
+    $scope.loadVehiculesDisabled = function() {
+        $("#tableData").fadeOut(0);
+        setTimeout(function() {
+            $("#loadingIcon").fadeIn(300);
+        }, 200)
+        $scope.changesTitles();
+        vehiculesFunctions.getDisabledVehicules().success(function(vehicules) {
+            $("#loadingIcon").fadeOut(0);
+            setTimeout(function() {
+                $("#tableData").fadeIn(300);
+            }, 200)
+            $scope.vehicules = $scope.formatVehicules(vehicules);
+        });
+    }
+    $scope.switchEnabledDisabledVehicules = function() {
+        enabledOptions = !enabledOptions;
+        $scope.findVehiculesByHouse($scope.house);
+    }
     $scope.formatVehicules = function(vehicules) {
         for (var i = 0; i < vehicules.length; i++) {
             for (var e = 0; e < $scope.houses.length; e++) {
@@ -72,11 +183,16 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
                 if (result) {
                     commonMethods.waitingMessage();
                     vehiculesFunctions.delete(id).success(function() {
-                        vehiculesFunctions.getAll().success(function(vehicules) {
-                            $scope.vehicules = vehicules;
+                        if (enabledOptions) {
+                            $scope.loadVehiculesEnabled();
                             bootbox.hideAll();
-                            toastr["success"]("Se ha eliminado el vehículo correctamente");
-                        })
+
+                        } else {
+                            $scope.loadVehiculesEnabled();
+                            bootbox.hideAll();
+
+
+                        }
                     });
                 }
             }
@@ -366,6 +482,12 @@ app.factory('vehiculesFunctions', function($http) {
                 url: "http://localhost:3000/companies/3/vehicules/" + id,
                 method: 'DELETE'
             });
+        },
+        getEnabledVehicules: function() {
+            return $http.get('http://localhost:3000/companies/3/vehicules/find/enabled');
+        },
+        getDisabledVehicules: function() {
+            return $http.get('http://localhost:3000/companies/3/vehicules/find/disabled');
         },
         getAll: function() {
             return $http.get('http://localhost:3000/companies/3/vehicules');

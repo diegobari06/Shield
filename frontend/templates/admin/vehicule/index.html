@@ -23,18 +23,19 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h3 class="page-title col-md-10">	Vehículos </h3>
+        <h3 class="page-title col-md-9">{{title}}  </h3>
         <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
             <h1 class="text-center"><img src="../../assets/global/img/loader4.gif" alt="" /></h1>
         </div>
         <div class="display-none" id="tableData">
+            <button type="submit" class="btn blue col-md-3 col-sm-3 col-xs-12 small-margin-bottom" ng-click="switchEnabledDisabledVehicules()">{{buttonTitle}}</button>
             <div class="form-group col-md-offset-4 col-md-3 col-sm-offset-2  col-sm-4 col-xs-7 no-padding">
-              <label class="col-md-5 col-sm-5  col-xs-4 control-label no-padding gray-font">Filtrar por casa</label>
-              <div class="col-md-7 col-sm-7 col-xs-8 ">
-                  <select class="form-control gray-font" ng-change="findVehiculesByHouse(house)" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'house_number' track by house.id" required>
+                <label class="col-md-5 col-sm-5  col-xs-4 control-label no-padding gray-font">Filtrar por casa</label>
+                <div class="col-md-7 col-sm-7 col-xs-8 ">
+                    <select class="form-control gray-font" ng-change="findVehiculesByHouse(house)" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'id' track by house.id" required>
                   <option value="">Todas</option>
             </select>
-              </div>
+                </div>
             </div>
             <div class="form-group col-md-3 col-sm-3 col-xs-5" id="index-search-bar">
                 <div class="input-icon">
@@ -53,15 +54,17 @@
                                 <th>Marca</th>
                                 <th>Número de casa</th>
                                 <th>Editar</th>
+                                <th>{{actionButtonTitle}}</th>
                                 <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="vehicule in vehicules | filter:search | orderBy:'name'">
-                                <td>{{vehicule.license_plate}}</td>
+                                <td style="text-transform: uppercase;">{{vehicule.license_plate}}</td>
                                 <td>{{vehicule.brand}}</td>
                                 <td>{{vehicule.house_id}}</td>
                                 <td> <a ui-sref="editVehicule({id:vehicule.id})">Editar</a></td>
+                                <td> <a ng-click="disableEnabledVehicule(vehicule.id,vehicule.license_plate)">{{actionButtonTitle}}</a></td>
                                 <td> <a ng-click="deleteVehicule(vehicule.id,vehicule.license_plate)">Eliminar</a></td>
                             </tr>
                         </tbody>
