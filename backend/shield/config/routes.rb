@@ -10,8 +10,10 @@ Rails.application.routes.draw do
     resources :vehicules
     get 'vehicules/find/:id' => 'vehicules#find'
     resources :houses do
-    put 'desocupate/:id' => 'houses#setDesocupated'
-    get 'check/desocupated/' => 'houses#checkDesocupated'
+    put '/reportAbsence/' => 'houses#setDesocupated'
+    get 'restore/desocupated/' => 'houses#checkDesocupated'
+    get 'check/desocupated/' => 'houses#checkDesocupatedHouse'
+    put 'set/desocupated/' => 'houses#setDesocupatedHouse'
     get 'notes/:id' => 'houses#findNotes'
     get 'find/vehicules' => 'houses#findVehicules'
     get 'find/residents' => 'houses#findResidents'
@@ -20,7 +22,9 @@ Rails.application.routes.draw do
     get 'find/vehicules/enabled' => 'houses#findVehiculesEnabled'
     get 'find/vehicules/disabled' => 'houses#findVehiculesDisabled'
     get 'find/visitants' => 'houses#findVisitants'
+    get 'find/invited/visitants' => 'houses#findInvitedVisitants'
     get 'find/visitant/:id' => 'houses#findVisitant'
+    get 'find/invited/visitant/:id' => 'houses#findInvitedVisitant'
     end
     resources :notes
     get 'delete/expired/homeservice' => 'notes#destroyOldHomeServices'

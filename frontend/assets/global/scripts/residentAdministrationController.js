@@ -240,7 +240,7 @@ app.controller('emergencyController', function($scope, $state, $rootScope, $wind
 
 })
 
-app.controller('CreateCondominoController', function($scope, $state, $rootScope, $window, $stateParams, residentsAccionsController, residentsFunctions, commonMethods) {
+app.controller('CreateCondominoController', function($scope, $state, $rootScope, $window, Upload, cloudinary, $stateParams, residentsAccionsController, residentsFunctions, commonMethods) {
     $rootScope.active = "residentsHouses";
     $scope.title = "Registrar residente";
     $scope.button = "Registrar";
@@ -255,8 +255,31 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
             $("#edit_resident_form").fadeIn(300);
         }, 200)
     });
+    $scope.uploadFiles = function(files) {
+        $scope.files = files;
+        if (!$scope.files) return;
+        angular.forEach(files, function(file) {
+            var formData = new FormData();
+            formData.append("file", file);
+            console.log(formData.get('file'));
+            if (file && !file.$error) {
+                file.upload = Upload.upload({
+                    url: "https://api.cloudinary.com/v1_1/lighthousesoftware/upload",
+                    data: {
+                        upload_preset: "vtt33a4m",
+                        tags: 'myphotoalbum',
+                        context: 'photo=' + $scope.title,
+                        file: formData.get('file')
+                    }
+                }).success(function(data, status, headers, config) {
+                    console.log("success");
+                }).error(function(data, status, headers, config) {
+                    console.log("fail");
+                });
+            }
+        });
+    };
     $scope.actionButton = function() {
-
         residentsFunctions.getAll().success(function(residents) {
             $scope.residents = residents
             if (commonMethods.validateRepeat($scope.residents, $scope.identification_number, 1)) {
@@ -265,6 +288,9 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
                 toastr["error"]("El correo ingresado ya existe");
             } else {
                 commonMethods.waitingMessage();
+                // console.log($("#imgInp")[0].files[0]);
+                // $scope.uploadFiles($("#imgInp")[0].files);
+                $scope.title = "Image (" + $scope.identification_number + " - " + $scope.name + $scope.last_name + ")";
                 residentsFunctions.insert({
                     name: $scope.name,
                     last_name: $scope.last_name,
@@ -334,15 +360,15 @@ app.controller('editCondominoController', function($scope, $auth, $state, $rootS
                     email: $scope.email,
                     phone_number: $scope.phone_number
                 }).success(function(dataResident) {
-                    console.log('estoy aqui');
+
                     if (is_owner == 1 && $scope.email != email) {
-                        console.log('si es propietario');
+
                         if (user_id == $rootScope.user.id) {
                             $auth.signOut();
                             $state.go('login');
                             toastr["success"]("Se editó el perfil correctamente, inicie sesión con el nuevo email");
                             setTimeout(function() {
-                                console.log('soy el usuario activo');
+
                                 usersFunctions.update_sign_up($rootScope.user.id, {
                                     id_company: $rootScope.user.company_id,
                                     enabled: 1,
@@ -351,8 +377,12 @@ app.controller('editCondominoController', function($scope, $auth, $state, $rootS
 
                             }, 400);
                         } else {
+                            // <<<<<<< HEAD
                             toastr["success"]("Se ha editado el residente correctamente");
                             $state.go('condominos');
+                            // =======
+                            //
+                            // >>>>>>> origin/master
                             usersFunctions.update_sign_up($rootScope.user.id, {
                                 id_company: $rootScope.user.company_id,
                                 enabled: 1,
@@ -845,7 +875,7 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
         if ($scope.consulting_initial_time == undefined && $scope.consulting_final_time == undefined) return true;
         return false;
     }
-    console.log($scope.consulting_initial_time);
+
     $scope.consultVisitors = function() {
         $("#loadingIcon").fadeIn("slow");
         $("#prueba").hide();
@@ -879,6 +909,7 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
         $scope.title = "Visitantes del mes"
         $scope.titleConsult = "";
     }
+
     $scope.getResidents = function() {
         residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
             residentsAccionsController.getVisitors(data.house_id).success(function(visitors) {
@@ -899,11 +930,219 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
     }
     $scope.getResidents();
 });
+
+app.controller('CondominosInvitedVisitorsListController', function($scope, $state, commonMethods, $rootScope, $window, residentsAccionsController, residentsFunctions) {
+    $rootScope.active = "residentsInvitedVisitors";
+    $scope.title = "Visitantes invitados";
+    $scope.isConsulting = false;
+    $scope.formshowing = false;
+    var id_house;
+    $scope.myVisitors;
+
+    $scope.hasPermission = function(visitor) {
+        var currentTime = new Date().getTime();
+        var intiTime = new Date(visitor.invitation_starting_time).getTime();
+        var finalTime = new Date(visitor.invitation_limit_time).getTime();
+        if (visitor.is_invited == 3) {
+            return false;
+        }
+        if (intiTime <= currentTime && currentTime <= finalTime) {
+            return true;
+        }
+        return false;
+    }
+    $scope.properDate = function() {
+        return moment(new Date()).format("DD-MM-YYYY");
+    }
+    $scope.renderHours = function(config) {
+        var currentdate = new Date();
+        var hours = currentdate.getHours();
+        var minutes = currentdate.getMinutes();
+        var myHours;
+        var calc = minutes % 5;
+        if (calc <= 5) {
+            minutes = minutes - calc
+        } else {
+            minutes = minutes + (5 - calc);
+        }
+        if (config == 2) {
+            minutes += 30;
+            if (minutes >= 60) {
+                hours += 1;
+                minutes = minutes - 60;
+            }
+        }
+        var myMinutes;
+        var am_pm;
+        if (parseInt(hours) > 12) {
+            myHours = parseInt(hours) - 12;
+            am_pm = " PM";
+        } else {
+            myHours = hours;
+            am_pm = " AM";
+        }
+        if (Math.round(parseInt(minutes)) < 10) {
+            myMinutes = "0" + Math.round(parseInt(minutes));
+
+        } else {
+            myMinutes = Math.round(minutes);
+        }
+        var datetime = myHours + ":" +
+            myMinutes + am_pm;
+        return datetime;
+    }
+
+    $scope.parseDate = function(date, hour) {
+        var splitted1 = hour.split(" ");
+        var splitted2 = hour.split(":");
+        var am_pm = splitted1[1];
+        var hour = parseInt(splitted2[0]);
+        var minute = splitted2[1].split(" ")[0];
+        var finalHour;
+        if (am_pm === "PM") {
+            finalHour = hour + 12;
+            finalHour = finalHour + ":" + minute + ":00";
+        } else {
+            finalHour = "0" + hour + ":" + minute + ":00";
+        }
+        return date + ' ' + finalHour;
+    }
+    $scope.showForm = function(visitor) {
+        $('#prueba').fadeOut(300);
+        setTimeout(function() {
+            $('#form').fadeIn(300);
+        }, 300);
+        $scope.actualVisitor = visitor;
+        if ($scope.actualVisitor.license_plate == "No se registró") {
+            $scope.actualVisitor.license_plate = "";
+        }
+    }
+    $scope.initial_hour = $scope.renderHours();
+    $scope.final_hour = $scope.renderHours(2);
+    $scope.initial_date = moment(new Date()).format("DD-MM-YYYY");
+    $scope.final_date = moment(new Date()).format("DD-MM-YYYY");
+    $scope.hideForm = function() {
+        $('#form').fadeOut(300);
+        setTimeout(function() {
+            $('#prueba').fadeIn(300);
+        }, 300);
+        if ($scope.actualVisitor.license_plate == "" || $scope.actualVisitor.license_plate == null) {
+            $scope.actualVisitor.license_plate = "No se registró";
+        }
+    }
+    $scope.renewInvitation = function(visitor) {
+        $('#form').fadeOut(100);
+        setTimeout(function() {
+            $('#loadingIcon').fadeIn(100);
+        }, 100);
+        commonMethods.waitingMessage();
+        residentsAccionsController.deleteInvitedVisitor($scope.actualVisitor.id).success(function(data) {
+            residentsAccionsController.insert({
+                name: $scope.actualVisitor.name,
+                last_name: $scope.actualVisitor.last_name,
+                second_last_name: $scope.actualVisitor.second_last_name,
+                company_id: $rootScope.user.company_id,
+                identification_number: $scope.actualVisitor.identification_number,
+                license_plate: $scope.actualVisitor.license_plate,
+                id_house: id_house,
+                invitation_starting_time: $scope.parseDate($scope.initial_date, $scope.initial_hour),
+                invitation_limit_time: $scope.parseDate($scope.final_date, $scope.final_hour),
+                is_invited: 1
+            }).success(function() {
+                $scope.getResidents();
+                bootbox.hideAll();
+                toastr["success"]("Se ha renovado la invitación el visitante correctamente");
+            });
+        });
+    }
+    $scope.deleteInvitedVisitor = function(visitor) {
+        bootbox.confirm({
+            message: "¿Está seguro que desea eliminar el registro?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    $("#prueba").fadeOut(0);
+                    $("#loadingIcon").fadeIn(100);
+                    commonMethods.waitingMessage();
+                    visitor.is_invited = 3;
+                    residentsAccionsController.deleteInvitedVisitor(visitor.id).success(function(data) {
+                        $scope.getResidents();
+                        toastr["success"]("Se ha eliminado el registro correctamente");
+                        bootbox.hideAll();
+                    })
+                }
+            }
+        });
+
+    }
+    $scope.cancelInvitation = function(visitor) {
+        bootbox.confirm({
+            message: "¿Está seguro que desea cancelar la invitación de " + visitor.name + "?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    commonMethods.waitingMessage();
+                    visitor.is_invited = 3;
+                    residentsAccionsController.cancelInvitation(visitor).success(function(data) {
+                        bootbox.hideAll();
+                        toastr["success"]("Se ha cancelado la invitación correctamente");
+                    })
+                }
+            }
+        });
+
+    }
+    $scope.getResidents = function() {
+        residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
+            id_house = data.house_id
+            residentsAccionsController.getInvitedVisitors(data.house_id).success(function(visitors) {
+                console.log(visitors)
+                if (visitors.length == 0) {
+                    $scope.noVisitorsResult = 1;
+                } else {
+                    $scope.noVisitorsResult = 0;
+                    for (var i = 0; i < visitors.length; i++) {
+                        visitors[i].invitation_starting_time = moment(visitors[i].invitation_starting_time).format("LL h:mm a");
+                        visitors[i].invitation_limit_time = moment(visitors[i].invitation_limit_time).format("LL h:mm a");
+                        if (visitors[i].license_plate == null || visitors[i].license_plate == "") {
+                            visitors[i].license_plate = "No se registró"
+                        }
+                    }
+                }
+                $("#loadingIcon").fadeOut(0);
+                setTimeout(function() {
+                    $("#prueba").fadeIn(700);
+                }, 100)
+                $scope.visitors = visitors;
+
+            })
+        });
+    }
+    $scope.getResidents();
+});
+
 app.controller('CreateCondominosVisitorsController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, commonMethods) {
-    $rootScope.active = "residentsVisitors";
+    $rootScope.active = "reportInvitation";
     $scope.title = "Reportar visitante";
     $scope.button = "Reportar";
-
     var id_house;
     $scope.myVisitors;
     residentsFunctions.get($rootScope.user.resident_id).success(function(data) {
@@ -915,18 +1154,20 @@ app.controller('CreateCondominosVisitorsController', function($scope, $state, $r
 
     $scope.findVisitor = function() {
         var myVisitors = $scope.myVisitors;
-        for (var i = 0; i < myVisitors.length; i++) {
-            if ($scope.identification_number === myVisitors[i].identification_number) {
-                console.log(myVisitors[i]);
-                $scope.name = myVisitors[i].name;
-                $scope.last_name = myVisitors[i].last_name;
-                $scope.license_plate = myVisitors[i].license_plate;
-                $scope.second_last_name = myVisitors[i].second_last_name;
-            } else {
-                $scope.name = "";
-                $scope.last_name = "";
-                $scope.license_plate = "";
-                $scope.second_last_name = "";
+        if (myVisitors != undefined) {
+            for (var i = 0; i < myVisitors.length; i++) {
+                if ($scope.identification_number === myVisitors[i].identification_number) {
+                    $scope.name = myVisitors[i].name;
+                    $scope.last_name = myVisitors[i].last_name;
+                    $scope.license_plate = myVisitors[i].license_plate;
+                    $scope.second_last_name = myVisitors[i].second_last_name;
+                    $scope.is_invited = myVisitors[i].is_invited;
+                } else {
+                    $scope.name = "";
+                    $scope.last_name = "";
+                    $scope.license_plate = "";
+                    $scope.second_last_name = "";
+                }
             }
         }
     }
@@ -988,8 +1229,44 @@ app.controller('CreateCondominosVisitorsController', function($scope, $state, $r
     }
 
     $scope.actionButton = function() {
-
         commonMethods.waitingMessage();
+        residentsAccionsController.getInvitedVisitor({
+            id_house: id_house,
+            id: $scope.identification_number
+        }).success(function(data) {
+            console.log(data)
+            if (data != 0) {
+                bootbox.confirm({
+                    message: "Un visitante con la cédula " + $scope.identification_number + " ya se ha invitado con anterioridad, desea renovar su invitación?",
+                    buttons: {
+                        confirm: {
+                            label: 'Aceptar',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'Cancelar',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            residentsAccionsController.deleteInvitedVisitor(data.id).success(function(data) {
+                                $scope.insertVisitant();
+                            });
+                        } else {
+                            bootbox.hideAll();
+                        }
+                    }
+                });
+            } else {
+                $scope.insertVisitant();
+            }
+
+        })
+
+    }
+
+    $scope.insertVisitant = function() {
         residentsAccionsController.insert({
             name: $scope.name,
             last_name: $scope.last_name,
@@ -1002,7 +1279,7 @@ app.controller('CreateCondominosVisitorsController', function($scope, $state, $r
             invitation_limit_time: $scope.parseDate($scope.final_date, $scope.final_hour),
             is_invited: 1
         }).success(function() {
-            $state.go('condominoVisitors');
+            $state.go('condominoInvitedVisitors');
             bootbox.hideAll();
             toastr["success"]("Se ha reportado el visitante correctamente");
         });
@@ -1037,6 +1314,26 @@ app.factory('residentsAccionsController', function($http, $rootScope) {
             } else {
                 return $http.get('/houses/' + id + '/find/visitants/');
             }
+        },
+        deleteInvitedVisitor: function(id) {
+            return $http({
+                url: server + "/visitants/" + id,
+                method: 'DELETE'
+            });
+        },
+        cancelInvitation: function(data) {
+            return $http({
+                url: server + "/visitants/" + data.id,
+                method: 'PUT',
+                data: data
+            });
+
+        },
+        getInvitedVisitors: function(id) {
+            return $http.get(server + '/houses/' + id + '/find/invited/visitants');
+        },
+        getInvitedVisitor: function(data) {
+            return $http.get(server + '/houses/' + data.id_house + '/find/invited/visitant/' + data.id);
         },
         getResidents: function(id) {
             return $http.get(server + '/houses/' + id + '/find/residents/enabled');

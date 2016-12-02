@@ -20,7 +20,7 @@
 
             </li>
 
-            <li class="" ng-show="isAdmin()" ng-class="{ 'active' : active === 'residents' ||  active === 'houses' ||  active === 'vehicules'}">
+            <li class="" ng-show="isAdmin()" ng-class="{ 'active' : active === 'residents' ||  active === 'houses' ||  active === 'vehicules' || active === 'visitors'}">
                 <a href="javascript:;">
                     <i class="icon-home" aria-hidden="true"></i>
                     <span class="title">Condominio</span>
@@ -43,6 +43,11 @@
                     <li ui-sref="vehicules()" ng-class="{ 'active' : active === 'vehicules'}">
                         <a href="">
                             <i class="fa fa-car " aria-hidden="true"></i> Vehículos
+                        </a>
+                    </li>
+                    <li ui-sref="adminVisitors()" ng-class="{ 'active' : active === 'visitors'}">
+                        <a href="">
+                            <i class="fa fa-user" aria-hidden="true"></i> Visitantes
                         </a>
                     </li>
                 </ul>
@@ -70,7 +75,7 @@
             </li>
 
 
-            <li ng-show="isResident()" class="start" ng-class="{ 'active' : active === 'residentsHouses' ||  active === 'vehiculesHouses' || active === 'keysConguration'}">
+            <li ng-show="isResident()" class="start" ng-class="{ 'active' : active === 'residentsHouses' ||  active === 'vehiculesHouses' || active === 'keysConguration' || active === 'residentsVisitors' || active === 'residentsInvitedVisitors'}">
                 <a href="javascript:;">
                     <i class="icon-home" aria-hidden="true"></i>
                     <span class="title "> Administrar</span>
@@ -88,6 +93,16 @@
                             <i class="fa fa-car" aria-hidden="true"></i> Vehiculos
                         </a>
                     </li>
+                    <li ui-sref="condominoVisitors()" ng-class="{'active' : active === 'residentsVisitors'}">
+                        <a href="">
+                            <i class="fa fa-user" aria-hidden="true"></i> Visitantes
+                        </a>
+                    </li>
+                    <li ui-sref="condominoInvitedVisitors()" ng-class="{'active' : active === 'residentsInvitedVisitors'}">
+                        <a href="">
+                            <i class="fa fa-user" aria-hidden="true"></i> Visitantes invitados
+                        </a>
+                    </li>
                     <li ui-sref="keysConguration()" ng-class="{ 'active' : active === 'keysConguration'}">
                         <a href="">
                             <i class="fa fa-key" aria-hidden="true"></i> Clave de seguridad
@@ -96,7 +111,7 @@
                 </ul>
             </li>
 
-            <li ng-show="isResident()" class="start" ng-class="{ 'active' : active === 'residentsVisitors'  }">
+            <li ng-show="isResident()" class="start" ng-class="{ 'active' : active === 'reportInvitation' ||  active === 'reportHomeService' ||  active === 'reportAbsence' || active === 'reportEmergency'}">
                 <a href="javascript:;">
                     <i class="fa fa-flag-o" aria-hidden="true"></i>
                     <span class="title "> Reportar</span>
@@ -104,24 +119,24 @@
                     <span class="selected "></span>
                 </a>
                 <ul class="sub-menu">
-                    <li ui-sref="condominoVisitors()" ng-class="{'active' : active === 'residentsVisitors'}">
+                    <li ui-sref="condominoRegisterVisitor()" ng-class="{'active' : active === 'reportInvitation'}">
                         <a href="">
                             <i class="fa fa-user" aria-hidden="true"></i> Visitante
                         </a>
                     </li>
-                    <li ui-sref="homeService()" ng-class="{'active' : active === 'residentsVisitors'}">
+                    <li ui-sref="homeService()" ng-class="{'active' : active === 'reportHomeService'}">
                         <a href="">
                             <i class="fa fa-cutlery" aria-hidden="true"></i> Servicio a domicilio
                         </a>
                     </li>
-                    <li>
+                    <li ui-sref="homeAbsence()" ng-class="{'active' : active === 'reportAbsence'}">
                         <a href="">
-                            <i class="fa fa-home " aria-hidden="true "></i> Ausencia en filial
+                            <i class="fa fa-plane" aria-hidden="true "></i> Ausencia en filial
                         </a>
                     </li>
                 </ul>
             </li>
-            <li ng-show="isResident()" ui-sref="reportEmergency()" class="start" ng-class="{ 'active' : active === 'reportemergencyactive'  }">
+            <li ng-show="isResident()" ui-sref="reportEmergency()" class="start" ng-class="{ 'active' : active === 'reportEmergency'  }">
                 <a href="javascript:;">
                     <i class="fa fa-ambulance" aria-hidden="true"></i>
                     <span class="title "> Reportar emergencia</span>

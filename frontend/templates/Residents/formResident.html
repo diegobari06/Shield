@@ -38,10 +38,11 @@
                         </div>
                     </div>
                     <div class="portlet-body form display-none" id="register_edit_form">
-
-                        <h3 class="text-center"><img id="blah" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" alt="your image" width="200px" height="200px" class="img-circle"/></h3>
-                        <h3 class="text-center"><label for="imgInp"  class="btn default btn-file fileinput-new gray-font">Subir imagen</label></h3>
-                        <input type='file' id="imgInp" />
+                        <form class="" id="img-form" action="index.html" method="post">
+                            <h3 class="text-center"><img id="blah" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" alt="your image" width="200px" height="200px" class="img-circle"/></h3>
+                            <h3 class="text-center"><label for="imgInp"  class="btn default btn-file fileinput-new gray-font">Subir imagen</label></h3>
+                            <input type='file' name="file" id="imgInp" accept="image/*" />
+                        </form>
                         <div class="col-md-6 col-sm-6 marging-top-20">
                             <div class="form-group form-md-line-input">
                                 <input ng-model="name" type="text" class="form-control letters gray-font" required style="text-transform: capitalize;">
