@@ -203,6 +203,7 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
 });
 
 app.controller('homeServiceController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
+    $rootScope.active = 'reportHomeService';
     $scope.actionButton = function() {
         bootbox.confirm({
             message: "¿Está seguro que desea reportar seste servicio a domicilio?",
@@ -239,6 +240,7 @@ app.controller('homeServiceController', function($scope, $http, $state, $rootSco
     }
 });
 app.controller('homeAbsenceController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
+    $rootScope.active = 'reportAbsence';
     var house_id;
     residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
         $("#loadingIcon").fadeOut(0);

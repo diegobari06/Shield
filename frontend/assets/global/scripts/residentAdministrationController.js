@@ -706,7 +706,7 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
 });
 
 app.controller('CondominosInvitedVisitorsListController', function($scope, $state, commonMethods, $rootScope, $window, residentsAccionsController, residentsFunctions) {
-    $rootScope.active = "residentsVisitors";
+    $rootScope.active = "residentsInvitedVisitors";
     $scope.title = "Visitantes invitados";
     $scope.isConsulting = false;
     $scope.formshowing = false;
@@ -790,11 +790,11 @@ app.controller('CondominosInvitedVisitorsListController', function($scope, $stat
         if ($scope.actualVisitor.license_plate == "No se registró") {
             $scope.actualVisitor.license_plate = "";
         }
-        $scope.initial_hour = $scope.renderHours();
-        $scope.final_hour = $scope.renderHours(2);
-        $scope.initial_date = moment(new Date()).format("DD-MM-YYYY");
-        $scope.final_date = moment(new Date()).format("DD-MM-YYYY");
     }
+    $scope.initial_hour = $scope.renderHours();
+    $scope.final_hour = $scope.renderHours(2);
+    $scope.initial_date = moment(new Date()).format("DD-MM-YYYY");
+    $scope.final_date = moment(new Date()).format("DD-MM-YYYY");
     $scope.hideForm = function() {
         $('#form').fadeOut(300);
         setTimeout(function() {
@@ -914,7 +914,7 @@ app.controller('CondominosInvitedVisitorsListController', function($scope, $stat
 });
 
 app.controller('CreateCondominosVisitorsController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, commonMethods) {
-    $rootScope.active = "residentsVisitors";
+    $rootScope.active = "reportInvitation";
     $scope.title = "Reportar visitante";
     $scope.button = "Reportar";
     var id_house;
