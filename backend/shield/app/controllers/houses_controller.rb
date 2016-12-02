@@ -8,6 +8,10 @@ class HousesController < ApplicationController
   end
 
   def show
+  if(@house.desocupation_initial_time != nil && @house.desocupation_final_time != nil)
+    @house.desocupation_final_time = (  @house.desocupation_final_time + 1.days);
+    @house.desocupation_initial_time = (  @house.desocupation_initial_time + 1.days);
+  end
   render :json => @house.to_json(:include => [:residents])
   end
 
@@ -28,7 +32,14 @@ class HousesController < ApplicationController
   def edit
   end
 
-
+  def findInvitedVisitants
+    @visitors = Visitant.where("company_id = ? and id_house =? and is_invited = ? or is_invited = ?",params[:company_id],params[:house_id],1,3)
+       @visitors.each do |visitant|
+         visitant.invitation_limit_time = (visitant.invitation_limit_time + 6.hours);
+         visitant.invitation_starting_time = (visitant.invitation_starting_time + 6.hours);
+       end
+    render json: @visitors, status: 200
+  end
   # POST /residents.json
   def create
     @quantity_allowed = CompanyConfiguration.where(company_id:  params[:company_id]).last.quantity_houses
@@ -55,7 +66,12 @@ def findResidents
   render json: @residents, status: 200
 end
 def findVisitants
-  @visitants = Visitant.where("company_id = ? and id_house = ? and is_invited = ?", params[:company_id],params[:house_id], 0)
+  puts params[:house_id]
+  if(params[:house_id] == "-999999")
+      @visitants = Visitant.where("company_id = ? and is_invited = ?", params[:company_id], 0);
+  else
+      @visitants = Visitant.where("company_id = ? and id_house = ? and is_invited = ?", params[:company_id],params[:house_id], 0);
+  end
   @currentMonth = Time.now.strftime('%m');
   @filteredVisitants = [];
   if(params[:consulting_final_time] == nil && params[:consulting_initial_time] == nil)
@@ -89,6 +105,16 @@ def findVisitant
       render json: 0
   end
 end
+def findInvitedVisitant
+  puts params[:id_house]
+  @visitant = Visitant.where("company_id = ? and identification_number = ? and id_house = ? and is_invited = ? or is_invited = ?", params[:company_id],params[:id], params[:house_id],1,3).last
+  puts @visitant
+  if @visitant != nil
+    render json: @visitant, status: 200
+  else
+      render json: 0
+  end
+end
   # PATCH/PUT /residents/1.json
   def update
     if @house.update house_params
@@ -97,15 +123,32 @@ end
       render json: { errors: @house.errors }, status: 422
     end
   end
-
+  def checkDesocupatedHouse
+   @house = House.where("company_id = ? and id = ?", params[:company_id], params[:id_house])
+   if (@house.is_desocupated == 1)
+     render :json =>  1
+   end
+     render :json =>  0
+  end
+  def setDesocupatedHouse
+   @house = House.where("company_id = ? and id = ?", params[:company_id], params[:house_id]).last
+   @house.is_desocupated = 0
+   @house.desocupation_final_time = nil
+   @house.desocupation_initial_time = nil
+   if @house.save
+     render json: @house, status: 200
+   else
+     render json: { errors: @house.errors }, status: 422
+   end
+  end
    def checkDesocupated
     @desocupatedHouses = House.where("is_desocupated = ? and company_id = ?",1,params[:company_id])
      @desocupatedHouses.each do |house|
-        @limitTime = house.desocupation_limit_time.strftime('%d %m %y')
+        @limitTime = house.desocupation_final_time.strftime('%d %m %y')
         @currentDate = Time.now.strftime('%d %m %y')
         if @limitTime <= @currentDate
           house.is_desocupated = 0
-          house.desocupation_limit_time = nil
+          house.desocupation_final_time = nil
           house.desocupation_initial_time = nil
           house.save
         end
@@ -113,10 +156,13 @@ end
      render :json =>  @desocupatedHouses
    end
   def setDesocupated
+
    @house = House.find(params[:id])
    @house.is_desocupated = 1
    if @house.update house_params
      DesocupationMailer.desocupation_email(@house).deliver_now
+     @house.desocupation_final_time = (  @house.desocupation_final_time + 1.days);
+     @house.desocupation_initial_time = (  @house.desocupation_initial_time + 1.days);
      render :json => @house
    else
      render json: { errors: @house.errors }, status: 422
@@ -136,6 +182,6 @@ end
  protected
     # Never trust parameters from the scary internet, only allow the white list through.
     def house_params
-      params.permit(:id,:consulting_initial_time,:consulting_final_time,:house_number,:extension,:identification_number,:securityKey,:emergencyKey,:id_house,:company_id,:is_desocupated,:desocupation_initial_time,:desocupation_limit_time)
+      params.permit(:id,:consulting_initial_time,:consulting_final_time,:house_number,:extension,:identification_number,:securityKey,:emergencyKey,:id_house,:company_id,:is_desocupated,:desocupation_initial_time,:desocupation_final_time)
     end
 end

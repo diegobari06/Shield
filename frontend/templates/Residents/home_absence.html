@@ -1,0 +1,93 @@
+<div class="page-bar route-title">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a>Reportar</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a>Ausencia en filial</a>
+
+        </li>
+
+    </ul>
+    <div class="page-toolbar">
+        <div class="btn-group pull-right"> </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-haze">
+                    <i class="fa fa-plane font-green-haze"></i>
+                    <span class="caption-subject bold uppercase">Reportar Ausencia en filial</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                </div>
+            </div>
+            <div class="portlet-body form gray-font">
+                <div class="">
+                    <p>
+                        Mediante esta página podrás reportar tu ausencia en la filial durante un determinado tiempo.
+                    </p>
+                </div>
+                <hr>
+                <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIcon">
+                    <h1 class="text-center"><img src="../../assets/global/img/loader4.gif" alt=""/></h1>
+                </div>
+                <div class=" display-none" id="div">
+                    <div ng-show="desocupated == 1">
+                        <form ng-submit="cancelAbscence()">
+                            <h3 class="small-margin-bottom text-center">Te has reportado ausente</h3>
+                            <h4 class="text-center">Desde: {{initialTime}}</h4>
+                            <h4 class="text-center">Hasta: {{limitTime}}</h4>
+                            <div class="form-actions noborder">
+                                <h3 class="text-center">
+                      <button type="submit" class="btn red"> Cancelar ausencia en filial</button>
+                    </h3>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div ng-show="desocupated == 0" class="date-picker input-daterange" data-date="10/11/2012" data-date-format="dd-mm-yyyy" data-date-language="es">
+                        <form ng-submit="actionButton()">
+                            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12  no-padding">
+                                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                                    <div class="form-group form-md-line-input">
+                                        <input ng-model="initial_date" type="text" class="form-control text-center numbers gray-font dating" name="from" required>
+                                        <label for="form_control_1" class="font-15">Fecha inicial:</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                                    <div class="form-group form-md-line-input">
+                                        <input ng-model="final_date" type="text" class="form-control text-center numbers gray-font dating" name="to" required>
+                                        <label for="form_control_1" class="font-15">Fecha final:</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-actions noborder">
+                                <h3 class="text-right">
+                        <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> Reportar</button>
+                        <button type="button" ui-sref="condominos()" class="btn btn-danger">Cancelar</button>
+                      </h3>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        $('.dating').keydown(function() {
+            return false;
+        });
+        $("#loadingIcon").fadeIn("slow");
+        ComponentsPickers.init();
+    });
+</script>

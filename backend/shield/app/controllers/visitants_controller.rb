@@ -19,7 +19,6 @@ class VisitantsController < ApplicationController
   # GET /visitants/1/edit
   def edit
   end
-
     def find
       @visitant = Visitant.where(identification_number: params[:id]).last;
         if @visitant == nil
@@ -32,6 +31,10 @@ class VisitantsController < ApplicationController
   # POST /visitants.json
   def create
     @visitant = Visitant.new(visitant_params)
+    if(params[:invitation_starting_time] != nil)
+    @visitant.invitation_starting_time = params[:invitation_starting_time].to_datetime;
+    @visitant.invitation_limit_time = params[:invitation_limit_time].to_datetime;
+   end
     @visitant.date_time = DateTime.now;
     if @visitant.save
       render json: @visitant, status: 200

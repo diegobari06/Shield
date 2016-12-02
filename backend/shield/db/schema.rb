@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "company_id",                limit: 4
     t.integer  "is_desocupated",            limit: 1,  default: 0
     t.datetime "desocupation_initial_time"
+    t.datetime "desocupation_final_time",                          null: false
     t.string   "securityKey",               limit: 20
     t.string   "emergencyKey",              limit: 20
   end
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "email",                 limit: 45
     t.integer "is_owner",              limit: 1,  default: 0
     t.integer "user_id",               limit: 4
+    t.integer "enabled",               limit: 4
   end
 
   add_index "residents", ["company_id"], name: "me_company_idx", using: :btree

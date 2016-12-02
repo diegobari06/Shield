@@ -5,9 +5,9 @@ class DesocupationMailer < ApplicationMailer
     @house = house
     puts @house
     @initialTime = @house.desocupation_initial_time.strftime('%d/%m/%Y')
-    @limitTime = @house.desocupation_limit_time.strftime('%d/%m/%Y')
+    @limitTime = @house.desocupation_final_time.strftime('%d/%m/%Y')
     @condominium = Company.find(@house.company_id).name
-    @admins = User.where(permission_level: 3)
+    @admins = User.where(permission_level: 2)
     mail(bcc: @admins.map(&:email).uniq, subject: 'La casa '+@house.house_number+' estará desocupada.')
   end
 end

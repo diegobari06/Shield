@@ -204,20 +204,114 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
 
 app.controller('homeServiceController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
     $scope.actionButton = function() {
-        var data = {
-            description: $scope.note,
-            company_id: $rootScope.user.company_id,
-            note_type: 1
-        }
-        commonMethods.waitingMessage();
-        residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
-            data.house_id = pdata.house_id;
-            residentsFunctions.insertNote(data).success(function(data) {
-                $state.go('condominos');
-                bootbox.hideAll()
-                toastr["success"]("Se ha reportado el servicio a domicilio correctamente");
-            })
+        bootbox.confirm({
+            message: "¿Está seguro que desea reportar seste servicio a domicilio?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    var data = {
+                        description: $scope.note,
+                        company_id: $rootScope.user.company_id,
+                        note_type: 1
+                    }
+                    commonMethods.waitingMessage();
+                    residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
+                        data.house_id = pdata.house_id;
+                        residentsFunctions.insertNote(data).success(function(data) {
+                            $state.go('condominos');
+                            bootbox.hideAll()
+                            toastr["success"]("Se ha reportado el servicio a domicilio correctamente");
+                        })
+                    })
+                }
+            }
+        });
+
+    }
+});
+app.controller('homeAbsenceController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
+    var house_id;
+    residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
+        $("#loadingIcon").fadeOut(0);
+        setTimeout(function() {
+            $("#div").fadeIn(300);
+        }, 200)
+        house_id = pdata.house_id;
+        residentsFunctions.getHouse(house_id).success(function(data) {
+            $scope.desocupated = data.is_desocupated;
+            $scope.limitTime = moment(data.desocupation_final_time).format('LL');
+            $scope.initialTime = moment(data.desocupation_initial_time).format('LL');
         })
+    })
+    $scope.cancelAbscence = function() {
+        bootbox.confirm({
+            message: "¿Está seguro que desea cancelar su ausencia en la filial?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    commonMethods.waitingMessage();
+                    residentsFunctions.cancelAbscence(house_id).success(function(data) {
+                        $scope.desocupated = data.is_desocupated;
+                        bootbox.hideAll();
+                        toastr["success"]("Has cancelado tu ausencia en la filial");
+                    });
+                }
+            }
+        });
+    }
+    $scope.actionButton = function() {
+        bootbox.confirm({
+            message: "¿Está seguro que desea reportar su ausencia en la filial?",
+            buttons: {
+                confirm: {
+                    label: 'Aceptar',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancelar',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    var data = {
+                        desocupation_initial_time: $scope.initial_date,
+                        desocupation_final_time: $scope.final_date,
+                        company_id: $rootScope.user.company_id,
+                    }
+                    commonMethods.waitingMessage();
+                    residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
+                        data.id = pdata.house_id;
+                        residentsFunctions.reportAbscence(data).success(function(data) {
+                            $scope.desocupated = data.is_desocupated;
+                            $scope.limitTime = moment(data.desocupation_final_time).format('LL');
+                            $scope.initialTime = moment(data.desocupation_initial_time).format('LL');
+                            bootbox.hideAll();
+                            toastr["success"]("Se ha reportado tu ausencia en la filial");
+                        })
+                    })
+                }
+            }
+        });
+
     }
 });
 app.controller('ResidentsEditController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, commonMethods) {
@@ -406,6 +500,22 @@ app.factory('residentsFunctions', function($http, $state) {
                 method: 'POST',
                 data: data
             });
+        },
+        reportAbscence: function(data) {
+            return $http({
+                url: "http://localhost:3000/companies/3/houses/" + data.id_house + "/reportAbsence/",
+                method: 'PUT',
+                data: data
+            });
+        },
+        cancelAbscence: function(id_house) {
+            return $http({
+                url: "http://localhost:3000/companies/3/houses/" + id_house + "/set/desocupated/",
+                method: 'PUT',
+            });
+        },
+        getHouse: function(id_house) {
+            return $http.get("http://localhost:3000/companies/3/houses/" + id_house);
         },
         update: function(id, data) {
             return $http({

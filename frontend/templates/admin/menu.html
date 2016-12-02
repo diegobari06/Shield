@@ -45,6 +45,11 @@
                             <i class="fa fa-car " aria-hidden="true"></i> Vehículos
                         </a>
                     </li>
+                    <li ui-sref="adminVisitors()" ng-class="{ 'active' : active === 'visitors'}">
+                        <a href="">
+                          <i class="fa fa-user" aria-hidden="true"></i> Visitantes
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li ng-show="isAdmin()" class="start" ng-class="{ 'active' : active === 'officers' ||  active === 'watches'} ">
@@ -88,6 +93,16 @@
                             <i class="fa fa-car" aria-hidden="true"></i> Vehiculos
                         </a>
                     </li>
+                    <li ui-sref="condominoVisitors()" ng-class="{'active' : active === 'residentsVisitors'}">
+                        <a href="">
+                            <i class="fa fa-user" aria-hidden="true"></i> Visitantes
+                        </a>
+                    </li>
+                    <li ui-sref="condominoInvitedVisitors()" ng-class="{'active' : active === 'residentsVisitors'}">
+                        <a href="">
+                            <i class="fa fa-user" aria-hidden="true"></i> Visitantes invitados
+                        </a>
+                    </li>
                     <li ui-sref="keysConguration()" ng-class="{ 'active' : active === 'keysConguration'}">
                         <a href="">
                             <i class="fa fa-key" aria-hidden="true"></i> Clave de seguridad
@@ -104,7 +119,7 @@
                     <span class="selected "></span>
                 </a>
                 <ul class="sub-menu">
-                    <li ui-sref="condominoVisitors()" ng-class="{'active' : active === 'residentsVisitors'}">
+                    <li ui-sref="condominoRegisterVisitor()" ng-class="{'active' : active === 'residentsVisitors'}">
                         <a href="">
                             <i class="fa fa-user" aria-hidden="true"></i> Visitante
                         </a>
@@ -114,9 +129,9 @@
                             <i class="fa fa-cutlery" aria-hidden="true"></i> Servicio a domicilio
                         </a>
                     </li>
-                    <li>
+                    <li ui-sref="homeAbsence()" ng-class="{'active' : active === 'residentsVisitors'}">
                         <a href="">
-                            <i class="fa fa-home " aria-hidden="true "></i> Ausencia en filial
+                            <i class="fa fa-plane" aria-hidden="true "></i> Ausencia en filial
                         </a>
                     </li>
                 </ul>
