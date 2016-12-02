@@ -114,18 +114,18 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
                         residentsFunctions.update(id, {
                             enabled: 0
                         }).success(function() {
+                            residentsAccionsController.getResidents(house_id).success(function(residents) {
+                                $scope.residents = residents;
+                                bootbox.hideAll();
+                                toastr["success"]("Se ha desabilitado el residente correctamente");
+                            })
                             if (is_owner == 1) {
                                 usersFunctions.update_sign_up(user_id, {
                                     id_company: company_id,
                                     enabled: 0
-                                }).success(function() {
-                                    residentsAccionsController.getResidents(house_id).success(function(residents) {
-                                        $scope.residents = residents;
-                                        bootbox.hideAll();
-                                        toastr["success"]("Se ha desabilitado el residente correctamente");
-                                    })
                                 })
                             }
+
 
 
 
@@ -134,16 +134,16 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
                         residentsFunctions.update(id, {
                             enabled: 1
                         }).success(function() {
+
+                            residentsAccionsController.getResidentsDisabled(house_id).success(function(residents) {
+                                $scope.residents = residents;
+                                bootbox.hideAll();
+                                toastr["success"]("Se ha habilitado el residente correctamente");
+                            })
                             if (is_owner == 1) {
                                 usersFunctions.update_sign_up(user_id, {
                                     id_company: company_id,
                                     enabled: 1
-                                }).success(function() {
-                                    residentsAccionsController.getResidentsDisabled(house_id).success(function(residents) {
-                                        $scope.residents = residents;
-                                        bootbox.hideAll();
-                                        toastr["success"]("Se ha habilitado el residente correctamente");
-                                    })
                                 })
                             }
 
@@ -1008,61 +1008,62 @@ app.controller('CreateCondominosVisitorsController', function($scope, $state, $r
         });
     }
 });
-app.factory('residentsAccionsController', function($http) {
+app.factory('residentsAccionsController', function($http, $rootScope) {
+    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/visitants",
+                url: server + "/visitants",
                 method: 'POST',
                 data: data
             });
         },
         update: function(id, data) {
             return $http({
-                url: "http://localhost:3000/companies/3/houses/" + id,
+                url: server + "/houses/" + id,
                 method: 'PUT',
                 data: data
             })
         },
         delete: function(id) {
             return $http({
-                url: "http://localhost:3000/companies/3/houses/" + id,
+                url: server + "/houses/" + id,
                 method: 'DELETE'
             });
         },
         getVisitors: function(id, data) {
             if (data != undefined) {
-                return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/visitants/?consulting_initial_time=' + data.consulting_initial_time + '&consulting_final_time=' + data.consulting_final_time + '')
+                return $http.get(server + '/houses/' + id + '/find/visitants/?consulting_initial_time=' + data.consulting_initial_time + '&consulting_final_time=' + data.consulting_final_time + '')
             } else {
-                return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/visitants/');
+                return $http.get('/houses/' + id + '/find/visitants/');
             }
         },
         getResidents: function(id) {
-            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/residents/enabled');
+            return $http.get(server + '/houses/' + id + '/find/residents/enabled');
         },
         getResidentsDisabled: function(id) {
-            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/residents/disabled');
+            return $http.get(server + '/houses/' + id + '/find/residents/disabled');
         },
         getVehicules: function(id) {
-            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/vehicules/enabled');
+            return $http.get(server + '/houses/' + id + '/find/vehicules/enabled');
         },
         getVehiculesDisabled: function(id) {
-            return $http.get('http://localhost:3000/companies/3/houses/' + id + '/find/vehicules/disabled');
+            return $http.get(server + '/houses/' + id + '/find/vehicules/disabled');
         },
         reportEmergency: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/emergencies",
+                url: server + "/emergencies",
                 method: 'POST',
                 data: data
             });
 
         },
         getVisitant: function(idHouse, id) {
-            return $http.get('http://localhost:3000/companies/3/houses/' + idHouse + '/find/visitant/' + id);
+            return $http.get(server + '/houses/' + idHouse + '/find/visitant/' + id);
         },
         insertNote: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/notes",
+                url: server + "/notes",
                 method: 'POST',
                 data: data
             });

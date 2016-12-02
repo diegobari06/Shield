@@ -507,46 +507,46 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
 });
 
 app.factory('accessFunctions', function($http, $rootScope) {
-
+    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
     return {
         getResident: function(id) {
-            return $http.get('http://localhost:3000/companies/3/residents/find/' + id)
+            return $http.get(server + '/residents/find/' + id)
         },
         getVisitors: function(id) {
-            return $http.get('http://localhost:3000/companies/3/visitants')
+            return $http.get(server + '/visitants')
         },
         getVehicule: function(id) {
-            return $http.get('http://localhost:3000/companies/3/vehicules/find/' + id)
+            return $http.get(server + '/vehicules/find/' + id)
         },
         getVisitor: function(id) {
-            return $http.get('http://localhost:3000/companies/3/visitants/find/' + id)
+            return $http.get(server + '/visitants/find/' + id)
         },
         insertVisitor: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/visitants",
+                url: server + "/visitants",
                 method: 'POST',
                 data: data
             });
         },
         getEmergency: function() {
-            return $http.get('http://localhost:3000/companies/3/emergencies');
+            return $http.get(server + '/emergencies');
         },
         reportEmergency: function(id, data) {
             return $http({
-                url: "http://localhost:3000/companies/3/emergencies/" + id,
+                url: server + "/emergencies/" + id,
                 method: 'PUT',
                 data: data
             })
         },
         getNotes: function(id) {
-            return $http.get('http://localhost:3000/companies/3/notes')
+            return $http.get(server + '/notes')
         },
         findRegisteredVisitant: function(id) {
-            return $http.get('http://localhost:3000/companies/3/visitants/invited/find/' + id)
+            return $http.get(server + '/visitants/invited/find/' + id)
         },
         reportTurn: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/watches",
+                url: server + "/watches",
                 method: 'POST',
                 data: data
             })

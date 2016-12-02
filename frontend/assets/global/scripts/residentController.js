@@ -465,46 +465,47 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
         });
     };
 });
-app.factory('residentsFunctions', function($http, $state) {
+app.factory('residentsFunctions', function($http, $state, $rootScope) {
+    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/residents",
+                url: server + "/residents",
                 method: 'POST',
                 data: data
             });
         },
         update: function(id, data) {
             return $http({
-                url: "http://localhost:3000/companies/3/residents/" + id,
+                url: server + "/residents/" + id,
                 method: 'PUT',
                 data: data
             });
         },
         delete: function(id) {
             return $http({
-                url: "http://localhost:3000/companies/3/residents/" + id,
+                url: server + "/residents/" + id,
                 method: 'DELETE'
             });
         },
         getEnabledResidents: function() {
-            return $http.get('http://localhost:3000/companies/3/residents/find/enabled');
+            return $http.get(server + '/residents/find/enabled');
         },
         getDisabledResidents: function() {
-            return $http.get('http://localhost:3000/companies/3/residents/find/disabled');
+            return $http.get(server + '/residents/find/disabled');
         },
         getAll: function() {
-            return $http.get('http://localhost:3000/companies/3/residents');
+            return $http.get(server + '/residents');
         },
         getAllHouses: function() {
-            return $http.get('http://localhost:3000/companies/3/houses');
+            return $http.get(server + '/houses');
         },
         get: function(id) {
-            return $http.get('http://localhost:3000/companies/3/residents/' + id)
+            return $http.get(server + '/residents/' + id)
         },
         deleteUser: function(id) {
             return $http({
-                url: 'http://localhost:3000/companies/3/users/deleteByResident/' + id,
+                url: server + '/users/deleteByResident/' + id,
                 method: 'DELETE'
             });
 

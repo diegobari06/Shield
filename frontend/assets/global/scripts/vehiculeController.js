@@ -316,7 +316,6 @@ app.controller('VehiculesCreateController', function($scope, $http, $rootScope, 
                 }).success(function() {
                     bootbox.hideAll();
                     $state.go('vehicules');
-                    commonMethods.updateResidents();
                     toastr["success"]("Se creó el vehículo correctamente");
                 })
 
@@ -461,42 +460,43 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
 
 });
 
-app.factory('vehiculesFunctions', function($http) {
+app.factory('vehiculesFunctions', function($http, $rootScope) {
+    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/vehicules",
+                url: server + "/vehicules/",
                 method: 'POST',
                 data: data
             });
         },
         update: function(id, data) {
             return $http({
-                url: "http://localhost:3000/companies/3/vehicules/" + id,
+                url: server + "/vehicules/" + id,
                 method: 'PUT',
                 data: data
             })
         },
         delete: function(id) {
             return $http({
-                url: "http://localhost:3000/companies/3/vehicules/" + id,
+                url: server + "/vehicules/" + id,
                 method: 'DELETE'
             });
         },
         getEnabledVehicules: function() {
-            return $http.get('http://localhost:3000/companies/3/vehicules/find/enabled');
+            return $http.get(server + '/vehicules/find/enabled');
         },
         getDisabledVehicules: function() {
-            return $http.get('http://localhost:3000/companies/3/vehicules/find/disabled');
+            return $http.get(server + '/vehicules/find/disabled');
         },
         getAll: function() {
-            return $http.get('http://localhost:3000/companies/3/vehicules');
+            return $http.get(server + '/vehicules');
         },
         getAllHouses: function() {
-            return $http.get('http://localhost:3000/companies/3/houses');
+            return $http.get(server + '/houses');
         },
         get: function(id) {
-            return $http.get('http://localhost:3000/companies/3/vehicules/' + id);
+            return $http.get(server + '/vehicules/' + id);
         }
     };
 });

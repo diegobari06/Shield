@@ -1,4 +1,4 @@
-app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state, usersFunctions, commonMethotds) {
+app.controller('loginController', function($scope, $auth, $location, $rootScope, $timeout, $state, usersFunctions) {
 
 
     $scope.beginSesion = function(loginForm) {

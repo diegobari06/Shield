@@ -145,33 +145,34 @@ app.controller('HousesEditController', function($scope, $http, $state, $rootScop
 
     };
 });
-app.factory('housesFunctions', function($http) {
+app.factory('housesFunctions', function($http, $rootScope) {
+    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/houses",
+                url: server + "/houses",
                 method: 'POST',
                 data: data
             });
         },
         update: function(id, data) {
             return $http({
-                url: "http://localhost:3000/companies/3/houses/" + id,
+                url: server + "/houses/" + id,
                 method: 'PUT',
                 data: data
             })
         },
         delete: function(id) {
             return $http({
-                url: "http://localhost:3000/companies/3/houses/" + id,
+                url: server + "/houses/" + id,
                 method: 'DELETE'
             });
         },
         getAll: function() {
-            return $http.get('http://localhost:3000/companies/3/houses');
+            return $http.get(server + '/houses');
         },
         get: function(id) {
-            return $http.get('http://localhost:3000/companies/3/houses/' + id)
+            return $http.get(server + '/houses/' + id)
         },
         getKeys: function(house_number, securityKey, emergencyKey) {
             if (securityKey == null || emergencyKey == null) {

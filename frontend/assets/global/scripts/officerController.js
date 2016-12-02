@@ -123,33 +123,34 @@ app.controller('OfficersEditController', function($scope, $http, $state, $rootSc
 
 });
 
-app.factory('officersFunctions', function($http) {
+app.factory('officersFunctions', function($http, $rootScope) {
+    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({
-                url: "http://localhost:3000/companies/3/officers",
+                url: server + "/officers",
                 method: 'POST',
                 data: data
             });
         },
         update: function(id, data) {
             return $http({
-                url: "http://localhost:3000/companies/3/officers/" + id,
+                url: server + "/officers/" + id,
                 method: 'PUT',
                 data: data
             })
         },
         delete: function(id) {
             return $http({
-                url: "http://localhost:3000/companies/3/officers/" + id,
+                url: server + "/officers/" + id,
                 method: 'DELETE'
             });
         },
         getAll: function() {
-            return $http.get('http://localhost:3000/companies/3/officers');
+            return $http.get(server + '/officers');
         },
         get: function(id) {
-            return $http.get('http://localhost:3000/companies/3/officers/' + id)
+            return $http.get(server + '/officers/' + id)
         }
     };
 });
