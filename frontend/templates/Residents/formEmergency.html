@@ -9,7 +9,7 @@
         <div class="btn-group pull-right"> </div>
     </div>
 </div>
-<div class="row">
+<div class="row display-none" id="all">
     <!-- <div class="col-md-12">
         <form ng-submit="reportEmergency()">
             <div class="portlet light bordered">
@@ -47,6 +47,7 @@
 
 <script>
     jQuery(document).ready(function() {
+        $("#all").fadeIn("slow");
         $("#loadingIcon").fadeIn("slow");
     });
 </script>

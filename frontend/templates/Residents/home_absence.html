@@ -15,7 +15,7 @@
         <div class="btn-group pull-right"> </div>
     </div>
 </div>
-<div class="row">
+<div class="row display-none" id="all">
     <div class="col-md-12">
 
         <div class="portlet light bordered">
@@ -84,6 +84,7 @@
 </div>
 <script>
     $(function() {
+        $("#all").fadeIn("slow");
         $('.dating').keydown(function() {
             return false;
         });

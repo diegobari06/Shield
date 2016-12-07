@@ -15,7 +15,7 @@
         <div class="btn-group pull-right"> </div>
     </div>
 </div>
-<div class="row">
+<div class="row display-none" id="all">
     <div class="col-md-12">
         <form ng-submit="actionButton()">
             <div class="portlet light bordered">
@@ -103,6 +103,7 @@
 </div>
 <script>
     $(function() {
+      $("#all").fadeIn("slow");
         $('.timepicker').keydown(function() {
             return false;
         });

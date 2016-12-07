@@ -695,6 +695,7 @@ app.controller('CreateCondominoVehiculeController', function($scope, $state, $ro
 });
 
 app.controller('homeServiceController', function($scope, $http, $state, $rootScope, $stateParams, $timeout, residentsFunctions, usersFunctions, residentsAccionsController, commonMethods) {
+    $rootScope.active = "reportHomeService"
     $scope.actionButton = function() {
         var data = {
             description: $scope.note,
