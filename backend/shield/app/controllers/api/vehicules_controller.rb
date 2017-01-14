@@ -1,3 +1,4 @@
+module Api
 class VehiculesController < ApplicationController
   before_action :set_vehicule, only: [:show, :edit, :update, :destroy]
 
@@ -73,4 +74,5 @@ class VehiculesController < ApplicationController
     def vehicule_params
       params.permit(:id,:license_plate,:house_id,:color,:brand,:company_id, :enabled)
     end
+end
 end

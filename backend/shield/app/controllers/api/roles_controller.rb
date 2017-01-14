@@ -1,3 +1,4 @@
+module Api
 class RolesController < ApplicationController
   before_action :set_rol, only: [:show, :edit, :update, :destroy]
   respond_to  :json
@@ -74,4 +75,5 @@ class RolesController < ApplicationController
     def rol_params
       params.fetch(:rol, {})
     end
+end
 end

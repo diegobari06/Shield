@@ -53,41 +53,41 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
         if ($rootScope.user.signedIn && $rootScope.user.permission_level == 3 && attended == 0) {
 
             accessFunctions.getEmergency().success(function(emergency) {
+                if (emergency != null) {
+                    if (emergency.isAttended == 1) {
+                        attended = 1;
+                        angular.forEach(housesPrueba, function(itemHouse, index) {
+                            if (itemHouse.id == emergency.house_id) {
+                                $scope.house_number_emergency = itemHouse.house_number;
 
-                if (emergency.isAttended == 1) {
-                    attended = 1;
-                    angular.forEach(housesPrueba, function(itemHouse, index) {
-                        if (itemHouse.id == emergency.house_id) {
-                            $scope.house_number_emergency = itemHouse.house_number;
+                            }
+                        });
 
+                        $scope.hideRegisterForm = 1;
+                        $scope.hideEmergencyForm = 2;
+                        $scope.show = 7;
+                        emergency_id = emergency.id;
+                        colorDark();
+
+                        function colorDark() {
+                            $("#emergencyContainer").animate({
+                                backgroundColor: '#DF0101',
+
+                            }, 200, function() {
+                                colorLight();
+                            });
                         }
-                    });
 
-                    $scope.hideRegisterForm = 1;
-                    $scope.hideEmergencyForm = 2;
-                    $scope.show = 7;
-                    emergency_id = emergency.id;
-                    colorDark();
+                        function colorLight() {
+                            $("#emergencyContainer").animate({
+                                backgroundColor: '#8A0808',
 
-                    function colorDark() {
-                        $("#emergencyContainer").animate({
-                            backgroundColor: '#DF0101',
-
-                        }, 200, function() {
-                            colorLight();
-                        });
-                    }
-
-                    function colorLight() {
-                        $("#emergencyContainer").animate({
-                            backgroundColor: '#8A0808',
-
-                        }, 200, function() {
-                            colorDark();
-                        });
+                            }, 200, function() {
+                                colorDark();
+                            });
+                        }
                     }
                 }
-
 
             });
         }
@@ -107,7 +107,7 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
             $scope.show = 3;
             angular.forEach(vehiculesPrueba, function(item, index) {
                 if (item.license_plate == $scope.id_vehicule) {
-                    $scope.vehiculeRegisteredTitle = "Vehiculo registrado";
+                    $scope.vehiculeRegisteredTitle = "Vehículo registrado";
                     $scope.colorVehiculeRegistered = "green-font";
                     $scope.imageVehiculeState = "success-car-image";
                     $("#vehiculeAccess").fadeIn(100);
@@ -124,7 +124,7 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
                         }
                     });
                     if (item.enabled == 0) {
-                        $scope.vehiculeRegisteredTitle = "Vehiculo no habilitado";
+                        $scope.vehiculeRegisteredTitle = "Vehículo no habilitado";
                         $scope.colorVehiculeRegistered = "red-font";
                         $scope.imageVehiculeState = "disabled-car-image";
                     }
@@ -181,7 +181,12 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
                         $scope.invited_visitant_name = data.name
                         $scope.invited_visitant_last_name = data.last_name;
                         $scope.invited_visitant_second_last_name = data.second_last_name;
-                        $scope.invited_visitant_house_number = data.id_house;
+                        angular.forEach(housesPrueba, function(itemHouse, index) {
+                                if (itemHouse.id == data.id_house) {
+                                    $scope.invited_visitant_house_number = itemHouse.house_number;
+                                }
+                            })
+                            // $scope.invited_visitant_house_number = data.id_house;
                         $scope.invited_visitant_indentification = data.identification_number;
                         if (data.license_plate == null) {
                             $scope.invited_visitant_license_plate = "Ninguna";
@@ -324,7 +329,7 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
         } else {
             commonMethods.waitingMessage();
             accessFunctions.reportTurn({
-                company_id: 3,
+                company_id: $rootScope.user.company_id,
                 officers: $scope.officersLinked,
                 access_door_id: 1
             }).success(function() {
@@ -349,6 +354,9 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
 
     $scope.searchVisitor = function() {
         $scope.show = 5;
+        $("#license_plate").css("text-transform", "none");
+        $("#license_plate").attr("placeholder", "Número placa (sin guiones)");
+
         clearInputs();
 
         if ($scope.id_number == undefined || $scope.id_number == "") {
@@ -432,16 +440,21 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
 
 
     $scope.insert_visitant_invited = function() {
-
+        var idHouse;
+        angular.forEach(housesPrueba, function(itemVisitor, index) {
+            if (itemVisitor.id == $scope.invited_visitant_house_number) {
+                idHouse = itemVisitor.id;
+            }
+        })
         commonMethods.waitingMessage();
         accessFunctions.insertVisitor({
             name: $scope.invited_visitant_name,
             last_name: $scope.invited_visitant_last_name,
             second_last_name: $scope.invited_visitant_second_last_name,
-            company_id: 3,
+            company_id: $rootScope.user.company_id,
             identification_number: $scope.invited_visitant_indentification,
             license_plate: $scope.invited_visitant_license_plate,
-            id_house: $scope.invited_visitant_house_numberd,
+            id_house: idHouse,
             is_invited: 0
         }).success(function() {
             $scope.id_number = "";
@@ -487,7 +500,7 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
             name: $scope.visitor_name,
             last_name: $scope.visitor_last_name,
             second_last_name: $scope.visitor_second_last_name,
-            company_id: 3,
+            company_id: $rootScope.user.company_id,
             identification_number: $scope.visitor_id_number,
             license_plate: $scope.visitor_license_plate,
             id_house: $scope.house.id,
@@ -505,9 +518,10 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
 
 
 });
+``
 
 app.factory('accessFunctions', function($http, $rootScope) {
-    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
+    var server = "http://localhost:3000/api/companies/" + $rootScope.user.company_id;
     return {
         getResident: function(id) {
             return $http.get(server + '/residents/find/' + id)

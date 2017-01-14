@@ -1,3 +1,4 @@
+module Api
 class ResidentsController < ApplicationController
   before_action :set_resident, only: [:show, :edit, :update, :destroy]
 
@@ -77,4 +78,5 @@ class ResidentsController < ApplicationController
     def resident_params
       params.permit(:id,:name,:last_name,:second_last_name,:phone_number,:birthday,:email,:picture,:house_id,:company_id,:identification_number,:is_owner,:user_id, :enabled)
     end
+end
 end

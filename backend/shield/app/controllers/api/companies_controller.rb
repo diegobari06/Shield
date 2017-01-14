@@ -1,3 +1,4 @@
+module Api
 class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
@@ -55,4 +56,5 @@ class CompaniesController < ApplicationController
     def company_params
       params.permit(:id,:name)
     end
+end
 end

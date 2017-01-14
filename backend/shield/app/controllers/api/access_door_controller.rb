@@ -1,3 +1,4 @@
+module Api
 class AccessDoorController < ApplicationController
   before_action :set_access_door, only: [:show, :edit, :update, :destroy]
 
@@ -62,4 +63,5 @@ class AccessDoorController < ApplicationController
     def access_door_params
       params.permit(:id,:name,:company_id)
     end
+end
 end

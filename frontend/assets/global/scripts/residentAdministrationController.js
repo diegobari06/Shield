@@ -8,7 +8,7 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
                 $("#residents_container").fadeIn(700);
             }, 100)
             $scope.buttonDisabledEnabled = "Residentes deshabilitados";
-            $scope.titleCondominosIndex = "Habitantes de la filial";
+            $scope.titleCondominosIndex = "Residentes de la filial";
             $scope.titleDisabledButton = "Deshabilitar residente";
             $scope.iconDisabled = "fa fa-user-times";
             $scope.color = "red";
@@ -53,7 +53,7 @@ app.controller('CondominosListController', function($scope, $state, $rootScope, 
         $("#residents_container").fadeOut(0);
         if (enabledOptions) {
             $scope.buttonDisabledEnabled = "Residentes deshabilitados";
-            $scope.titleCondominosIndex = "Habitantes de la filial ";
+            $scope.titleCondominosIndex = "Residentes de la filial ";
             $scope.titleDisabledButton = "Deshabilitar residente";
             $scope.iconDisabled = "fa fa-user-times";
             $scope.color = "red";
@@ -314,17 +314,25 @@ app.controller('editCondominoController', function($scope, $auth, $state, $rootS
     $rootScope.active = "residentsHouses";
     $scope.title = "Editar residente";
     $scope.button = "Editar";
+    $scope.lastDate = $scope.birthday;
+    $scope.keepDate = function() {
+        if ($scope.birthday == undefined) {
+            $scope.birthday = $scope.lastDate;
+        }
+    }
     commonMethods.validateLetters();
     commonMethods.validateNumbers();
     var user_id, company_id, email, identification_number, is_owner;
     residentsFunctions.get($stateParams.id).success(function(data) {
+        $scope.keepDate();
         $scope.name = data.name;
         $scope.residentId = data.id;
         $scope.residentName = data.name;
         $scope.last_name = data.last_name;
         $scope.second_last_name = data.second_last_name;
         $scope.identification_number = data.identification_number;
-        $scope.birthday = data.birthday;
+        $scope.birthday = moment(data.birthday).format("DD-MM-YYYY");
+        $scope.lastDate = moment(data.birthday).format("DD-MM-YYYY");
         $scope.email = data.email;
         $scope.phone_number = data.phone_number;
         user_id = data.user_id;
@@ -1141,6 +1149,9 @@ app.controller('CondominosInvitedVisitorsListController', function($scope, $stat
 });
 
 app.controller('CreateCondominosVisitorsController', function($scope, $state, $rootScope, $window, residentsAccionsController, residentsFunctions, commonMethods) {
+    commonMethods.validateLetters();
+    commonMethods.validateNumbers();
+    commonMethods.validateSpecialCharacters();
     $rootScope.active = "reportInvitation";
     $scope.title = "Reportar visitante";
     $scope.button = "Reportar";
@@ -1287,7 +1298,7 @@ app.controller('CreateCondominosVisitorsController', function($scope, $state, $r
     }
 });
 app.factory('residentsAccionsController', function($http, $rootScope) {
-    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
+    var server = "http://localhost:3000/api/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({

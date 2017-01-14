@@ -61,7 +61,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="visitor in visitors | filter:search | orderBy:'name'">
-                                <td>{{visitor.name}} {{visitor.last_name}} {{visitor.second_last_name}}</td>
+                                <td style="text-transform: capitalize;">{{visitor.name}} {{visitor.last_name}} {{visitor.second_last_name}}</td>
                                 <td>{{visitor.identification_number}}</td>
                                 <td>{{visitor.license_plate}}</td>
                                 <td>{{visitor.invitation_starting_time}}</td>

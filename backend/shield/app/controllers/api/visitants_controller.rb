@@ -1,3 +1,4 @@
+module Api
 class VisitantsController < ApplicationController
   before_action :set_visitant, only: [:show, :edit, :update, :destroy]
 
@@ -85,4 +86,5 @@ class VisitantsController < ApplicationController
     def visitant_params
       params.permit(:id,:name,:last_name,:second_last_name,:license_plate,:id_house,:company_id,:identification_number,:invitation_starting_time,:invitation_limit_time,:is_invited)
     end
+end
 end

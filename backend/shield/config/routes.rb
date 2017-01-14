@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  namespace :api, defaults: { format: :json }, path: '/api'  do
   mount_devise_token_auth_for "User", at: 'companies/0/auth' #controllers: { sessions: "sessions" }
   resources :companies do
     get 'residents/find/enabled' => 'residents#findEnabled'
@@ -49,8 +50,9 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
 
+end
+  root 'welcome#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

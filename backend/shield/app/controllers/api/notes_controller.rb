@@ -1,3 +1,4 @@
+module Api
 class NotesController < ApplicationController
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
@@ -70,4 +71,5 @@ class NotesController < ApplicationController
     def note_params
       params.permit(:id,:description,:company_id,:house_id,:note_type)
     end
+end
 end

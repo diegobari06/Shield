@@ -140,7 +140,7 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
                                     enabled: 0
                                 }).success(function() {
                                     $scope.loadResidentsEnabled();
-                                    toastr["success"]("Se ha deshabilitado el residente correctamente");
+                                    toastr["success"]("Se ha deshabilitado el residente correctamente.");
                                     bootbox.hideAll();
                                 })
                             }
@@ -157,7 +157,7 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
                                     enabled: 1
                                 }).success(function() {
                                     $scope.loadResidentsDisabled();
-                                    toastr["success"]("Se ha habilitado el residente correctamente");
+                                    toastr["success"]("Se ha habilitado el residente correctamente.");
                                     bootbox.hideAll();
                                 })
                             }
@@ -208,7 +208,7 @@ app.controller('ResidentsListController', function($scope, $state, $rootScope, $
                 if (result) {
                     commonMethods.waitingMessage();
                     residentsFunctions.delete(id).success(function() {
-                        toastr["success"]("Se ha eliminado el residente correctamente");
+                        toastr["success"]("Se ha eliminado el residente correctamente.");
                         if (enabledOptions) {
                             $scope.loadResidentsEnabled();
 
@@ -275,7 +275,7 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
     commonMethods.validatePermisson(2);
     $rootScope.active = "residents";
     $scope.permisson = 2;
-    $scope.title = "Nuevo residente";
+    $scope.title = "Registrar residente";
     $scope.button = "Registrar";
     commonMethods.validateLetters();
     commonMethods.validateNumbers();
@@ -292,9 +292,9 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
         residentsFunctions.getAll().success(function(residents) {
             $scope.residents = residents
             if (commonMethods.validateRepeat($scope.residents, $scope.identification_number, 1)) {
-                toastr["error"]("La cédula ingresada ya existe");
+                toastr["error"]("La cédula ingresada ya existe.");
             } else if (commonMethods.validateRepeat($scope.residents, $scope.email, 2)) {
-                toastr["error"]("El correo ingresado ya existe");
+                toastr["error"]("El correo ingresado ya existe.");
             } else {
                 commonMethods.waitingMessage();
                 var number = 0;
@@ -311,7 +311,7 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
                     isOwner: number
                 }).success(function(dataResident) {
                     if ($scope.isOwner && $scope.email == "") {
-                        toastr["error"]("Debe ingresar un correo para asignarr el residente como autorizador de filial");
+                        toastr["error"]("Debe ingresar un correo para asignarr el residente como autorizador de filial.");
                     } else if ($scope.isOwner) {
                         usersFunctions.sign_up({
                             email: $scope.email,
@@ -327,7 +327,7 @@ app.controller('ResidentsCreateController', function($scope, $http, $rootScope, 
                             }).success(function(data) {
                                 bootbox.hideAll();
                                 $state.go('residents');
-                                toastr["success"]("Se ha registrado el usuario correctamente");
+                                toastr["success"]("Se ha registrado el usuario correctamente.");
                             });
                         });
                     } else {
@@ -369,7 +369,7 @@ app.controller('homeServiceController', function($scope, $http, $state, $rootSco
                         residentsFunctions.insertNote(data).success(function(data) {
                             $state.go('condominos');
                             bootbox.hideAll()
-                            toastr["success"]("Se ha reportado el servicio a domicilio correctamente");
+                            toastr["success"]("Se ha reportado el servicio a domicilio correctamente.");
                         })
                     })
                 }
@@ -382,9 +382,10 @@ app.controller('homeAbsenceController', function($scope, $http, $state, $rootSco
     $rootScope.active = 'reportAbsence';
     var house_id;
     residentsFunctions.get($rootScope.user.resident_id).success(function(pdata) {
+
         $("#loadingIcon").fadeOut(0);
         setTimeout(function() {
-            $("#div").fadeIn(300);
+            $("#register_edit_form").fadeIn(1000);
         }, 200)
         house_id = pdata.house_id;
         residentsFunctions.getHouse(house_id).success(function(data) {
@@ -412,7 +413,7 @@ app.controller('homeAbsenceController', function($scope, $http, $state, $rootSco
                     residentsFunctions.cancelAbscence(house_id).success(function(data) {
                         $scope.desocupated = data.is_desocupated;
                         bootbox.hideAll();
-                        toastr["success"]("Has cancelado tu ausencia en la filial");
+                        toastr["success"]("Has cancelado tu ausencia en la filial.");
                     });
                 }
             }
@@ -446,7 +447,7 @@ app.controller('homeAbsenceController', function($scope, $http, $state, $rootSco
                             $scope.limitTime = moment(data.desocupation_final_time).format('LL');
                             $scope.initialTime = moment(data.desocupation_initial_time).format('LL');
                             bootbox.hideAll();
-                            toastr["success"]("Se ha reportado tu ausencia en la filial");
+                            toastr["success"]("Se ha reportado tu ausencia en la filial.");
                         })
                     })
                 }
@@ -464,7 +465,11 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
     commonMethods.validateLetters();
     commonMethods.validateNumbers();
     $scope.selectedOption = {};
-
+    $scope.keepDate = function() {
+        if ($scope.birthday == undefined) {
+            $scope.birthday = $scope.lastDate;
+        }
+    }
     residentsFunctions.get($stateParams.id).success(function(data) {
         $scope.name = data.name;
         $scope.residentId = data.id;
@@ -472,7 +477,8 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
         $scope.last_name = data.last_name;
         $scope.second_last_name = data.second_last_name;
         $scope.identification_number = data.identification_number;
-        $scope.birthday = data.birthday;
+        $scope.birthday = moment(data.birthday).format("DD-MM-YYYY");
+        $scope.lastDate = moment(data.birthday).format("DD-MM-YYYY");
         $scope.email = data.email;
         $scope.house_id = data.house_id;
         $scope.phone_number = data.phone_number;
@@ -504,9 +510,9 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
         residentsFunctions.getAll().success(function(residents) {
             $scope.residents = residents
             if (commonMethods.validateRepeat($scope.residents, $scope.identification_number, 1) && $scope.identification_number != identification_number) {
-                toastr["error"]("La cédula ingresada ya existe");
+                toastr["error"]("La cédula ingresada ya existe.");
             } else if (commonMethods.validateRepeat($scope.residents, $scope.email, 2) && $scope.email != email) {
-                toastr["error"]("El correo ingresado ya existe");
+                toastr["error"]("El correo ingresado ya existe.");
             } else {
                 commonMethods.waitingMessage();
                 var number;
@@ -579,7 +585,7 @@ app.controller('ResidentsEditController', function($scope, $http, $state, $rootS
     };
 });
 app.factory('residentsFunctions', function($http, $state, $rootScope) {
-    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
+    var server = "http://localhost:3000/api/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({

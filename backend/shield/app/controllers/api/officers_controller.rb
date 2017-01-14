@@ -1,3 +1,4 @@
+module Api
 class OfficersController < ApplicationController
   before_action :set_officer, only: [:show, :edit, :update, :destroy]
 
@@ -56,4 +57,5 @@ class OfficersController < ApplicationController
     def officer_params
       params.permit(:id,:name,:last_name,:second_last_name,:identification_number,:company_id,:license,:in_service)
     end
+end
 end

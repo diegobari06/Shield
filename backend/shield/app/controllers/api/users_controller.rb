@@ -1,3 +1,4 @@
+module Api
 class UsersController < ApplicationController
   before_action only: [:show, :edit, :update, :destroy]
   # before_action :authenticate_admin!,only: [:create,:new,:update,:edit,:destroy,:index]
@@ -65,5 +66,5 @@ class UsersController < ApplicationController
   #   @user = User.where(resident_id: params[:id])
   #   @user.destroy
   # end
-
+end
 end

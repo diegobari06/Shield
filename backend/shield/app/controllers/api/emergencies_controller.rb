@@ -1,8 +1,10 @@
+module Api
 class EmergenciesController < ApplicationController
   before_action :set_emergency, only: [:show, :edit, :update, :destroy]
 
   # GET /residents.json
-  def index
+  def ind
+    ex
     @emergencies = Emergency.where(company_id: params[:company_id]).last
     render json: @emergencies, status: 200
   end
@@ -55,4 +57,5 @@ class EmergenciesController < ApplicationController
     def emergency_params
       params.permit(:id,:observation,:isAttended,:company_id,:house_id)
     end
+end
 end

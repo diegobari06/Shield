@@ -20,12 +20,12 @@ app.controller('VehiculesListController', function($scope, $state, $rootScope, $
     }
     $scope.changesTitles = function() {
         if (enabledOptions) {
-            $scope.title = "Vehiculos habilitados";
-            $scope.buttonTitle = "Ver vehiculos deshabilitados";
+            $scope.title = "Vehículos habilitados";
+            $scope.buttonTitle = "Ver Vehículos deshabilitados";
             $scope.actionButtonTitle = "Deshabilitar";
         } else {
-            $scope.title = "Vehiculos deshabilitados";
-            $scope.buttonTitle = "Ver vehiculos habilitados";
+            $scope.title = "Vehículos deshabilitados";
+            $scope.buttonTitle = "Ver Vehículos habilitados";
             $scope.actionButtonTitle = "Habilitar";
         }
     }
@@ -461,7 +461,7 @@ app.controller('VehiculesEditController', function($scope, $http, $state, $rootS
 });
 
 app.factory('vehiculesFunctions', function($http, $rootScope) {
-    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
+    var server = "http://localhost:3000/api/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({

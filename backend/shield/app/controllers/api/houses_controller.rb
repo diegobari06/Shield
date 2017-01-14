@@ -1,3 +1,4 @@
+module Api
 class HousesController < ApplicationController
   before_action :set_house, only: [:show, :edit, :update, :destroy]
 
@@ -45,8 +46,8 @@ class HousesController < ApplicationController
     @quantity_allowed = CompanyConfiguration.where(company_id:  params[:company_id]).last.quantity_houses
     @quantity_registered = House.where(company_id:  params[:company_id]).count
 
-    if(@quantity_registered == @quantity_allowed)
-      render json: 'Limite de viviendas registradas alcanzado.'
+    if(@quantity_registered-1 == @quantity_allowed)
+      render json: {'error': 'Limite de viviendas registradas alcanzado.'}
     else
     @house = House.new(house_params)
     if @house.save
@@ -100,7 +101,7 @@ def findVisitants
    @initialTime = params[:consulting_initial_time].to_date.strftime('%Y-%m-%d').to_date;
 
    @visitants.each do |visitant|
-      @dateTime = (visitant.date_time.to_date - 1.days);
+      @dateTime = (visitant.date_time.to_date);
 
      if(@dateTime >= @initialTime && @dateTime <= @limitTime)
       @filteredVisitants.push(visitant);
@@ -199,4 +200,5 @@ end
     def house_params
       params.permit(:id,:consulting_initial_time,:consulting_final_time,:house_number,:extension,:identification_number,:securityKey,:emergencyKey,:id_house,:company_id,:is_desocupated,:desocupation_initial_time,:desocupation_final_time)
     end
+end
 end

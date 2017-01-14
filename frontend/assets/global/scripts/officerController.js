@@ -101,6 +101,7 @@ app.controller('OfficersEditController', function($scope, $http, $state, $rootSc
 
     $scope.actionButton = function() {
         officersFunctions.getAll().success(function(officers) {
+            $scope.officers = officers;
             if (commonMethods.validateRepeat($scope.officers, $scope.identification_number, 1) && $scope.identification_number != officerId) {
                 toastr["error"]("La cédula ingresada ya existe");
             } else {
@@ -124,7 +125,7 @@ app.controller('OfficersEditController', function($scope, $http, $state, $rootSc
 });
 
 app.factory('officersFunctions', function($http, $rootScope) {
-    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
+    var server = "http://localhost:3000/api/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({

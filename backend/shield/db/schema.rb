@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20170113190243) do
 
   create_table "access_doors", force: :cascade do |t|
     t.string  "name",       limit: 45
@@ -46,11 +46,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "company_id",                limit: 4
     t.integer  "is_desocupated",            limit: 1,  default: 0
     t.datetime "desocupation_initial_time"
-<<<<<<< HEAD
     t.datetime "desocupation_final_time"
-=======
-    t.datetime "desocupation_final_time",                          null: false
->>>>>>> origin/master
     t.string   "securityKey",               limit: 20
     t.string   "emergencyKey",              limit: 20
   end
@@ -100,11 +96,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "email",                 limit: 45
     t.integer "is_owner",              limit: 1,  default: 0
     t.integer "user_id",               limit: 4
-<<<<<<< HEAD
     t.integer "enabled",               limit: 4,  default: 1
-=======
-    t.integer "enabled",               limit: 4
->>>>>>> origin/master
   end
 
   add_index "residents", ["company_id"], name: "me_company_idx", using: :btree

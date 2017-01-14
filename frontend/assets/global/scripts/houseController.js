@@ -77,11 +77,18 @@ app.controller('HousesCreateController', function($scope, $http, $rootScope, $st
                     extension: $scope.extension,
                     securityKey: $scope.securityKey,
                     emergencyKey: $scope.emergencyKey,
-                    company_id: 3
-                }).success(function() {
-                    bootbox.hideAll();
-                    $state.go('houses');
-                    toastr["success"]("Se registró la casa correctamente");
+                    company_id: $rootScope.user.company_id
+                }).success(function(data) {
+                    if (data.error != null) {
+                        console.log(data.error)
+                        bootbox.hideAll();
+                        $state.go('houses');
+                        toastr["error"](data.error);
+                    } else {
+                        bootbox.hideAll();
+                        $state.go('houses');
+                        toastr["success"]("Se registró la casa correctamente");
+                    }
 
 
                 })
@@ -106,7 +113,7 @@ app.controller('HousesEditController', function($scope, $http, $state, $rootScop
         $scope.extension = data.extension;
         $scope.securityKey = data.securityKey;
         $scope.emergencyKey = data.emergencyKey;
-        house_number = data.id;
+        house_number = data.house_number;
         $("#loadingIcon").fadeOut(0);
         setTimeout(function() {
             $("#edit_house_form").fadeIn(300);
@@ -146,7 +153,7 @@ app.controller('HousesEditController', function($scope, $http, $state, $rootScop
     };
 });
 app.factory('housesFunctions', function($http, $rootScope) {
-    var server = "http://localhost:3000/companies/" + $rootScope.user.company_id;
+    var server = "http://localhost:3000/api/companies/" + $rootScope.user.company_id;
     return {
         insert: function(data) {
             return $http({
@@ -176,10 +183,10 @@ app.factory('housesFunctions', function($http, $rootScope) {
         },
         getKeys: function(house_number, securityKey, emergencyKey) {
             if (securityKey == null || emergencyKey == null) {
-                toastr["error"]("Esta casa aún no tiene claves de seguridad asignadas");
+                toastr["error"]("Esta casa aún no tiene claves de seguridad asignadas.");
             } else {
                 bootbox.dialog({
-                    message: '<div class="text-center gray-font font-20"> <h1 class="font-30">Casa numero <span class="font-30" id="key_id_house"></span></h1></div>\
+                    message: '<div class="text-center gray-font font-20"> <h1 class="font-30">Casa número <span class="font-30" id="key_id_house"></span></h1></div>\
                         <div class="text-center gray-font font-20"> <h1 class="font-20">Clave de seguridad: <span class="font-20 bold" id="security_key">1134314</span></h1></div>\
                           <div class="text-center gray-font font-20"> <h1 class="font-20">Clave de emergencia: <span class="font-20 bold" id="emergency_key">1134314</span></h1></div>',
                     closeButton: false,

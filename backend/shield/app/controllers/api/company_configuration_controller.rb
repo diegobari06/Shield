@@ -1,3 +1,4 @@
+module Api
 class companyConfigurationsController < ApplicationController
   before_action :set_company_configuration, only: [:show, :edit, :update, :destroy]
 
@@ -57,4 +58,5 @@ class companyConfigurationsController < ApplicationController
     def company_configuration_params
       params.permit(:id,:quantity_houses,:quantity_admins,:quantity_access_door,:company_id)
     end
+end
 end

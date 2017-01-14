@@ -1,3 +1,4 @@
+module Api
 class SessionController < Devise::DeviseController
 
     def after_sign_in_path_for()
@@ -6,4 +7,5 @@ class SessionController < Devise::DeviseController
         end
     end
 
+end
 end
