@@ -240,7 +240,7 @@ app.controller('emergencyController', function($scope, $state, $rootScope, $wind
 
 })
 
-app.controller('CreateCondominoController', function($scope, $state, $rootScope, $window, Upload, cloudinary, $stateParams, residentsAccionsController, residentsFunctions, commonMethods) {
+app.controller('CreateCondominoController', function($scope, $state, $rootScope, Upload, cloudinary, $stateParams, residentsAccionsController, residentsFunctions, commonMethods) {
     $rootScope.active = "residentsHouses";
     $scope.title = "Registrar residente";
     $scope.button = "Registrar";
@@ -255,30 +255,27 @@ app.controller('CreateCondominoController', function($scope, $state, $rootScope,
             $("#edit_resident_form").fadeIn(300);
         }, 200)
     });
-    $scope.uploadFiles = function(files) {
-        $scope.files = files;
-        if (!$scope.files) return;
-        angular.forEach(files, function(file) {
-            var formData = new FormData();
-            formData.append("file", file);
-            console.log(formData.get('file'));
-            if (file && !file.$error) {
-                file.upload = Upload.upload({
-                    url: "https://api.cloudinary.com/v1_1/lighthousesoftware/upload",
-                    data: {
-                        upload_preset: "vtt33a4m",
-                        tags: 'myphotoalbum',
-                        context: 'photo=' + $scope.title,
-                        file: formData.get('file')
-                    }
-                }).success(function(data, status, headers, config) {
-                    console.log("success");
-                }).error(function(data, status, headers, config) {
-                    console.log("fail");
-                });
-            }
-        });
-    };
+    $scope.uploadFiles = function(files){
+  $scope.files = files;
+  if (!$scope.files) return;
+  angular.forEach(files, function(file){
+    if (file && !file.$error) {
+      file.upload =  Upload.upload({
+        url: "https://api.cloudinary.com/v1_1/lh/upload",
+        data: {
+          upload_preset: "cbvodmlb",
+          tags: 'myphotoalbum',
+          context: 'photo=' + $scope.title,
+          file: file
+        }
+      }).success(function (data, status, headers, config) {
+      console.log("success");
+      }).error(function (data, status, headers, config) {
+        console.log("fail");
+      });
+    }
+  });
+};
     $scope.actionButton = function() {
         residentsFunctions.getAll().success(function(residents) {
             $scope.residents = residents
@@ -579,9 +576,8 @@ app.controller('CreateCondominoVehiculeController', function($scope, $state, $ro
     $scope.title = "Registrar vehículo";
     $scope.button = "Registrar";
     commonMethods.validateSpecialCharacters();
-    $scope.submitColour = function() {
-        val = $('#color-rgb').css('background-color');
-
+    $scope.submitColor = function() {
+        $scope.color = $('#color').css('background-color');
     }
 
     var id_house;
@@ -866,6 +862,22 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
             $scope.myVisitors = visitors;
         });
     });
+    residentsFunctions.getAllHouses().success(function(houses) {
+        $scope.houses = houses;
+    })
+    $scope.formatResidents = function(residents) {
+        var formattedResidents = [];
+        for (var i = 0; i < residents.length; i++) {
+
+            for (var e = 0; e < $scope.houses.length; e++) {
+                if (residents[i].id_house == $scope.houses[e].id) {
+                    residents[i].id_house = $scope.houses[e].house_number;
+                }
+            }
+            residents[i].name = residents[i].name + " " + residents[i].last_name;
+        }
+        return residents;
+    }
     // $scope.revertRenderDate = function(date, hours) {
     //   console.log(date);
     //     var splitted = hours.split(":");
@@ -905,7 +917,7 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
                     visitors[i].license_plate = "No ingreso en vehículo"
                 }
             }
-            $scope.visitors = visitors;
+            $scope.visitors = $scope.formatResidents(visitors);
         });
     }
     $scope.stopConsulting = function() {
@@ -933,7 +945,7 @@ app.controller('CondominosVisitorsListController', function($scope, $state, $roo
                     $("#prueba").fadeIn(700);
                 }, 100)
 
-                $scope.visitors = visitors;
+                    $scope.visitors = $scope.formatResidents(visitors);
             })
         });
     }

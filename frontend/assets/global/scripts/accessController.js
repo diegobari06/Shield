@@ -135,6 +135,7 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
 
     };
     $scope.getResident = function() {
+        $("#loadingIconnn").show();
         $scope.id_vehicule = "";
         $("#vehicule_license_plate").css("text-transform", "none");
         $("#vehicule_license_plate").attr("placeholder", "Número placa (sin guiones)");
@@ -165,7 +166,7 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
                     }
                 }
             });
-            $("#loadingIconnn").fadeIn(0);
+
             if ($scope.id_number.length > 6) {
 
                 accessFunctions.findRegisteredVisitant($scope.id_number).success(function(data) {
@@ -173,10 +174,8 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
                     if (data == 0) {
 
                     } else {
-                        $("#loadingIconnn").fadeOut(100);
-                        setTimeout(function() {
-                            $("#visitantInvitedtAccess").fadeIn(200);
-                        }, 200)
+                        $("#loadingIconnn").fadeOut(0);
+                        $("#visitantInvitedtAccess").fadeIn(0);
                         $scope.show = 10;
                         $scope.invited_visitant_name = data.name
                         $scope.invited_visitant_last_name = data.last_name;
@@ -311,9 +310,13 @@ app.controller('accessController', function($scope, $state, $rootScope, $window,
 
 
     }
-
+    cleanNotes = function() {
+        accessFunctions.cleanNotes();
+    }
+    cleanNotes();
     setInterval(getHomeServices, 5000);
     setInterval(getEmergency, 5000);
+    setInterval(cleanNotes, 500000);
     setInterval(getInfo, 12000);
     $scope.hideRegisterForm = 2;
     $scope.officersLinked = []
@@ -551,6 +554,9 @@ app.factory('accessFunctions', function($http, $rootScope) {
                 method: 'PUT',
                 data: data
             })
+        },
+        cleanNotes: function() {
+            return $http.get(server + '/delete/expired/homeservice')
         },
         getNotes: function(id) {
             return $http.get(server + '/notes')

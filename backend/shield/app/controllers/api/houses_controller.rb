@@ -102,7 +102,6 @@ def findVisitants
 
    @visitants.each do |visitant|
       @dateTime = (visitant.date_time.to_date);
-
      if(@dateTime >= @initialTime && @dateTime <= @limitTime)
       @filteredVisitants.push(visitant);
    end

@@ -1,12 +1,34 @@
-var ComponentsPickers = function () {
+var ComponentsPickers = function() {
+    var handleDatePickers = function() {
 
-    var handleDatePickers = function () {
-
-        if (jQuery().datepicker) {
+        if ($.datepicker) {
+            $.datepicker.regional['es'] = {
+                closeText: "Cerrar",
+                prevText: "&#x3C;Ant",
+                nextText: "Sig&#x3E;",
+                currentText: "Hoy",
+                monthNames: ["enero", "febrero", "marzo", "abril", "mayo", "junio",
+                    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+                ],
+                monthNamesShort: ["ene", "feb", "mar", "abr", "may", "jun",
+                    "jul", "ago", "sep", "oct", "nov", "dic"
+                ],
+                dayNames: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
+                dayNamesShort: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+                dayNamesMin: ["D", "L", "M", "X", "J", "V", "S"],
+                weekHeader: "Sm",
+                dateFormat: "dd/mm/yy",
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ""
+            };
+            $.datepicker.setDefaults($.datepicker.regional['es']);
             $('.date-picker').datepicker({
                 rtl: Metronic.isRTL(),
                 orientation: "left",
-                autoclose: true
+                autoclose: true,
+                regional: $.datepicker.regional['es']
             });
             //$('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
         }
@@ -14,14 +36,15 @@ var ComponentsPickers = function () {
         /* Workaround to restrict daterange past date select: http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker */
     }
 
-    var handleTimePickers = function () {
+    var handleTimePickers = function() {
 
         if (jQuery().timepicker) {
             $('.timepicker-default').timepicker({
                 autoclose: true,
                 showSeconds: true,
                 minuteStep: 1,
-                clearable: false
+                clearable: false,
+                language: "es"
             });
 
             $('.timepicker-no-seconds').timepicker({
@@ -44,7 +67,7 @@ var ComponentsPickers = function () {
         }
     }
 
-    var handleDateRangePickers = function () {
+    var handleDateRangePickers = function() {
         if (!jQuery().daterangepicker) {
             return;
         }
@@ -53,12 +76,13 @@ var ComponentsPickers = function () {
                 opens: (Metronic.isRTL() ? 'left' : 'right'),
                 format: 'MM/DD/YYYY',
                 separator: ' to ',
-                startDate: moment().subtract('days', 29),
+                startDate: moment(),
                 endDate: moment(),
                 minDate: '01/01/2012',
                 maxDate: '12/31/2018',
+                language: "es"
             },
-            function (start, end) {
+            function(start, end) {
                 $('#defaultrange input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
         );
@@ -67,19 +91,20 @@ var ComponentsPickers = function () {
                 opens: (Metronic.isRTL() ? 'left' : 'right'),
                 format: 'MM/DD/YYYY',
                 separator: ' to ',
-                startDate: moment().subtract('days', 29),
+                startDate: moment(),
                 endDate: moment(),
                 minDate: '01/01/2012',
                 maxDate: '12/31/2018',
+                language: "es"
             },
-            function (start, end) {
+            function(start, end) {
                 $('#defaultrange_modal input').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
         );
 
         // this is very important fix when daterangepicker is used in modal. in modal when daterange picker is opened and mouse clicked anywhere bootstrap modal removes the modal-open class from the body element.
         // so the below code will fix this issue.
-        $('#defaultrange_modal').on('click', function(){
+        $('#defaultrange_modal').on('click', function() {
             if ($('#daterangepicker_modal').is(":visible") && $('body').hasClass("modal-open") == false) {
                 $('body').addClass("modal-open");
             }
@@ -118,11 +143,11 @@ var ComponentsPickers = function () {
                     toLabel: 'To',
                     customRangeLabel: 'Custom Range',
                     daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    monthNames: ['Enero', 'Febrero', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                     firstDay: 1
                 }
             },
-            function (start, end) {
+            function(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
         );
@@ -130,7 +155,7 @@ var ComponentsPickers = function () {
         $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
     }
 
-    var handleDatetimePicker = function () {
+    var handleDatetimePicker = function() {
 
         if (!jQuery().datetimepicker) {
             return;
@@ -165,7 +190,7 @@ var ComponentsPickers = function () {
         $('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
     }
 
-    var handleClockfaceTimePickers = function () {
+    var handleClockfaceTimePickers = function() {
 
         if (!jQuery().clockface) {
             return;
@@ -178,7 +203,7 @@ var ComponentsPickers = function () {
             trigger: 'manual'
         });
 
-        $('#clockface_2_toggle').click(function (e) {
+        $('#clockface_2_toggle').click(function(e) {
             e.stopPropagation();
             $('#clockface_2').clockface('toggle');
         });
@@ -188,7 +213,7 @@ var ComponentsPickers = function () {
             trigger: 'manual'
         });
 
-        $('#clockface_2_modal_toggle').click(function (e) {
+        $('#clockface_2_modal_toggle').click(function(e) {
             e.stopPropagation();
             $('#clockface_2_modal').clockface('toggle');
         });
@@ -198,7 +223,7 @@ var ComponentsPickers = function () {
         }).clockface('show', '14:30');
     }
 
-    var handleColorPicker = function () {
+    var handleColorPicker = function() {
         if (!jQuery().colorpicker) {
             return;
         }
@@ -211,7 +236,7 @@ var ComponentsPickers = function () {
 
     return {
         //main function to initiate the module
-        init: function () {
+        init: function() {
             handleDatePickers();
             handleTimePickers();
             handleDatetimePicker();

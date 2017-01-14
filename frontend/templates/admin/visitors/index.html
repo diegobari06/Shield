@@ -49,7 +49,15 @@
             </h1>
         </div>
         <div class="display-none" id="prueba">
-            <div class="form-group col-md-offset-9 col-md-3 col-sm-3 col-xs-5" id="index-search-bar">
+            <div class="form-group col-md-offset-6 col-md-3 col-sm-offset-2  col-sm-4 col-xs-7 no-padding">
+                <label class="col-md-5 col-sm-5  col-xs-4 control-label no-padding gray-font">Filtrar por casa</label>
+                <div class="col-md-7 col-sm-7 col-xs-8 ">
+                    <select class="form-control gray-font" ng-change="findVisitorsByHouse(house)" data-ng-model="house" ng-options="house.house_number for house in houses | orderBy: 'id' track by house.id" required>
+                <option value="">Todas</option>
+          </select>
+                </div>
+            </div>
+            <div class="form-group  col-md-3 col-sm-3 col-xs-12 no-padding" id="index-search-bar">
                 <div class="input-icon">
                     <i class="fa fa-search"></i>
                     <input type="text" class="form-control" placeholder="Buscar visitante" ng-model="search">
@@ -57,25 +65,27 @@
             </div>
             <div class="portlet-body ">
                 <div class="table-scrollable ">
-                  <div ng-show="visitors.length == 0">
-                      <h4 class="text-center">No se encontró ningún visitante</h4>
-                  </div>
-                    <table class="table table-striped table-hover font-12"  ng-show="visitors.length > 0">
+                    <div ng-show="visitors.length == 0">
+                        <h4 class="text-center">No se encontró ningún visitante</h4>
+                    </div>
+                    <table class="table table-striped table-hover font-12" ng-show="visitors.length > 0">
                         <thead>
                             <tr>
                                 <th>Nombre completo</th>
                                 <th>Cédula</th>
                                 <th>Número de placa</th>
                                 <th>Fecha y Hora</th>
+                                <th>Número de Casa</th>
                             </tr>
                         </thead>
                         <tbody>
 
                             <tr ng-repeat="visitor in visitors | filter:search | orderBy:'name'">
-                                <td>{{visitor.name}} {{visitor.last_name}} {{visitor.second_last_name}}</td>
+                                <td>{{visitor.name}}</td>
                                 <td>{{visitor.identification_number}}</td>
                                 <td>{{visitor.license_plate}}</td>
                                 <td>{{visitor.date_time}}</td>
+                                <td>{{visitor.id_house}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -95,6 +105,7 @@
             });
             setTimeout(function() {
                 ComponentsPickers.init();
+                moment.locale('es');
             }, 100);
         });
     });
