@@ -35,10 +35,6 @@
                         <i class="fa fa-car font-green-haze"></i>
                         <span class="caption-subject bold uppercase">{{title}}</span>
                     </div>
-                    <div class="actions">
-                        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
-                        </a>
-                    </div>
                 </div>
                 <div class="portlet-body form">
                     <form role="form" ng-submit="actionButton()">
@@ -70,7 +66,7 @@
                             <div class="height-12-percent col-md-6 col-sm-6 hidden-xs"></div>
                             <div class="form-actions noborder">
                                 <h3 class="text-right">
-                            <button type="submit" class="btn blue"><i class="fa fa-pencil"></i> {{button}}</button>
+                            <button type="submit" class="btn blue"><i class="fa fa-pencil" ng-show="button=='Editar'"></i> {{button}}</button>
                             <button type="button" ui-sref="residents_vehicules()"  class="btn red default">Cancelar</button>
                           </h3>
                             </div>

@@ -46,7 +46,7 @@ class HousesController < ApplicationController
     @quantity_registered = House.where(company_id:  params[:company_id]).count
 
     if(@quantity_registered == @quantity_allowed)
-      render json: 'Limite de viviendas registradas alcanzado.'
+      render json: {'error': 'Limite de viviendas registradas alcanzado.'}
     else
     @house = House.new(house_params)
     if @house.save
@@ -100,8 +100,8 @@ def findVisitants
    @initialTime = params[:consulting_initial_time].to_date.strftime('%Y-%m-%d').to_date;
 
    @visitants.each do |visitant|
-      @dateTime = (visitant.date_time.to_date - 1.days);
-
+      @dateTime = (visitant.date_time.to_date);
+      
      if(@dateTime >= @initialTime && @dateTime <= @limitTime)
       @filteredVisitants.push(visitant);
    end

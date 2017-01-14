@@ -26,8 +26,8 @@
                             <a href="page_inbox.html">Ver todos</a>
                         </li>
                         <li>
-                            <ul class="dropdown-menu-list scroller" style="height: 325px;" data-handle-color="#637283">
-                                <li ng-repeat="note in notes | orderBy:'creation_date'">
+                            <ul class="dropdown-menu-list scroll" style="height: 325px;" data-handle-color="#637283">
+                                <li ng-repeat="note in notes | orderBy:'-creation_date'">
                                     <a href="inbox.html?a=view">
 
                                         <span class="subject">
@@ -144,7 +144,7 @@
 
                 <div class="portlet light bordered access-information-result-container col-md-12 col-sm-12">
 
-                    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="show==3">
+                    <div class="col-md-12 col-sm-12 col-xs-12" ng-show="show==3" id="this">
 
                         <div id="error-image" class="result-image"></div>
 
@@ -385,7 +385,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12 " ng-show="show==10">
-                        <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12" id="loadingIconnn">
+                        <div class="loading col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="loadingIconnn">
                             <h1 class="text-center"><img src="../../assets/global/img/2.gif" alt="" /></h1>
                         </div>
                         <div class="display-none" id="visitantInvitedtAccess">
@@ -427,7 +427,7 @@
                     <h1 class="text-center huge-margin-top white-color font-80 bold ">Emergencia reportada en la casa número {{house_number_emergency}}</h1>
                     <form role="form" ng-submit="attendEmergency()">
                         <h3 class="text-center">
-                          <button type="submit" class="btn blue white-color default col-md-offset-4 col-md-4 font-20 marging-top-100 height-12-percent">Atender emergencia</button>
+                          <button type="submit" class="btn btn-default col-md-offset-4 col-md-4 font-20 marging-top-100 height-12-percent">Atender emergencia</button>
                       </h3>
                     </form>
                 </div>

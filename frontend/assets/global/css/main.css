@@ -63,6 +63,10 @@
 	height:22%;
 	overflow-y: scroll;
 }
+
+.scroll{
+	overflow-y: scroll;
+}
 .light-gray-background{
    background-color: #FAFAFA !important;
 }
@@ -380,8 +384,9 @@ color: #C62828;
 	color: #C62828 !important;
 }
 #emergencyContainer{
-
-	background-color:  #D50000;
+ border: 3px solid #ff0000;
+ border-radius: 15px;
+ background-color:  #ff3333;
 	min-height: 500px;
 
 }

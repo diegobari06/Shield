@@ -4,8 +4,12 @@ class NotesController < ApplicationController
   # GET /residents.json
   def index
     @notes = Note.where(company_id: params[:company_id])
-
-    render json: @notes, status: 200
+    @fixedNotes = []
+    @notes.each do |note|
+      note.creation_date = (note.creation_date + 6.hours)
+      @fixedNotes.push(note)
+    end
+    render json: @fixedNotes, status: 200
   end
 
 
@@ -47,7 +51,7 @@ class NotesController < ApplicationController
   @homeServices = Note.where('company_id =? and note_type =?', params[:company_id], 1)
   @currentTime = Time.now.strftime('%a %b %e %T %Y');
    @homeServices.each do |homeService|
-     @deleteInTime = (homeService.creation_date + 1.hours).strftime('%a %b %e %T %Y');
+     @deleteInTime = (homeService.creation_date + 6.hours).strftime('%a %b %e %T %Y');
      if(@currentTime >= @deleteInTime)
        homeService.destroy
      end
